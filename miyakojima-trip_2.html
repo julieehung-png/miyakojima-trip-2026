@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A4E6E">
+<title>宮古島 6天5夜 · 情侶自駕</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root{
+    --sea-deep:#0A4E6E; --sea:#0C6E9C; --turq:#17B9C6; --lagoon:#7FE0DD; --pool:#12A6C4;
+    --azure:#3D67C9; --cyan:#33AEC9; --violet:#8E76D6; --indigo:#4B57A0; --navy:#24406E; --slate:#5B7883;
+    --turq-soft:#CDEBEF;
+    --sand:#FBF6EC; --card:#FFFFFF; --ink:#08313F; --muted:#5B7883; --hair:#E7DFCF;
+    --shadow:0 10px 30px -14px rgba(8,49,63,.28);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{background:var(--sand);color:var(--ink);
+    font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Hiragino Sans","Microsoft JhengHei",sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased}
+  .app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;background:var(--sand);overflow-x:hidden}
+
+  /* Map hero */
+  .maphero{position:relative;height:48vh;min-height:280px;max-height:400px;background:#bfe0ea}
+  #map{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+  .map-overlay{position:absolute;left:0;right:0;bottom:0;z-index:5;pointer-events:none;
+    padding:36px 20px 14px;color:#fff;background:linear-gradient(transparent, rgba(6,40,54,.74) 62%)}
+  .map-overlay .eyebrow{font-family:"Zen Maru Gothic";font-weight:700;letter-spacing:.34em;font-size:10.5px;opacity:.9;text-transform:uppercase}
+  .map-overlay h1{margin:2px 0 4px;font-weight:900;font-size:22px;letter-spacing:.02em}
+  .map-overlay .sub{font-family:"DM Mono",monospace;font-size:12px;opacity:.92;display:flex;gap:12px;flex-wrap:wrap}
+  .map-hint{position:absolute;top:calc(env(safe-area-inset-top) + 10px);right:12px;z-index:5;
+    background:rgba(8,49,63,.62);color:#fff;font-size:11px;font-weight:500;
+    padding:5px 10px;border-radius:999px;backdrop-filter:blur(4px);pointer-events:none;letter-spacing:.02em}
+  .leaflet-container{background:#bfe0ea;font-family:inherit}
+  .pin{width:100%;height:100%;border-radius:50% 50% 50% 2px;transform:rotate(45deg);
+    border:2.5px solid #fff;box-shadow:0 3px 8px rgba(8,49,63,.4);display:flex;align-items:center;justify-content:center}
+  .pin b{transform:rotate(-45deg);color:#fff;font-family:"DM Mono",monospace;font-weight:500;font-size:12px;line-height:1}
+  .leaflet-popup-content-wrapper{border-radius:14px;box-shadow:var(--shadow)}
+  .leaflet-popup-content{margin:12px 14px;font-family:inherit}
+  .pop h4{margin:0 0 2px;font-size:15px;font-weight:700;color:var(--ink)}
+  .pop .pm{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted);margin-bottom:8px}
+  .pop .pb{display:flex;gap:6px}
+  .pop a{display:inline-flex;align-items:center;gap:5px;text-decoration:none;font-size:12.5px;font-weight:700;
+    padding:6px 10px;border-radius:9px;border:1.5px solid var(--hair);color:var(--sea-deep)}
+  .pop a.call{color:#0E93A6;border-color:var(--turq-soft)}
+
+  /* Day nav */
+  .daynav{position:sticky;top:0;z-index:20;background:rgba(251,246,236,.95);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--hair);display:flex;gap:8px;overflow-x:auto;padding:11px 16px;scrollbar-width:none}
+  .daynav::-webkit-scrollbar{display:none}
+  .pill{flex:0 0 auto;border:1.5px solid var(--hair);background:var(--card);color:var(--muted);
+    border-radius:999px;padding:7px 15px 6px;font-weight:700;font-size:13px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;line-height:1.15;transition:.18s ease;font-family:"Zen Maru Gothic"}
+  .pill small{font-family:"DM Mono",monospace;font-weight:400;font-size:10px;opacity:.75;letter-spacing:.02em}
+  .pill[aria-selected="true"]{background:var(--sea-deep);border-color:var(--sea-deep);color:#fff;box-shadow:var(--shadow)}
+  .pill:focus-visible{outline:3px solid var(--turq);outline-offset:2px}
+
+  .tripmap{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--sea-deep);color:#fff;
+    text-decoration:none;font-weight:700;font-size:13.5px;padding:11px;letter-spacing:.01em}
+  .tripmap svg{width:16px;height:16px}
+  .tripmap:focus-visible{outline:3px solid var(--turq);outline-offset:-3px}
+  /* Lead + timeline */
+  main{padding:22px 18px 40px}
+  .lead{position:relative;margin-bottom:20px}
+  .lead .num{font-family:"Zen Maru Gothic";font-weight:900;font-size:72px;line-height:.86;color:var(--sea);
+    letter-spacing:-.01em;display:flex;align-items:baseline;gap:8px}
+  .lead .num span{font-size:22px;color:var(--turq)}
+  .lead .date{font-family:"DM Mono",monospace;font-size:12.5px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
+  .lead .theme{font-weight:900;font-size:20px;margin-top:3px;letter-spacing:.01em}
+  .routebtn{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+    background:linear-gradient(135deg,var(--sea),var(--turq));color:#fff;text-decoration:none;font-weight:700;font-size:15px;
+    padding:14px;border-radius:15px;box-shadow:0 12px 26px -12px rgba(12,110,156,.7);transition:transform .12s ease}
+  .routebtn:active{transform:translateY(1px) scale(.995)}
+  .routebtn:focus-visible{outline:3px solid var(--sea-deep);outline-offset:2px}
+  .routebtn svg{width:18px;height:18px;flex:0 0 auto}
+
+  .timeline{position:relative;margin-top:24px;padding-left:64px}
+  .timeline::before{content:"";position:absolute;left:52px;top:6px;bottom:12px;width:2px;
+    background:linear-gradient(var(--sea-deep),var(--turq),var(--lagoon));border-radius:2px}
+  .stop{position:relative;margin-bottom:16px;animation:rise .5s ease both}
+  .stop .clock{position:absolute;left:-64px;top:1px;width:44px;text-align:right;
+    font-family:"DM Mono",monospace;font-size:12.5px;color:var(--muted);font-weight:500}
+  .dot{position:absolute;left:-16px;top:5px;width:14px;height:14px;border-radius:50%;
+    background:var(--cat,var(--sea));border:3px solid var(--sand);box-shadow:0 0 0 2px var(--cat,var(--sea))}
+  .card{background:var(--card);border:1px solid var(--hair);border-radius:16px;padding:14px 15px;box-shadow:var(--shadow)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;color:#fff;
+    background:var(--cat,var(--sea));padding:3px 9px;border-radius:999px;margin-bottom:8px}
+  .card h3{margin:0;font-size:16.5px;font-weight:700}
+  .card .en{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted);margin-top:1px}
+  .meta{margin-top:9px;display:flex;flex-direction:column;gap:5px}
+  .meta .row{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.5}
+  .meta .row svg{width:14px;height:14px;flex:0 0 auto;margin-top:3px;opacity:.85}
+  .meta .row.tip{color:var(--ink)}
+  .actions{margin-top:11px;display:flex;gap:8px;flex-wrap:wrap}
+  .maplink{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--sea-deep);
+    font-weight:700;font-size:13px;border:1.5px solid var(--hair);padding:7px 12px;border-radius:11px;transition:.15s ease}
+  .maplink:active{background:var(--sand)}
+  .maplink:focus-visible{outline:3px solid var(--turq);outline-offset:2px}
+  .maplink svg{width:14px;height:14px}
+  .maplink.call{color:#0E93A6;border-color:var(--turq-soft)}
+  .maplink.call:active{background:#EAF7F9}
+
+  footer{padding:6px 20px calc(env(safe-area-inset-bottom) + 34px);color:var(--muted);font-size:12px;line-height:1.7}
+  footer .tips{background:#fff;border:1px solid var(--hair);border-radius:14px;padding:14px 16px;margin-bottom:16px}
+  footer .tips b{color:var(--ink)}
+  footer .sig{text-align:center;font-family:"DM Mono",monospace;letter-spacing:.12em;font-size:10.5px;opacity:.7;text-transform:uppercase}
+
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.stop{animation:none}.routebtn{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="maphero">
+    <div id="map"></div>
+    <div class="map-hint">點圖釘看店家 · 可縮放</div>
+    <div class="map-overlay">
+      <div class="eyebrow">Miyakojima · Okinawa</div>
+      <h1>宮古島 6天5夜</h1>
+      <div class="sub"><span>7/20 – 7/25</span><span>情侶自駕</span><span>Canopy by Hilton</span></div>
+    </div>
+  </div>
+
+  <nav class="daynav" id="daynav" role="tablist" aria-label="選擇日期"></nav>
+  <main id="main" role="tabpanel"></main>
+
+  <footer>
+    <div class="tips"><b>行前提醒</b><br>
+      · 太陽陶窯、新城海灘浮潛請提前預約（旺季搶手）。<br>
+      · 丸吉食堂、Harry's 為排隊+賣完為止，排中午前段。<br>
+      · 天氣最好那天留給水上／17END，陰天可與購物日對調。<br>
+      · 還車前先加滿油，下地島機場周邊加油站少。</div>
+    <div class="sig">Drive safe · 宮古ブルー</div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const D=(lat,lng,pid)=>`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`+(pid?`&query_place_id=${pid}`:'');
+const CAT={'景點':'var(--sea)','水上':'var(--turq)','手作':'var(--violet)','午餐':'var(--azure)','晚餐':'var(--azure)','冰品':'var(--cyan)','購物':'var(--indigo)','宵夜':'var(--navy)','住宿':'var(--slate)','機場':'var(--slate)'};
+const HEX={'景點':'#0C6E9C','水上':'#17B9C6','手作':'#8E76D6','午餐':'#3D67C9','晚餐':'#3D67C9','冰品':'#33AEC9','購物':'#4B57A0','宵夜':'#24406E','住宿':'#5B7883','機場':'#5B7883'};
+const PHONE={
+  'ChIJ4UHlGg2r9TQRbBVc5W_J1zI':'+81 980-74-5333','ChIJcSMnBK1T9DQR5t_CSK_U2HI':'+81 980-79-5888',
+  'ChIJz5bk_RlW9DQRa_xRVjm0gDw':'+81 980-76-3565','ChIJz1EQ3fRT9DQRLztJ2GJ30Jg':'+81 980-79-9525',
+  'ChIJQ3lAabNX9DQReXps3yGydKw':'+81 980-76-2266','ChIJVzDy0a1X9DQRE0oDzDWPGRQ':'+81 980-77-4211',
+  'ChIJYQQIkPFT9DQR5FQBVGqHWzM':'+81 980-79-0262','ChIJEefokd3_9DQRh8TPb2b0Xq8':'+81 90-7918-2409',
+  'ChIJS0PU6I5N9DQRrhjueIzkdm8':'+81 980-72-5610','ChIJkxS6OhdN9DQRystL285fy1E':'+81 980-79-5696',
+  'ChIJY4hf1fRT9DQR34y_Q9IMwKw':'+81 980-79-0188','ChIJXz8Bv6BT9DQRz9tWQTyYLEo':'+81 980-70-9003',
+  'ChIJSY-LvwFV9DQR8_S3Q0BKLig':'+81 980-73-8800','ChIJmSV8EotT9DQR7d-fmGlxCRk':'+81 980-73-2690',
+  'ChIJQ4YbZnFU9DQRrITvf-q6oVU':'+81 980-73-4660','ChIJyREvegBV9DQRK4b4ZndUclE':'+81 980-75-3330'};
+const tel=p=>'+'+p.replace(/\D/g,'');
+const IC={
+  car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l1.5-4.5A2 2 0 018.4 7h7.2a2 2 0 011.9 1.5L19 13m-14 0h14m-14 0v4m14-4v4M7 17h.01M17 17h.01"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  tip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0012 3z"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1116 0z"/><circle cx="12" cy="10" r="2.6"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8.1 9.6a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg>',
+  layers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg>',
+  route:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H15a3.5 3.5 0 000-7H9a3.5 3.5 0 010-7h6.5"/></svg>'
+};
+
+const days=[
+ {n:1,date:'7/20',wd:'MON',theme:'抵達 · 下地島',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.8266,125.1447&destination=24.8042797,125.2790888&travelmode=driving&waypoints=24.812313%2C125.1826324%7C24.842318%2C125.140722%7C24.7950803%2C125.2564785%7C24.7994493%2C125.2592204',
+  stops:[
+   {t:'13:00',c:'機場',name:'みやこ下地島空港',en:'Arrival · 取車',drive:'落地辦租車約 30–45 分',lat:24.8266,lng:125.1447},
+   {t:'14:00',c:'午餐',name:'Blue Turtle',en:'伊良部島海景餐廳',open:'11:00–21:00 每日',drive:'機場約 10 分',tip:'龍蝦／漢堡咖哩，飯後有冰沙雪酪',lat:24.812313,lng:125.1826324,pid:'ChIJ4UHlGg2r9TQRbBVc5W_J1zI'},
+   {t:'15:15',c:'景點',name:'17END',en:'跑道盡頭夢幻漸層海',drive:'約 15 分',tip:'可查航班時刻等飛機起降',lat:24.842318,lng:125.140722,pid:'ChIJ_566wEut9TQRZ01ze1pYJV8'},
+   {t:'16:15',c:'景點',name:'伊良部大橋',en:'3.5km 跨海大橋 · 路過拍照',lat:24.7950803,lng:125.2564785,pid:'ChIJIcyWcoRV9DQRgVWFnrUtXsM'},
+   {t:'16:45',c:'住宿',name:'Canopy by Hilton',en:'入住 · 頂樓無邊際泳池',lat:24.7994493,lng:125.2592204,pid:'ChIJyREvegBV9DQRK4b4ZndUclE'},
+   {t:'18:00',c:'晚餐',name:'宮古牛焼肉 玉城',en:'宮古和牛',open:'17:00–23:00 每日',drive:'飯店約 10 分',lat:24.8042797,lng:125.2790888,pid:'ChIJcSMnBK1T9DQR5t_CSK_U2HI'}
+  ]},
+ {n:2,date:'7/21',wd:'TUE',theme:'新城水上 · 東平安名崎',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7598523%2C125.4248602%7C24.7191788%2C125.4684503%7C24.7204686%2C125.3242413%7C24.802596%2C125.282023',
+  stops:[
+   {t:'10:40',c:'水上',name:'新城海灘',en:'浮潛 + SUP 划船',open:'現場可租裝備·停免費區',drive:'飯店約 40 分',tip:'看海龜熱點，建議事先預約教練帶',lat:24.7598523,lng:125.4248602,pid:'ChIJRe3qlIdZ9DQReV321AJnrj0'},
+   {t:'14:00',c:'景點',name:'東平安名崎',en:'太平洋海岬 · 可登燈塔',drive:'距新城約 20 分',tip:'風大顧好帽子',lat:24.7191788,lng:125.4684503,pid:'ChIJv2CYFDBZ9DQRquU0-OMAYmE'},
+   {t:'15:00',c:'午餐',name:'ひろちゃん食堂',en:'上野 · 沖繩家常菜',open:'11:00–21:00（週三休）',tip:'晚午餐；或於新城海邊 kiosk 先簡單吃',lat:24.7204686,lng:125.3242413,pid:'ChIJz5bk_RlW9DQRa_xRVjm0gDw'},
+   {t:'18:30',c:'晚餐',name:'豚匠 Butasho',en:'あぐー豚しゃぶ',open:'17:00–23:00 每日',tip:'阿古豬涮涮鍋，情侶安靜小店',lat:24.802596,lng:125.282023,pid:'ChIJz1EQ3fRT9DQRLztJ2GJ30Jg'}
+  ]},
+ {n:3,date:'7/22',wd:'WED',theme:'太陽陶窯 · 來間 · 前濱',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7258801%2C125.3486466%7C24.7316398%2C125.3517456%7C24.7212819%2C125.2575638%7C24.7249593%2C125.2512719%7C24.7349726%2C125.2629745%7C24.8065289%2C125.2869608',
+  stops:[
+   {t:'10:30',c:'手作',name:'てぃだ(太陽)が窯',en:'捏陶手作 · 約 2 小時',open:'9:00–19:00（週一休）',drive:'飯店約 30 分',tip:'務必先電話預約 +81 980-76-2266',lat:24.7258801,lng:125.3486466,pid:'ChIJQ3lAabNX9DQReXps3yGydKw'},
+   {t:'12:50',c:'午餐',name:'丸吉食堂',en:'軟骨ソーキそば',open:'週三四六日 10:30–14:00',drive:'距陶窯約 10 分',tip:'排隊+賣完為止·14:00 打烊，捏完陶直接衝',lat:24.7316398,lng:125.3517456,pid:'ChIJVzDy0a1X9DQRE0oDzDWPGRQ'},
+   {t:'14:00',c:'景點',name:'來間大橋',en:'跨來間島',lat:24.7212819,lng:125.2575638},
+   {t:'14:20',c:'冰品',name:'Kiari 刨冰',en:'來間島 · 伯爵茶必點',open:'11:00–17:00 每日',lat:24.7249593,lng:125.2512719,pid:'ChIJEefokd3_9DQRh8TPb2b0Xq8'},
+   {t:'15:00',c:'景點',name:'與那霸前濱',en:'東洋第一白沙灘 · 曬太陽',lat:24.7349726,lng:125.2629745,pid:'ChIJOfnsBJBV9DQRA0W-m-UpUUo'},
+   {t:'18:00',c:'晚餐',name:'美ら太陽',en:'三線現場表演',open:'18:00–22:00（週四休）',lat:24.8065289,lng:125.2869608,pid:'ChIJYQQIkPFT9DQR5FQBVGqHWzM'}
+  ]},
+ {n:4,date:'7/23',wd:'THU',theme:'砂山 · 池間島',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.8395634%2C125.2806924%7C24.9080822%2C125.258247%7C24.9200526%2C125.2604759%7C24.9299217%2C125.2334483%7C24.8022239%2C125.280738',
+  stops:[
+   {t:'10:20',c:'景點',name:'砂山海灘',en:'翻過沙丘的天然岩拱',drive:'飯店約 15 分',lat:24.8395634,lng:125.2806924,pid:'ChIJ-zfBYbVT9DQR9rYeL_9KHpw'},
+   {t:'12:00',c:'午餐',name:"Harry's 蝦蝦飯",en:'西平安名崎 · 蒜香奶油蝦',open:'11:00–17:00 每日',tip:'就在池間大橋前，沒遮蔭會排隊，帶帽',lat:24.9080822,lng:125.258247,pid:'ChIJS0PU6I5N9DQRrhjueIzkdm8'},
+   {t:'13:00',c:'景點',name:'池間大橋',en:'跨池間島 · 看八重干瀨',lat:24.9200526,lng:125.2604759,pid:'ChIJm0LZUM9N9DQR4a9qJHcIxrg'},
+   {t:'14:30',c:'冰品',name:'Gelato Cafe Ninufa',en:'義式冰 + 愛心岩海灘',open:'10:00–17:00（週三休）',lat:24.9299217,lng:125.2334483,pid:'ChIJkxS6OhdN9DQRystL285fy1E'},
+   {t:'18:00',c:'晚餐',name:'一魚一会',en:'市區海鮮居酒屋',open:'17:00–22:00 每日',lat:24.8022239,lng:125.280738,pid:'ChIJY4hf1fRT9DQR34y_Q9IMwKw'}
+  ]},
+ {n:5,date:'7/24',wd:'FRI',theme:'藥妝購物 · 飯店泳池',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.8081297%2C125.2816295%7C24.7764468%2C125.297604%7C24.8039621%2C125.2787251%7C24.8050704%2C125.2797511%7C24.8028903%2C125.2797905%7C24.7947547%2C125.2746075',
+  stops:[
+   {t:'10:30',c:'午餐',name:'釜揚げうどん 宮もと',en:'讚岐烏龍',open:'10:00–15:00（週三四休）',drive:'飯店約 10 分',lat:24.8081297,lng:125.2816295,pid:'ChIJXz8Bv6BT9DQRz9tWQTyYLEo'},
+   {t:'11:30',c:'購物',name:'San-A 宮古島 City',en:'大型購物中心 + 超市',open:'9:00–22:00 每日',tip:'雪鹽·黑糖·泡盛伴手禮一次買齊，旁有松本清',lat:24.7764468,lng:125.297604,pid:'ChIJSY-LvwFV9DQR8_S3Q0BKLig'},
+   {t:'13:30',c:'購物',name:'宮古島公設市場',en:'在地市場 · 豆腐/熟食/特產',open:'8:00–21:00 每日',lat:24.8039621,lng:125.2787251,pid:'ChIJmSV8EotT9DQR7d-fmGlxCRk'},
+   {t:'14:00',c:'購物',name:'市場通商店街',en:'老街 · 宮古上布/黑糖',lat:24.8050704,lng:125.2797511,pid:'ChIJQbx7FItT9DQRAB9Iqs4gu7w'},
+   {t:'15:00',c:'冰品',name:'Ricco Gelato',en:'開心果/芝麻',open:'12:00–17:45（週二三休）',lat:24.8028903,lng:125.2797905,pid:'ChIJ-ZO4JotT9DQRjyVRru_MxcM'},
+   {t:'16:00',c:'住宿',name:'Canopy 頂樓泳池',en:'購物後回飯店放空',lat:24.7994493,lng:125.2592204,pid:'ChIJyREvegBV9DQRK4b4ZndUclE'},
+   {t:'18:00',c:'晚餐',name:'Kame Sushi（かめ寿司）',en:'高評價壽司割烹',open:'11:30–13:30 / 17–20（週三休）',drive:'離飯店約 5 分',lat:24.7947547,lng:125.2746075,pid:'ChIJQ4YbZnFU9DQRrITvf-q6oVU'},
+   {t:'21:00',c:'宵夜',name:'Subaya 大和（選配）',en:'深夜大和そば收尾',open:'21:00–05:00',lat:24.8040266,lng:125.2793683,pid:'ChIJdWybA09T9DQR03crOQVsnLA'}
+  ]},
+ {n:6,date:'7/25',wd:'SAT',theme:'離島日',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.8266,125.1447&travelmode=driving&waypoints=24.8118193%2C125.1788554',
+  stops:[
+   {t:'10:00',c:'住宿',name:'Canopy 泳池 · 退房',en:'約 11:00 退房',lat:24.7994493,lng:125.2592204,pid:'ChIJyREvegBV9DQRK4b4ZndUclE'},
+   {t:'11:30',c:'景點',name:'渡口の浜',en:'伊良部島粉白細沙 · 順路收尾',lat:24.8118193,lng:125.1788554,pid:'ChIJ75SIJdSr9TQR9Zuc5oTF4vg'},
+   {t:'12:30',c:'機場',name:'みやこ下地島空港',en:'還車 · 登機（航班 14:00）',lat:24.8266,lng:125.1447}
+  ]}
+];
+
+/* ---------- Map：Esri 海洋圖層，藍海 + 島嶼輪廓 ---------- */
+const map=L.map('map',{zoomControl:true,attributionControl:true,scrollWheelZoom:false,zoomSnap:.5,minZoom:9,maxZoom:18}).setView([24.80,125.29],11);
+// 主圖磚：CARTO Voyager（藍海、清楚島嶼輪廓）；載不出來時自動切換到 OpenStreetMap
+let base=L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  {attribution:'&copy; OpenStreetMap &copy; CARTO',subdomains:'abcd',maxZoom:19}).addTo(map);
+let tswitched=false,terr=0;
+base.on('tileerror',()=>{ if(tswitched)return; if(++terr>=3){tswitched=true;map.removeLayer(base);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap',maxZoom:19}).addTo(map);} });
+
+const allPts=[];
+const fadeLayer=L.layerGroup().addTo(map);
+days.forEach(d=>d.stops.forEach(s=>{
+  allPts.push([s.lat,s.lng]);
+  L.circleMarker([s.lat,s.lng],{radius:3.4,color:'#fff',weight:1,fillColor:'#0C6E9C',fillOpacity:.7,opacity:.7}).addTo(fadeLayer);
+}));
+map.fitBounds(L.latLngBounds(allPts),{padding:[30,30]}); // 開場先看整座島
+
+let activeLayer=L.layerGroup().addTo(map);
+function pinIcon(hex,seq){return L.divIcon({className:'',iconSize:[28,28],iconAnchor:[14,26],popupAnchor:[0,-24],
+  html:`<div class="pin" style="background:${hex}"><b>${seq}</b></div>`});}
+function popupHtml(s){const ph=s.pid?PHONE[s.pid]:null;
+  return `<div class="pop"><h4>${s.name}</h4><div class="pm">${s.t} · ${s.c}</div><div class="pb">
+    <a target="_blank" rel="noopener" href="${D(s.lat,s.lng,s.pid)}">Google 地圖</a>
+    ${ph?`<a class="call" href="tel:${tel(ph)}">撥號</a>`:''}</div></div>`;}
+function updateMap(i){
+  activeLayer.remove();activeLayer=L.layerGroup().addTo(map);
+  const d=days[i],pts=[],line=d.stops.map(s=>[s.lat,s.lng]);
+  L.polyline(line,{color:'#0A4E6E',weight:3,opacity:.6,dashArray:'1 9',lineCap:'round'}).addTo(activeLayer);
+  d.stops.forEach((s,k)=>{L.marker([s.lat,s.lng],{icon:pinIcon(HEX[s.c]||'#0C6E9C',k+1)}).addTo(activeLayer).bindPopup(popupHtml(s));pts.push([s.lat,s.lng]);});
+  map.fitBounds(L.latLngBounds(pts),{padding:[46,46],maxZoom:13}); // 收住縮放，保留整島輪廓
+}
+setTimeout(()=>map.invalidateSize(),250);
+
+/* ---------- UI ---------- */
+function render(i){
+  const d=days[i],main=document.getElementById('main');
+  const stopsHtml=d.stops.map(s=>{
+    const color=CAT[s.c]||'var(--sea)',meta=[];
+    if(s.drive)meta.push(`<div class="row">${IC.car}<span>${s.drive}</span></div>`);
+    if(s.open)meta.push(`<div class="row">${IC.clock}<span>${s.open}</span></div>`);
+    if(s.tip)meta.push(`<div class="row tip">${IC.tip}<span>${s.tip}</span></div>`);
+    const phone=s.pid?PHONE[s.pid]:null;
+    return `<div class="stop" style="--cat:${color}">
+      <div class="clock">${s.t}</div><div class="dot"></div>
+      <div class="card"><span class="badge">${s.c}</span>
+        <h3>${s.name}</h3>${s.en?`<div class="en">${s.en}</div>`:''}
+        ${meta.length?`<div class="meta">${meta.join('')}</div>`:''}
+        <div class="actions">
+          <a class="maplink" target="_blank" rel="noopener" href="${D(s.lat,s.lng,s.pid)}">${IC.pin} 地圖</a>
+          ${phone?`<a class="maplink call" href="tel:${tel(phone)}">${IC.phone} 撥號</a>`:''}
+        </div></div></div>`;
+  }).join('');
+  main.innerHTML=`<div class="lead">
+      <div class="num">${d.n}<span>/ 6</span></div>
+      <div class="date">${d.date} · ${d.wd}</div>
+      <div class="theme">${d.theme}</div>
+      <a class="routebtn" target="_blank" rel="noopener" href="${d.route}">${IC.route} 開啟當天 Google 導航路線</a>
+    </div><div class="timeline">${stopsHtml}</div>`;
+  updateMap(i);
+}
+
+const nav=document.getElementById('daynav');
+days.forEach((d,i)=>{
+  const b=document.createElement('button');
+  b.className='pill';b.setAttribute('role','tab');b.setAttribute('aria-selected',i===0?'true':'false');
+  b.innerHTML=`Day ${d.n}<small>${d.date}</small>`;
+  b.onclick=()=>{[...nav.children].forEach(c=>c.setAttribute('aria-selected','false'));
+    b.setAttribute('aria-selected','true');render(i);b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});};
+  nav.appendChild(b);
+});
+render(0);
+</script>
+</body>
+</html>
