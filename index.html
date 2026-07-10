@@ -177,8 +177,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 const D=(lat,lng,pid)=>`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`+(pid?`&query_place_id=${pid}`:'');
-const CAT={'景點':'var(--sea)','水上':'var(--turq)','手作':'var(--violet)','午餐':'var(--azure)','晚餐':'var(--azure)','冰品':'var(--cyan)','購物':'var(--indigo)','宵夜':'var(--navy)','速食':'var(--navy)','住宿':'var(--slate)','機場':'var(--slate)'};
-const HEX={'景點':'#0C6E9C','水上':'#17B9C6','手作':'#8E76D6','午餐':'#3D67C9','晚餐':'#3D67C9','冰品':'#33AEC9','購物':'#4B57A0','宵夜':'#24406E','速食':'#24406E','住宿':'#5B7883','機場':'#5B7883'};
+const CAT={'景點':'var(--sea)','水上':'var(--turq)','手作':'var(--violet)','午餐':'var(--azure)','晚餐':'var(--azure)','冰品':'var(--cyan)','購物':'var(--indigo)','宵夜':'var(--navy)','速食':'var(--navy)','加油':'var(--slate)','住宿':'var(--slate)','機場':'var(--slate)'};
+const HEX={'景點':'#0C6E9C','水上':'#17B9C6','手作':'#8E76D6','午餐':'#3D67C9','晚餐':'#3D67C9','冰品':'#33AEC9','購物':'#4B57A0','宵夜':'#24406E','速食':'#24406E','加油':'#5B7883','住宿':'#5B7883','機場':'#5B7883'};
 const PHONE={
   'ChIJ4UHlGg2r9TQRbBVc5W_J1zI':'+81 980-74-5333','ChIJcSMnBK1T9DQR5t_CSK_U2HI':'+81 980-79-5888',
   'ChIJz5bk_RlW9DQRa_xRVjm0gDw':'+81 980-76-3565','ChIJz1EQ3fRT9DQRLztJ2GJ30Jg':'+81 980-79-9525',
@@ -193,7 +193,7 @@ const PHONE={
   'ChIJ-T8PxoD_9DQREumHmgKzAnQ':'+81 980-76-2440','ChIJTUS1VuFV9DQREn7xncpBW5M':'+81 80-5936-0747',
   'ChIJ4WQ9RwBU9DQRmXr0iPoGjtU':'+81 570-073-511','ChIJn5aA0YxT9DQRRsi7fPK_5QY':'+81 980-72-6137',
   'ChIJn6BdMItT9DQRffnrD64t3Eg':'+81 980-79-0597','ChIJFW4zgY1T9DQRNREXXF-xv60':'+81 80-6483-6865',
-  'ChIJ08xJDcur9TQRh-L9k5q-pGs':'+81 90-9476-3215'};
+  'ChIJ08xJDcur9TQRh-L9k5q-pGs':'+81 90-9476-3215','ChIJ-aqKiYCr9TQRvxxoQS-19aU':'+81 980-78-5454'};
 const tel=p=>'+'+p.replace(/\D/g,'');
 const IC={
   car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l1.5-4.5A2 2 0 018.4 7h7.2a2 2 0 011.9 1.5L19 13m-14 0h14m-14 0v4m14-4v4M7 17h.01M17 17h.01"/></svg>',
@@ -299,7 +299,7 @@ const days=[
     ]}
   ]},
  {n:5,date:'7/24',wd:'FRI',theme:'藥妝購物 · 飯店泳池',
-  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.8077675%2C125.2805333%7C24.8081297%2C125.2816295%7C24.7764468%2C125.297604%7C24.8039621%2C125.2787251%7C24.8050704%2C125.2797511%7C24.7874151%2C125.3065537%7C24.8028903%2C125.2797905%7C24.7947547%2C125.2746075',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.8077675%2C125.2805333%7C24.8081297%2C125.2816295%7C24.7764468%2C125.297604%7C24.8039621%2C125.2787251%7C24.8050704%2C125.2797511%7C24.7874151%2C125.3065537%7C24.8028903%2C125.2797905%7C24.7947547%2C125.2746075%7C24.793505%2C125.294444',
   stops:[
    {t:'09:45',c:'景點',name:'宮古神社',en:'日本最南端神社',open:'9:00–16:30 每日',drive:'飯店約 10 分',tip:'琉球×神社混合建築特別好拍，可求御守/御朱印（書き置き）',lat:24.8077675,lng:125.2805333,pid:'ChIJn5aA0YxT9DQRRsi7fPK_5QY'},
    {t:'10:30',c:'午餐',name:'釜揚げうどん 宮もと',en:'讚岐烏龍',open:'10:00–15:00（週三四休）',drive:'飯店約 10 分',lat:24.8081297,lng:125.2816295,pid:'ChIJXz8Bv6BT9DQRz9tWQTyYLEo',
@@ -324,6 +324,7 @@ const days=[
      {tag:'義式',name:'trattoria IPPO',rate:4.8,cnt:16,note:'手打義大利麵 × 葡萄酒 · 市中心裡的大人系隱密小店（18:00 開，週四休）',lat:24.8061621,lng:125.2792903,pid:'ChIJpweZlSBT9DQRlu1lg5b-j9k',ph:'+81 980-79-5084'},
      {tag:'鐵板燒',name:'Teppanyaki Steak Shu',rate:4.7,cnt:38,note:'最後一晚犒賞級選擇 · 宮古和牛+在地海鮮鐵板全餐 · 價位高但評價極好（需預約，週一休）',lat:24.8071342,lng:125.279289,pid:'ChIJL5URkuFT9DQR_lAIykFLIHY',ph:'+81 980-79-7335'}
     ]},
+   {t:'19:45',c:'加油',name:'Showa Shell 西里',en:'還車前一晚加滿油',open:'7:30–20:30（週日 –19:00）',drive:'晚餐處約 5 分',tip:'全島評價最好的加油站（4.2★）· 用 app 優惠券每公升省約 ¥20 · 收據（領収書）留給還車櫃檯；明天在伊良部就不用停加油站了',lat:24.793505,lng:125.294444,pid:'ChIJxehSVQZU9DQRGgoLWDHfqR8'},
    {t:'21:00',c:'宵夜',name:'Subaya 大和（選配）',en:'深夜大和そば收尾',open:'21:00–05:00',lat:24.8040266,lng:125.2793683,pid:'ChIJdWybA09T9DQR03crOQVsnLA'}
   ]},
  {n:6,date:'7/25',wd:'SAT',theme:'離島日',
@@ -448,7 +449,7 @@ const NOTES=[
  ['🎐','7–9 月是ハブクラゲ（箱水母）高峰：盡量在有防護網的海域下水（與那霸前濱等），被螫先用「醋」沖、不要用清水搓；新城、砂山等天然海灘注意離岸流，不單獨下水。'],
  ['💴','很多食堂與小店只收現金：準備足夠日幣，郵局與 FamilyMart ATM 可跨國提領；San-A 滿 5,000 日圓可免稅，記得帶護照。'],
  ['🚗','右駕靠左行駛：台灣駕照需附「日文譯本」+ 護照；停紅燈禁止左轉（與台灣右轉習慣不同）。'],
- ['⛽','加油站集中在平良市區，伊良部/下地島幾乎沒有：還車日先在市區加滿油再過橋；多數租車行要求滿油還車並附收據。'],
+ ['⛽','加油已排在 Day 5 晚餐後的市區 Showa Shell 西里（–20:30，比伊良部便宜約 ¥20/L）；隔天直接還車不用再停。若當晚來不及，備援是伊良部 apollostation みなみ給油所（4.3★，8:00–18:00，就在なかゆくい商店旁，週日休）。收據務必留給還車櫃檯。'],
  ['📅','店休地雷日：週三是宮古島店休大宗（丸吉只開三四六日、Ninufa/Kiari 等也有固定休）；出發當天早上再用 Google Maps 確認「營業中」最保險。'],
  ['🐢','浮潛看海龜請保持距離不觸摸、不站在珊瑚上；宮古島海灘幾乎沒有垃圾桶，自備垃圾袋帶走。'],
  ['✈️','回程日（週六）下地島機場很小、餐飲選擇少：建議 12:30 前還車，伴手禮別全留到機場買；液體（泡盛、辣油）記得託運。']
