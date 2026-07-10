@@ -193,7 +193,9 @@ const PHONE={
   'ChIJ-T8PxoD_9DQREumHmgKzAnQ':'+81 980-76-2440','ChIJTUS1VuFV9DQREn7xncpBW5M':'+81 80-5936-0747',
   'ChIJ4WQ9RwBU9DQRmXr0iPoGjtU':'+81 570-073-511','ChIJn5aA0YxT9DQRRsi7fPK_5QY':'+81 980-72-6137',
   'ChIJn6BdMItT9DQRffnrD64t3Eg':'+81 980-79-0597','ChIJFW4zgY1T9DQRNREXXF-xv60':'+81 80-6483-6865',
-  'ChIJ08xJDcur9TQRh-L9k5q-pGs':'+81 90-9476-3215','ChIJ-aqKiYCr9TQRvxxoQS-19aU':'+81 980-78-5454'};
+  'ChIJ08xJDcur9TQRh-L9k5q-pGs':'+81 90-9476-3215','ChIJ-aqKiYCr9TQRvxxoQS-19aU':'+81 980-78-5454',
+  'ChIJywMekvtT9DQRXG8_qHHWtLU':'+81 980-79-0979','ChIJr8OEhjpT9DQRYvuS1oZywm0':'+81 90-9785-0150',
+  'ChIJ2TUvcvRT9DQR4O8927gciEU':'+81 70-4217-7556','ChIJY4hf1fRT9DQR34y_Q9IMwKw':'+81 980-79-0188'};
 const tel=p=>'+'+p.replace(/\D/g,'');
 const IC={
   car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l1.5-4.5A2 2 0 018.4 7h7.2a2 2 0 011.9 1.5L19 13m-14 0h14m-14 0v4m14-4v4M7 17h.01M17 17h.01"/></svg>',
@@ -231,7 +233,7 @@ const days=[
    {t:'21:00',c:'速食',name:'MOS BURGER 平良店（選配）',en:'摩斯漢堡 · 米漢堡+哈密瓜蘇打',open:'9:00–23:00（週末 8:00 起）',drive:'唐吉訶德旁 3 分',tip:'逛完唐吉順路外帶宵夜回飯店收尾',lat:24.79678,lng:125.292486,pid:'ChIJcfBkCPhT9DQRVP5FVHwYJcc'}
   ]},
  {n:2,date:'7/21',wd:'TUE',theme:'新城水上 · 東平安名崎',
-  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7598523%2C125.4248602%7C24.7191788%2C125.4684503%7C24.7204686%2C125.3242413%7C24.7247007%2C125.3583502%7C24.7958761%2C125.2742848%7C24.802596%2C125.282023',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7598523%2C125.4248602%7C24.7191788%2C125.4684503%7C24.7204686%2C125.3242413%7C24.7247007%2C125.3583502%7C24.7958761%2C125.2742848%7C24.8041645%2C125.2795736',
   stops:[
    {t:'10:40',c:'水上',name:'新城海灘',en:'浮潛 + SUP 划船',open:'現場可租裝備·停免費區',drive:'飯店約 40 分',tip:'看海龜熱點，建議事先預約教練帶',lat:24.7598523,lng:125.4248602,pid:'ChIJRe3qlIdZ9DQReV321AJnrj0'},
    {t:'14:00',c:'景點',name:'東平安名崎',en:'太平洋海岬 · 可登燈塔',drive:'距新城約 20 分',tip:'風大顧好帽子',lat:24.7191788,lng:125.4684503,pid:'ChIJv2CYFDBZ9DQRquU0-OMAYmE'},
@@ -245,15 +247,17 @@ const days=[
     ]},
    {t:'16:15',c:'景點',name:'イムギャーマリンガーデン',en:'環礁潟湖 · 環灣步道展望台',drive:'午餐處約 10 分',tip:'內灣平靜好走，飯後散步剛好；雨天可改ユートピアファーム熱帶果園（4.4★，芒果聖代）',lat:24.7247007,lng:125.3583502,pid:'ChIJH9px0qVX9DQRqBB2sPVZ0t0'},
    {t:'17:15',c:'購物',name:'島の駅みやこ',en:'在地物產直賣所',open:'7:30–18:00',drive:'回程順路 · 飯店約 5 分',tip:'宮古牛便當/現烤麵包/當季芒果，伴手禮比機場便宜，18:00 關門抓緊',lat:24.7958761,lng:125.2742848,pid:'ChIJBedbNXJU9DQRtQXKX09HOPw'},
-   {t:'18:30',c:'晚餐',name:'豚匠 Butasho',en:'あぐー豚しゃぶ',open:'17:00–23:00 每日',tip:'阿古豬涮涮鍋，情侶安靜小店',lat:24.802596,lng:125.282023,pid:'ChIJz1EQ3fRT9DQRLztJ2GJ30Jg',
+   {t:'18:30',c:'晚餐',name:'しゃぶ禅や Shabuzenya',en:'あぐー豚涮涮鍋專門店 · 全席禁菸/有個室',open:'17:00–23:00 每日',tip:'豚匠訂不到的最佳替代：宮古 No.1 阿古豬+雪鹽蛤蜊/石蓴海藻雙湯底，牛舌握壽司也必點；Tabelog 可線上訂位',lat:24.8041645,lng:125.2795736,pid:'ChIJywMekvtT9DQRXG8_qHHWtLU',
     alts:[
-     {tag:'居酒屋',name:'大衆酒場 幸蔵',rate:4.8,cnt:57,note:'年輕老闆的居酒屋 · 炙燒宮古牛握壽司/每日鮮魚五點盛 · 價格實在',lat:24.8045984,lng:125.2817276,pid:'ChIJDTuePmpT9DQRO2R-n6Yp2UE',ph:'+81 980-79-7665'},
-     {tag:'西式',name:'The Gozero Grill',rate:4.3,cnt:162,note:'西式小酒館換換口味 · 海鮮義大利麵/炙燒鮪魚前菜 · 店員會英文',lat:24.8012196,lng:125.2838192,pid:'ChIJ3XkiwbFT9DQReD_6q7eY0vc'},
-     {tag:'居酒屋',name:'居酒屋 中山',rate:4.2,cnt:535,note:'在地人擠爆的平價居酒屋 · 大串烤雞/香檬沙瓦 · 幾乎天天客滿，先訂位（16:00–24:00，週一休）',lat:24.8068297,lng:125.2799593,pid:'ChIJvSTaxYxT9DQRmCDN5ch4fqc',ph:'+81 980-73-1959'}
+     {tag:'涮涮鍋',name:'しゃぶ邸 百八',rate:4.7,cnt:79,note:'阿古豬涮涮鍋+不定期三線現場演奏 · Tabelog 標示全席禁菸/有個室 · 老闆體貼細心（11:30–24:00 每日）',lat:24.8048821,lng:125.2777561,pid:'ChIJOVQ9urRT9DQROS8KzEkf0m0',ph:'+81 980-79-6905'},
+     {tag:'日本料理',name:'日本料理 三感',rate:4.8,cnt:31,note:'宮古島少見的正統日料/懷石 · 榻榻米半包廂+QR 點餐 · 離豚匠原址 70m 超近（18:00–22:30，週日休）',lat:24.8027395,lng:125.281867,pid:'ChIJBZ6nmH9T9DQRkvyOAA9dYqc',ph:'+81 980-79-5889'},
+     {tag:'創意居酒屋',name:'Watowa Miyakojima',rate:4.2,cnt:272,note:'新型態創意居酒屋 · 宮古牛握壽司/宮古 pancake/烤飯糰收尾 · 吧台氣氛好、主理人親切 · 評論無菸味抱怨（每日 18:00–24:00）',lat:24.8039538,lng:125.2797634,pid:'ChIJM2VOR4tT9DQRb0JqZT6Ku98',ph:'+81 980-73-7329'},
+     {tag:'西式',name:'The Gozero Grill',rate:4.3,cnt:162,note:'西式小酒館換換口味 · 海鮮義大利麵/炙燒鮪魚前菜 · 店員會英文 · 現代明亮空間',lat:24.8012196,lng:125.2838192,pid:'ChIJ3XkiwbFT9DQReD_6q7eY0vc'},
+     {tag:'義式',name:'trattoria IPPO',rate:4.8,cnt:16,note:'手打義大利麵 × 葡萄酒 · 大人系隱密小店 · 全店無菸（18:00 開，週四休）',lat:24.8061621,lng:125.2792903,pid:'ChIJpweZlSBT9DQRlu1lg5b-j9k',ph:'+81 980-79-5084'}
     ]}
   ]},
  {n:3,date:'7/22',wd:'WED',theme:'太陽陶窯 · 來間 · 前濱',
-  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7258801%2C125.3486466%7C24.7316398%2C125.3517456%7C24.7212819%2C125.2575638%7C24.7249593%2C125.2512719%7C24.7260129%2C125.2516393%7C24.7349726%2C125.2629745%7C24.8065289%2C125.2869608',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7258801%2C125.3486466%7C24.7316398%2C125.3517456%7C24.7212819%2C125.2575638%7C24.7249593%2C125.2512719%7C24.7260129%2C125.2516393%7C24.7349726%2C125.2629745%7C24.8033592%2C125.2845124',
   stops:[
    {t:'10:30',c:'手作',name:'てぃだ(太陽)が窯',en:'捏陶手作 · 約 2 小時',open:'9:00–19:00（週一休）',drive:'飯店約 30 分',tip:'務必先電話預約 +81 980-76-2266',lat:24.7258801,lng:125.3486466,pid:'ChIJQ3lAabNX9DQReXps3yGydKw'},
    {t:'12:50',c:'午餐',name:'丸吉食堂',en:'軟骨ソーキそば',open:'週三四六日 10:30–14:00',drive:'距陶窯約 10 分',tip:'排隊+賣完為止·14:00 打烊，捏完陶直接衝',lat:24.7316398,lng:125.3517456,pid:'ChIJVzDy0a1X9DQRE0oDzDWPGRQ',
@@ -268,11 +272,12 @@ const days=[
    {t:'14:40',c:'景點',name:'竜宮城展望台',en:'俯瞰來間大橋+前濱全景',tip:'三層樓龍宮造型展望台，宮古藍一次看滿',lat:24.7260129,lng:125.2516393,pid:'ChIJ0XiGNI__9DQREaRvPPydG5E'},
    {t:'15:00',c:'購物',name:'琉球ザッカ青空',en:'來間島 · 陶器/琉球玻璃雜貨',open:'10–12 / 13–17 每日',tip:'和 Kiari 同一停車區；走累了同區還有 PANIPANI（4.4★ 峇里島風咖啡）和 AOSORA PARLOR 果昔可以歇腿吹風',lat:24.7229592,lng:125.2540389,pid:'ChIJ-T8PxoD_9DQREumHmgKzAnQ'},
    {t:'15:30',c:'景點',name:'與那霸前濱',en:'東洋第一白沙灘 · 曬太陽',lat:24.7349726,lng:125.2629745,pid:'ChIJOfnsBJBV9DQRA0W-m-UpUUo'},
-   {t:'18:00',c:'晚餐',name:'美ら太陽',en:'三線現場表演',open:'18:00–22:00（週四休）',lat:24.8065289,lng:125.2869608,pid:'ChIJYQQIkPFT9DQR5FQBVGqHWzM',
+   {t:'18:00',c:'晚餐',name:'小料理 縁の郷',en:'吧台割烹小料理 · 評論無菸味',open:'17:00–24:00（週日休）',tip:'和隔天海鮮居酒屋完全不同的體驗：吧台僅 6 席+一間小包間，看主廚現場料理阿古豬/宮古牛/蛤蜊，對外國客超有耐心；位子極少務必先訂位',lat:24.8033592,lng:125.2845124,pid:'ChIJ2TUvcvRT9DQR4O8927gciEU',
     alts:[
-     {tag:'民謠居酒屋',name:'唄やしき キジムナー',rate:4.8,cnt:57,note:'同樣有三線+エイサー太鼓現場表演 · 家庭感沖繩料理（18:00 開，有表演費）',lat:24.8036212,lng:125.2842194,pid:'ChIJr8OEhjpT9DQRYvuS1oZywm0'},
-     {tag:'深夜居酒屋',name:'魚天 Uoten',rate:4.7,cnt:81,note:'明太子玉子燒名物 · 老闆人情味滿點 · 開到凌晨 4 點，晚歸也吃得到（18:00–04:00）',lat:24.8055538,lng:125.2780111,pid:'ChIJ3eyiVYpT9DQRqtTosxUblLM'},
-     {tag:'拉麵',name:'らーめん蔵之介',rate:4.5,cnt:153,note:'宮古味噌拉麵+煎餃高評價 · QR 點餐有英文 · 17–20 生啤 Happy Hour ¥300（週五休）',lat:24.7930409,lng:125.2902635,pid:'ChIJXQ6QcztV9DQRn97190WWg2c',ph:'+81 980-79-7773'}
+     {tag:'日本料理',name:'日本料理 三感',rate:4.8,cnt:31,note:'宮古島少見的正統日料/懷石 · 榻榻米半包廂+QR 點餐 · 想安靜吃頓精緻的選這間（18:00–22:30，週日休；亦列於 Day 2 備案）',lat:24.8027395,lng:125.281867,pid:'ChIJBZ6nmH9T9DQRkvyOAA9dYqc',ph:'+81 980-79-5889'},
+     {tag:'創意居酒屋',name:'アンドミヤコ And Miyako',rate:4.8,cnt:401,note:'全島評價最高人氣的創意居酒屋 · 特製蛋包飯/島食材小皿 · 手機點餐+英文說明小卡超友善 · 天天客滿用 IG 訂位（18:00–23:00，週四休、週三有開）',lat:24.8020797,lng:125.280613,pid:'ChIJCQmLZJtT9DQRNJnNSlaTyFk',ph:'+81 980-79-8703'},
+     {tag:'鐵板燒',name:'Teppanyaki Steak Shu',rate:4.7,cnt:38,note:'犒賞級鐵板燒 · 宮古和牛+在地海鮮全餐 · 價位高但評價極好（需預約，週一休；亦列於 Day 5 備案）',lat:24.8071342,lng:125.279289,pid:'ChIJL5URkuFT9DQR_lAIykFLIHY',ph:'+81 980-79-7335'},
+     {tag:'拉麵',name:'らーめん蔵之介',rate:4.5,cnt:153,note:'宮古味噌拉麵+煎餃高評價 · QR 點餐有英文 · 現代明亮店面 · 17–20 生啤 Happy Hour ¥300（週五休）',lat:24.7930409,lng:125.2902635,pid:'ChIJXQ6QcztV9DQRn97190WWg2c',ph:'+81 980-79-7773'}
     ]}
   ]},
  {n:4,date:'7/23',wd:'THU',theme:'砂山 · 池間島',
@@ -291,11 +296,11 @@ const days=[
    {t:'14:30',c:'冰品',name:'Gelato Cafe Ninufa',en:'義式冰 + 愛心岩海灘',open:'10:00–17:00（週三休）',lat:24.9299217,lng:125.2334483,pid:'ChIJkxS6OhdN9DQRystL285fy1E'},
    {t:'15:20',c:'購物',name:'雪塩ミュージアム',en:'雪鹽製鹽所 · 免費見學',open:'9:00–18:00 每日',drive:'回程順路（狩俣）',tip:'雪鹽霜淇淋必吃！必買清單的雪鹽系列這裡最齊、還有限定品',lat:24.9022357,lng:125.2683734,pid:'ChIJn47M6plN9DQR-eFd68m8QK4'},
    {t:'17:15',c:'購物',name:'MIYAKOJIMA GIFT ちゅらかじ',en:'手作飾品+嚴選伴手禮',open:'15:00–22:00 每日',tip:'雪塩回程若提早到市區，可先去 400m 外的モンテドール本店（–19:00）收香蕉蛋糕、內用咖啡歇腿，再過來逛',lat:24.8039931,lng:125.2812135,pid:'ChIJ--cWsfRT9DQR7zEzjuJJuoc'},
-   {t:'18:00',c:'晚餐',name:'一魚一会',en:'市區海鮮居酒屋',open:'17:00–22:00 每日',lat:24.8022239,lng:125.280738,pid:'ChIJY4hf1fRT9DQR34y_Q9IMwKw',
+   {t:'17:45',c:'晚餐',name:'漁師の居酒屋 一魚一会',en:'✅ 已訂位 7/23（四）17:45 · 全席禁菸/有個室',open:'17:00–22:00 每日',tip:'漁師直送島魚生魚片/握壽司，三線 live 表演另收費；已訂位，前一站ちゅらかじ逛完走路 5 分就到',lat:24.8022239,lng:125.280738,pid:'ChIJY4hf1fRT9DQR34y_Q9IMwKw',
     alts:[
-     {tag:'燒肉',name:'焼肉 焼武者',rate:4.7,cnt:240,note:'燒肉×居酒屋 · 宮古牛套餐/壽喜燒收尾 · QR 英文菜單（17:00–23:00）',lat:24.8030896,lng:125.2823603,pid:'ChIJTfn3yuFT9DQRfK9BJ0XRLyc'},
-     {tag:'屋台橫丁',name:'宮古横丁 Miyako Yokocho',rate:4.8,cnt:866,note:'一個屋簷下 7 家屋台任點 · 沖繩菜/泰式/串燒 · 想每樣吃一點時的好選擇',lat:24.807736,lng:125.2798903,pid:'ChIJiwKfTfxT9DQRrig7lGW0dQU'},
-     {tag:'居酒屋',name:'魚と肉 旨いもん屋 道すじ',rate:4.5,cnt:16,note:'豪華生魚片拼盤+天婦羅 · 明亮新店常滿座，建議先預約（17:00–24:00，週三休）',lat:24.8050715,lng:125.2805694,pid:'ChIJ153WQXZT9DQRGXRa6QjyDfI',ph:'+81 980-79-8131'}
+     {tag:'民謠居酒屋',name:'唄やしき キジムナー',rate:4.8,cnt:57,note:'三線+エイサー太鼓+獅子舞現場表演 · 全席禁菸（Google 評論證實）· 一魚一会有變動時的同型態備援（18:00 開，店休看 IG，有表演費）',lat:24.8036212,lng:125.2842194,pid:'ChIJr8OEhjpT9DQRYvuS1oZywm0',ph:'+81 90-9785-0150'},
+     {tag:'燒肉',name:'焼肉 焼武者',rate:4.7,cnt:240,note:'燒肉×居酒屋 · 宮古牛套餐/壽喜燒收尾 · QR 英文菜單 · 明亮乾淨新型態店（17:00–23:00）',lat:24.8030896,lng:125.2823603,pid:'ChIJTfn3yuFT9DQRfK9BJ0XRLyc'},
+     {tag:'鐵板燒',name:'ユキシオステーキ',rate:4.3,cnt:425,note:'宮古牛鐵板燒 · 主廚現場煎給你看 · 蜜月/慶祝場合有驚喜（17:00–22:00，週五休；亦列於 Day 1 備案）',lat:24.7994313,lng:125.2690255,pid:'ChIJ5zoEtkRV9DQRImNpp9o_W84',ph:'+81 980-79-7978'}
     ]}
   ]},
  {n:5,date:'7/24',wd:'FRI',theme:'藥妝購物 · 飯店泳池',
@@ -306,6 +311,7 @@ const days=[
     alts:[
      {tag:'漢堡',name:'SUNDAYS Miyakojima',rate:4.8,cnt:2429,note:'全島人氣第一美式漢堡 · 培根起司堡必點 · 就在市區購物圈（11:00–17:00）',lat:24.8025916,lng:125.2832623,pid:'ChIJF6lO8aVT9DQRB7xgVXvKkXs'},
      {tag:'餐車',name:'Slowtime Van',rate:4.7,cnt:141,note:'復古巴士改裝餐車 · 香料炸雞三明治+手切薯條（11:00–15:00）',lat:24.7997685,lng:125.2687766,pid:'ChIJPU4zo_RV9DQREK0EqC5bFTQ'},
+     {tag:'漢堡',name:'川満商店',rate:4.7,cnt:52,note:'市區巷內手作漢堡小店 · BLT/酪梨起司堡+香料薯條好評 · 只有吧台+兩桌，評分比 SUNDAYS 還高的隱藏版（營業時間不定，出發前查 Google）',lat:24.8033556,lng:125.2800335,pid:'ChIJKexDrmlV9DQRKSNssBLTTPs'},
      {tag:'早餐飯糰',name:'Kujira Diner くじら',rate:4.4,cnt:294,note:'Dcard 點名的豬肉蛋飯糰早餐店 · 宮古牛味噌口味+炸雞超juicy · 7:30 開賣、賣完為止，記得停專屬停車場（–13:00 每日）',lat:24.8037324,lng:125.2748511,pid:'ChIJFW4zgY1T9DQRNREXXF-xv60',ph:'+81 80-6483-6865'},
      {tag:'輕食',name:'丸将商店',rate:4.6,cnt:151,note:'台灣媒體點名蛋黃控必吃 · SPAM 歐姆蛋三明治/半熟蛋咖哩 · 夏季有刨冰菜單，有停車場（久貝）',lat:24.7911388,lng:125.2805722,pid:'ChIJAcGkmCJV9DQRDSb6d8pWan8'},
      {tag:'咖啡烘焙',name:'cafe furari',rate:4.6,cnt:50,note:'巷弄麵包咖啡 · 鮭魚貝果/帕妮尼好評 · 早上 8:30 就開，適合早午餐（–17:00，週四休）',lat:24.8101889,lng:125.2804379,pid:'ChIJt3TGJWNT9DQRt3Ikp615jyI'},
@@ -442,6 +448,7 @@ const BUY=[
 const NOTES=[
  ['🌀','7 月是颱風季：出發前 3 天盯航班與海況預報；天氣最好的一天留給水上活動／17END，陰天可與 Day 5 購物日對調，行程保留彈性。'],
  ['⏰','排隊名店策略：丸吉食堂與 Harry\'s 蝦蝦飯都是「排隊+賣完為止」，抓開店前 15–30 分到最穩、排中午前段；Harry\'s 沒遮蔭記得帶帽。'],
+ ['🚭','無菸過濾：已依 Tabelog 禁菸標示＋Google 評論逐店掃描——移除幸蔵、道すじ、中山、魚天、宮古横丁（評論指室內菸霧瀰漫）、島おでんたから（評論明寫可吸菸）；一魚一会、美ら太陽、鮨階、キジムナー均已證實全席禁菸，其餘為新法規範下的現代店型。訂位時仍可加問一句「店内は禁煙ですか？」最保險。'],
  ['📞','需要預約的點：太陽陶窯（電話）、新城浮潛教練、鮨 階／かめ寿司等壽司店、美ら太陽（旺季晚餐）；居酒屋名店多不收臨時散客，可用 Tabelog 線上訂位或請飯店代訂最穩。'],
  ['🌌','宮古島光害少：晴天晚上記得抬頭，肉眼就能看到銀河、運氣好還有流星；飯店頂樓和前濱海灘都是好觀星點。'],
  ['🛒','超市攻略：Big1 是島上最便宜超市、AEON 宮古南（藥妝+超市）開到深夜、島の駅買在地農產和現烤麵包——香蕉生吐司記得帶一條。'],
