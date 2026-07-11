@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0A4E6E">
 <title>宮古島 6天5夜 · 情侶自駕</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230C6E9C'/%3E%3Ccircle cx='45' cy='17' r='8' fill='%23FFD66B'/%3E%3Cpath d='M0 40q10-8 20 0t20 0t20 0t20 0v24H0z' fill='%2317B9C6'/%3E%3Cpath d='M0 48q10-8 20 0t20 0t20 0t20 0v16H0z' fill='%237FE0DD'/%3E%3Cpath d='M0 56q10-8 20 0t20 0t20 0t20 0v8H0z' fill='%23FBF6EC'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230C6E9C'/%3E%3Ccircle cx='45' cy='17' r='8' fill='%23FFD66B'/%3E%3Cpath d='M0 40q10-8 20 0t20 0t20 0t20 0v24H0z' fill='%2317B9C6'/%3E%3Cpath d='M0 48q10-8 20 0t20 0t20 0t20 0v16H0z' fill='%237FE0DD'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -13,7 +15,7 @@
   :root{
     --sea-deep:#0A4E6E; --sea:#0C6E9C; --turq:#17B9C6; --lagoon:#7FE0DD; --pool:#12A6C4;
     --azure:#3D67C9; --cyan:#33AEC9; --violet:#8E76D6; --indigo:#4B57A0; --navy:#24406E; --slate:#5B7883;
-    --turq-soft:#CDEBEF;
+    --turq-soft:#CDEBEF; --sun:#FFD66B;
     --sand:#FBF6EC; --card:#FFFFFF; --ink:#08313F; --muted:#5B7883; --hair:#E7DFCF;
     --shadow:0 10px 30px -14px rgba(8,49,63,.28);
   }
@@ -28,13 +30,14 @@
   .maphero{position:relative;height:48vh;min-height:280px;max-height:400px;background:#bfe0ea}
   #map{position:absolute;inset:0;width:100%;height:100%;z-index:1}
   .map-overlay{position:absolute;left:0;right:0;bottom:0;z-index:5;pointer-events:none;
-    padding:36px 20px 14px;color:#fff;background:linear-gradient(transparent, rgba(6,40,54,.74) 62%)}
+    padding:36px 20px 26px;color:#fff;background:linear-gradient(transparent, rgba(6,40,54,.74) 62%)}
   .map-overlay .eyebrow{font-family:"Zen Maru Gothic";font-weight:700;letter-spacing:.34em;font-size:10.5px;opacity:.9;text-transform:uppercase}
   .map-overlay h1{margin:2px 0 4px;font-weight:900;font-size:22px;letter-spacing:.02em}
   .map-overlay .sub{font-family:"DM Mono",monospace;font-size:12px;opacity:.92;display:flex;gap:12px;flex-wrap:wrap}
   .map-hint{position:absolute;top:calc(env(safe-area-inset-top) + 10px);right:12px;z-index:5;
     background:rgba(8,49,63,.62);color:#fff;font-size:11px;font-weight:500;
     padding:5px 10px;border-radius:999px;backdrop-filter:blur(4px);pointer-events:none;letter-spacing:.02em}
+  .wavecut{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:20px;z-index:6;pointer-events:none;display:block}
   .leaflet-container{background:#bfe0ea;font-family:inherit}
   .pin{width:100%;height:100%;border-radius:50% 50% 50% 2px;transform:rotate(45deg);
     border:2.5px solid #fff;box-shadow:0 3px 8px rgba(8,49,63,.4);display:flex;align-items:center;justify-content:center}
@@ -71,6 +74,9 @@
   .lead .num span{font-size:22px;color:var(--turq)}
   .lead .date{font-family:"DM Mono",monospace;font-size:12.5px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
   .lead .theme{font-weight:900;font-size:20px;margin-top:3px;letter-spacing:.01em}
+  .lead-art{position:absolute;right:2px;top:-4px;width:132px;height:76px;pointer-events:none}
+  .lead-art .bob2{animation:bob 3.4s ease-in-out .9s infinite}
+  .lead-art .bob{animation:bob 3.4s ease-in-out infinite}
   .routebtn{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
     background:linear-gradient(135deg,var(--sea),var(--turq));color:#fff;text-decoration:none;font-weight:700;font-size:15px;
     padding:14px;border-radius:15px;box-shadow:0 12px 26px -12px rgba(12,110,156,.7);transition:transform .12s ease}
@@ -103,6 +109,10 @@
   .maplink svg{width:14px;height:14px}
   .maplink.call{color:#0E93A6;border-color:var(--turq-soft)}
   .maplink.call:active{background:#EAF7F9}
+
+  /* 每日結尾的小海浪 */
+  .day-end{display:flex;justify-content:center;padding:10px 0 0}
+  .day-end svg{width:120px;height:20px;opacity:.75}
 
   /* 備案餐廳 */
   .alts{margin-top:11px;border-top:1px dashed var(--hair);padding-top:3px}
@@ -148,10 +158,17 @@
   footer{padding:6px 20px calc(env(safe-area-inset-bottom) + 34px);color:var(--muted);font-size:12px;line-height:1.7}
   footer .tips{background:#fff;border:1px solid var(--hair);border-radius:14px;padding:14px 16px;margin-bottom:16px}
   footer .tips b{color:var(--ink)}
+  footer .beach{display:flex;justify-content:center;margin-bottom:10px}
+  footer .beach svg{width:230px;height:70px}
+  footer .beach .bob{animation:bob 3.4s ease-in-out infinite}
+  footer .beach .drift{animation:drift 5s ease-in-out infinite}
   footer .sig{text-align:center;font-family:"DM Mono",monospace;letter-spacing:.12em;font-size:10.5px;opacity:.7;text-transform:uppercase}
 
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){.stop{animation:none}.routebtn{transition:none}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  @keyframes drift{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+  @media (prefers-reduced-motion:reduce){.stop{animation:none}.routebtn{transition:none}
+    .lead-art .bob,.lead-art .bob2,footer .beach .bob,footer .beach .drift{animation:none}}
 </style>
 </head>
 <body>
@@ -164,12 +181,38 @@
       <h1>宮古島 6天5夜</h1>
       <div class="sub"><span>7/20 – 7/25</span><span>情侶自駕</span><span>Canopy by Hilton</span></div>
     </div>
+    <svg class="wavecut" viewBox="0 0 480 24" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 16q15-11 30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0V24H0z" fill="#FBF6EC"/>
+    </svg>
   </div>
 
   <nav class="daynav" id="daynav" role="tablist" aria-label="選擇日期"></nav>
   <main id="main" role="tabpanel"></main>
 
   <footer>
+    <div class="beach" aria-hidden="true">
+      <svg viewBox="0 0 230 70">
+        <circle cx="196" cy="16" r="9" fill="#FFD66B"/>
+        <g class="bob">
+          <line x1="112" y1="14" x2="118" y2="46" stroke="#0A4E6E" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M112 10C99 10 89 19 87 30c4-3 8.6-3 12.6 0 4-3 8.6-3 12.6 0 4-3 8.6-3 12.6 0 4-3 8.6-3 12.6 0C135 19 125 10 112 10z" fill="#17B9C6"/>
+          <path d="M105.5 28.5c1-8 3.5-14.5 6.5-18 3 3.5 5.5 10 6.5 18-2-1.6-4.5-1.9-6.5-.6-2-1.3-4.5-1-6.5.6z" fill="#fff" opacity=".92"/>
+        </g>
+        <g transform="translate(18 24)">
+            <path d="M3 14l3.2-6.2A4 4 0 019.8 5.5h11.4a4 4 0 013.6 2.3L27.5 14q3.5.6 3.5 3.2v3.3a1.8 1.8 0 01-1.8 1.8H1.8A1.8 1.8 0 010 20.5v-3.3Q0 14.6 3 14z" fill="#0C6E9C"/>
+            <path d="M9.9 7.5h4.6V14H6.8zM16.5 7.5h4.5a2 2 0 011.8 1.1L24.9 14h-8.4z" fill="#CDEBEF"/>
+            <circle cx="7.5" cy="22" r="3.6" fill="#08313F"/>
+            <circle cx="7.5" cy="22" r="1.4" fill="#FBF6EC"/>
+            <circle cx="23.5" cy="22" r="3.6" fill="#08313F"/>
+            <circle cx="23.5" cy="22" r="1.4" fill="#FBF6EC"/>
+            <circle cx="30" cy="16.5" r="1.2" fill="#FFD66B"/>
+        </g>
+        <g class="drift">
+          <path d="M10 52q11-9 22 0t22 0t22 0t22 0t22 0t22 0t22 0t22 0t22 0" fill="none" stroke="#17B9C6" stroke-width="3" stroke-linecap="round"/>
+          <path d="M22 62q11-9 22 0t22 0t22 0t22 0t22 0t22 0t22 0t22 0" fill="none" stroke="#7FE0DD" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
     <div class="sig">Drive safe · 宮古ブルー</div>
   </footer>
 </div>
@@ -207,6 +250,33 @@ const IC={
   layers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg>',
   route:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H15a3.5 3.5 0 000-7H9a3.5 3.5 0 010-7h6.5"/></svg>'
 };
+/* 裝飾小圖：陽傘+太陽（Day 頁首）、小海浪（每天行程結尾） */
+const ART_PARASOL=`<svg class="lead-art" viewBox="0 0 132 76" aria-hidden="true">
+  <circle cx="118" cy="12" r="8" fill="#FFD66B"/>
+  <g class="bob">
+    <line x1="30" y1="16" x2="37" y2="60" stroke="#0A4E6E" stroke-width="3" stroke-linecap="round"/>
+    <path d="M30 11C14 11 2 22 0 36c5-3.6 10.4-3.6 15.2 0 4.8-3.6 10.2-3.6 15 0 4.8-3.6 10.2-3.6 15 0 4.8-3.6 10.2-3.6 15.2 0C58 22 46 11 30 11z" fill="#17B9C6"/>
+    <path d="M22 34c1.2-10 4.4-18 8-22 3.6 4 6.8 12 8 22-2.5-2-5.5-2.3-8-.7-2.5-1.6-5.5-1.3-8 .7z" fill="#fff" opacity=".92"/>
+  </g>
+  <g class="bob2">
+    <g fill="#0A4E6E" stroke="#0A4E6E" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="78" cy="33" r="5.5" stroke="none"/>
+      <path d="M83 29q5 .5 4.5 6.5q-2.5-3-4.5-3z" stroke="none"/>
+      <path d="M74.5 39.5h7l3.5 19h-14z" stroke="none"/>
+      <path d="M76 58.5l-.6 6.5M80 58.5l.6 6.5" stroke-width="2.8" fill="none"/>
+      <path d="M77 42l-6.5-5M79.5 43l12 5" stroke-width="2.8" fill="none"/>
+      <circle cx="106" cy="32" r="5.5" stroke="none"/>
+      <path d="M102.5 38.5h7v14h-7z" stroke="none"/>
+      <path d="M104 52.5l-1 12M108 52.5l1 12" stroke-width="2.8" fill="none"/>
+      <path d="M104.5 41.5l-13 6M107.5 41l6.5-6.5" stroke-width="2.8" fill="none"/>
+    </g>
+    <path d="M91.8 41.5c-1.2-1.2-3.2-.3-3.2 1.2 0 1.6 2 2.8 3.2 3.4 1.2-.6 3.2-1.8 3.2-3.4 0-1.5-2-2.4-3.2-1.2z" fill="#17B9C6"/>
+  </g>
+  <path d="M4 66q9-7 18 0t18 0t18 0t18 0t18 0t18 0t18 0" fill="none" stroke="#7FE0DD" stroke-width="3" stroke-linecap="round"/>
+</svg>`;
+const ART_WAVE=`<div class="day-end" aria-hidden="true"><svg viewBox="0 0 120 20">
+  <path d="M6 12q9-8 18 0t18 0t18 0t18 0t18 0t18 0" fill="none" stroke="#17B9C6" stroke-width="3" stroke-linecap="round"/>
+</svg></div>`;
 
 const days=[
  {n:1,date:'7/20',wd:'MON',theme:'抵達 · 下地島',
@@ -314,9 +384,9 @@ const days=[
     ]},
    {t:'15:20',c:'購物',name:'雪塩ミュージアム',en:'雪鹽製鹽所 · 免費見學',open:'9:00–18:00 每日',drive:'回程順路（狩俣）',tip:'雪鹽霜淇淋必吃！必買清單的雪鹽系列這裡最齊、還有限定品',lat:24.9022357,lng:125.2683734,pid:'ChIJn47M6plN9DQR-eFd68m8QK4'},
    {t:'17:15',c:'購物',name:'MIYAKOJIMA GIFT ちゅらかじ',en:'手作飾品+嚴選伴手禮',open:'15:00–22:00 每日',tip:'雪塩回程若提早到市區，可先去 400m 外的モンテドール本店（–19:00）收香蕉蛋糕、內用咖啡歇腿，再過來逛',lat:24.8039931,lng:125.2812135,pid:'ChIJ--cWsfRT9DQR7zEzjuJJuoc'},
-   {t:'18:00',c:'晚餐',name:'Ryukyu Tonkatsu Mitsuya',en:'琉球豬排 · 明亮新型態店',open:'11:00–22:00（週五休 · 今天週四有開）',tip:'Premium 豬排油脂入口即化+彈牙麵線套餐；⚠️ 記得先取消一魚一会 7/23 17:45 的原訂位（電話在下方備案卡可直撥）',lat:24.8044446,lng:125.2816475,pid:'ChIJkQECoO5T9DQRYrGckwtvbo0',
+   {t:'18:00',c:'晚餐',name:'Ryukyu Tonkatsu Mitsuya',en:'琉球豬排 · 明亮新型態店',open:'11:00–22:00（週五休 · 今天週四有開）',tip:'Premium 豬排油脂入口即化+彈牙麵線套餐；家庭客多、店面明亮可愛，尖峰時段可先電話留位',lat:24.8044446,lng:125.2816475,pid:'ChIJkQECoO5T9DQRYrGckwtvbo0',
     alts:[
-     {tag:'海鮮居酒屋',name:'漁師の居酒屋 一魚一会',rate:4.0,cnt:300,note:'原訂位店家（若不換豬排就照原計畫來這，否則記得致電取消）· 漁師直送島魚生魚片/握壽司+三線 live · Tabelog 標示全席禁菸/有個室（17:00–22:00 每日）',lat:24.8022239,lng:125.280738,pid:'ChIJY4hf1fRT9DQR34y_Q9IMwKw',ph:'+81 980-79-0188'},
+     {tag:'海鮮居酒屋',name:'漁師の居酒屋 一魚一会',rate:4.0,cnt:300,note:'漁師直送島魚生魚片/握壽司+三線 live 表演另收費 · Tabelog 標示全席禁菸/有個室（17:00–22:00 每日）',lat:24.8022239,lng:125.280738,pid:'ChIJY4hf1fRT9DQR34y_Q9IMwKw',ph:'+81 980-79-0188'},
      {tag:'民謠居酒屋',name:'唄やしき キジムナー',rate:4.8,cnt:57,note:'三線+エイサー太鼓+獅子舞現場表演 · 全席禁菸（Google 評論證實，18:00 開，店休看 IG，有表演費）',lat:24.8036212,lng:125.2842194,pid:'ChIJr8OEhjpT9DQRYvuS1oZywm0',ph:'+81 90-9785-0150'},
      {tag:'燒肉',name:'焼肉 焼武者',rate:4.7,cnt:240,note:'燒肉×居酒屋 · 宮古牛套餐/壽喜燒收尾 · QR 英文菜單 · 明亮乾淨新型態店（17:00–23:00）',lat:24.8030896,lng:125.2823603,pid:'ChIJTfn3yuFT9DQRfK9BJ0XRLyc'},
      {tag:'鐵板燒',name:'ユキシオステーキ',rate:4.3,cnt:425,note:'宮古牛鐵板燒 · 主廚現場煎給你看 · 蜜月/慶祝場合有驚喜（17:00–22:00，週五休；亦列於 Day 1 備案）',lat:24.7994313,lng:125.2690255,pid:'ChIJ5zoEtkRV9DQRImNpp9o_W84',ph:'+81 980-79-7978'}
@@ -362,11 +432,12 @@ const days=[
     ]}
   ]},
  {n:6,date:'7/25',wd:'SAT',theme:'離島日',
-  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.8266,125.1447&travelmode=driving&waypoints=24.8258947%2C125.1700315%7C24.8118193%2C125.1788554%7C24.8377299%2C125.1572351',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.8266,125.1447&travelmode=driving&waypoints=24.8288916%2C125.1680398%7C24.8258947%2C125.1700315%7C24.8118193%2C125.1788554%7C24.8377299%2C125.1572351',
   stops:[
    {t:'10:00',c:'住宿',name:'Canopy 泳池 · 退房',en:'約 10:45 退房',lat:24.7994493,lng:125.2592204,pid:'ChIJyREvegBV9DQRK4b4ZndUclE'},
-   {t:'11:15',c:'冰·咖啡',name:'なかゆくい商店',en:'紅芋サーターアンダギー（沙翁）',open:'9:30–12:00 / 13:30–16:00（週一四休）',drive:'過橋後約 15 分',tip:'台灣人瘋傳的紅芋炸沙翁 ¥110，+Blue Seal 冰淇淋更讚；熱門時段排 20–30 分，中午 12 點休息前到',lat:24.8258947,lng:125.1700315,pid:'ChIJ08xJDcur9TQRh-L9k5q-pGs'},
-   {t:'11:45',c:'景點',name:'渡口の浜',en:'伊良部島粉白細沙 · 順路收尾',tip:'旁邊的 1 LAB Hello, VACAY!（4.8★ 海島系咖啡）可外帶冰飲上路',lat:24.8118193,lng:125.1788554,pid:'ChIJ75SIJdSr9TQR9Zuc5oTF4vg'},
+   {t:'11:05',c:'加油',name:'apollostation みなみ給油所',en:'還車前最後補滿',open:'8:00–18:00（週日休 · 週六有開）',drive:'過橋後約 15 分',tip:'伊良部評價最好的加油站（4.3★）· 前晚市區已加滿，這裡只需補一點點就滿油還車 · 記得跟店員拿收據（領収書）',lat:24.8288916,lng:125.1680398,pid:'ChIJ-aqKiYCr9TQRvxxoQS-19aU'},
+   {t:'11:20',c:'冰·咖啡',name:'なかゆくい商店',en:'紅芋サーターアンダギー（沙翁）',open:'9:30–12:00 / 13:30–16:00（週一四休）',drive:'加油站旁 400m',tip:'台灣人瘋傳的紅芋炸沙翁 ¥110，+Blue Seal 冰淇淋更讚；熱門時段排 20–30 分，中午 12 點休息前到',lat:24.8258947,lng:125.1700315,pid:'ChIJ08xJDcur9TQRh-L9k5q-pGs'},
+   {t:'11:50',c:'景點',name:'渡口の浜',en:'伊良部島粉白細沙 · 順路收尾',tip:'旁邊的 1 LAB Hello, VACAY!（4.8★ 海島系咖啡）可外帶冰飲上路',lat:24.8118193,lng:125.1788554,pid:'ChIJ75SIJdSr9TQR9Zuc5oTF4vg'},
    {t:'12:10',c:'景點',name:'佐和田の浜',en:'日本渚百選 · 淺灘散落津波大石',tip:'離機場 5 分鐘的最後一站，退潮時奇岩倒影超好拍；若是國際線班機建議 12:15 前抵達機場，這站視時間彈性跳過',lat:24.8377299,lng:125.1572351,pid:'ChIJBZ10JXes9TQRfCVDIOg5eAk'},
    {t:'12:35',c:'機場',name:'みやこ下地島空港',en:'還車 · 登機（航班 14:00）',lat:24.8266,lng:125.1447}
   ]}
@@ -432,12 +503,12 @@ function render(i){
           ${phone?`<a class="maplink call" href="tel:${tel(phone)}">${IC.phone} 撥號</a>`:''}
         </div>${altsHtml}</div></div>`;
   }).join('');
-  main.innerHTML=`<div class="lead">
+  main.innerHTML=`<div class="lead">${ART_PARASOL}
       <div class="num">${d.n}<span>/ 6</span></div>
       <div class="date">${d.date} · ${d.wd}</div>
       <div class="theme">${d.theme}</div>
       <a class="routebtn" target="_blank" rel="noopener" href="${d.route}">${IC.route} 開啟當天 Google 導航路線</a>
-    </div><div class="timeline">${stopsHtml}</div>`;
+    </div><div class="timeline">${stopsHtml}</div>${ART_WAVE}`;
   updateMap(i);
 }
 
@@ -485,7 +556,7 @@ const NOTES=[
  ['🎐','7–9 月是ハブクラゲ（箱水母）高峰：盡量在有防護網的海域下水（與那霸前濱等），被螫先用「醋」沖、不要用清水搓；新城、砂山等天然海灘注意離岸流，不單獨下水。'],
  ['💴','很多食堂與小店只收現金：準備足夠日幣，郵局與 FamilyMart ATM 可跨國提領；San-A 滿 5,000 日圓可免稅，記得帶護照。'],
  ['🚗','右駕靠左行駛：台灣駕照需附「日文譯本」+ 護照；停紅燈禁止左轉（與台灣右轉習慣不同）。'],
- ['⛽','加油已排在 Day 5 晚餐後的市區 Showa Shell 西里（–20:30，比伊良部便宜約 ¥20/L）；隔天直接還車不用再停。若當晚來不及，備援是伊良部 apollostation みなみ給油所（4.3★，8:00–18:00，就在なかゆくい商店旁，週日休）。收據務必留給還車櫃檯。'],
+ ['⛽','雙保險加油：Day 5 晚餐後先在市區 Showa Shell 西里加滿（–20:30，比伊良部便宜約 ¥20/L）；Day 6 還車前再到伊良部 apollostation みなみ給油所（已排入行程，就在なかゆくい商店旁）補到全滿。兩張收據都留給還車櫃檯最保險。'],
  ['📅','店休地雷日：週三是宮古島店休大宗（丸吉只開三四六日、Ninufa/Kiari 等也有固定休）；出發當天早上再用 Google Maps 確認「營業中」最保險。'],
  ['🐢','浮潛看海龜請保持距離不觸摸、不站在珊瑚上；宮古島海灘幾乎沒有垃圾桶，自備垃圾袋帶走。'],
  ['✈️','回程日（週六）下地島機場很小、餐飲選擇少：建議 12:30 前還車，伴手禮別全留到機場買；液體（泡盛、辣油）記得託運。']
@@ -511,7 +582,7 @@ function renderInfo(){
     <div class="sub2">Shopping list · Before you go</div>
     <div class="progwrap"><div class="progtxt"><span>採買進度</span><span id="progtxt"></span></div>
     <div class="progbar"><i id="progfill"></i></div></div></div>
-    ${buyHtml}${noteHtml}</div>`;
+    ${buyHtml}${noteHtml}${ART_WAVE}</div>`;
   main.querySelectorAll('.chk input').forEach(el=>el.onchange=()=>{chkState[el.dataset.id]=el.checked;updateProg();});
   updateProg();
   activeLayer.remove();activeLayer=L.layerGroup().addTo(map);
