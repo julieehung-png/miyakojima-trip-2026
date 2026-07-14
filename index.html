@@ -164,6 +164,103 @@
   footer .beach .drift{animation:drift 5s ease-in-out infinite}
   footer .sig{text-align:center;font-family:"DM Mono",monospace;letter-spacing:.12em;font-size:10.5px;opacity:.7;text-transform:uppercase}
 
+  /* 工具箱 hub */
+  .pill.toolbox[aria-selected="true"]{background:var(--violet);border-color:var(--violet)}
+  .hubhead{margin:2px 0 14px}
+  .hubhead .big{font-family:"Zen Maru Gothic";font-weight:900;font-size:26px;color:var(--sea)}
+  .hubhead .sub2{font-family:"DM Mono",monospace;font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+  .hub{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .hcard{display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:#fff;border:1px solid var(--hair);
+    border-radius:16px;padding:16px 15px 14px;cursor:pointer;text-align:left;box-shadow:var(--shadow);transition:transform .12s}
+  .hcard:active{transform:scale(.97)}
+  .hcard .hi{font-size:30px;line-height:1.2;margin-bottom:4px}
+  .hcard b{font-size:15px;color:var(--ink)}
+  .hcard small{font-size:11px;color:var(--muted);line-height:1.45}
+  .backhub{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--hair);background:#fff;color:var(--sea-deep);
+    font-weight:800;font-size:13px;border-radius:999px;padding:7px 14px;cursor:pointer;margin-bottom:14px}
+  .backhub:active{background:var(--turq-soft)}
+
+  /* 旅程分頁 */
+  .pill.trip[aria-selected="true"]{background:var(--sea);border-color:var(--sea)}
+  .fcard{display:flex;flex-direction:column;gap:2px;background:var(--sand);border:1px solid var(--hair);border-radius:13px;padding:11px 13px;margin-bottom:8px}
+  .fcard .frow{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .fcard .fno{font-family:"DM Mono",monospace;font-weight:700;color:var(--sea-deep);font-size:13px}
+  .fbadge{background:var(--turq-soft);color:var(--sea-deep);font-weight:800;font-size:10.5px;border-radius:999px;padding:2px 9px;white-space:nowrap}
+  .fseg{display:flex;align-items:center;gap:10px;margin-top:5px}
+  .fseg .pt{display:flex;flex-direction:column}
+  .fseg .pt b{font-family:"DM Mono",monospace;font-size:19px;letter-spacing:.01em}
+  .fseg .pt span{font-size:10.5px;color:var(--muted);font-family:"DM Mono",monospace;letter-spacing:.08em}
+  .fseg .arrow{flex:1;text-align:center;color:var(--turq);font-size:14px;border-bottom:1.5px dashed var(--turq);line-height:.4;margin:0 2px}
+  .hotelrow{display:flex;gap:9px;padding:7px 0;font-size:13px;border-bottom:1px dashed var(--hair);align-items:baseline}
+  .hotelrow:last-child{border-bottom:none}
+  .hotelrow .hl{flex:0 0 74px;color:var(--muted);font-size:11.5px;font-family:"DM Mono",monospace;letter-spacing:.06em}
+  .hotelrow b{font-family:"DM Mono",monospace;font-weight:600}
+  .wxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .wx{background:var(--sand);border:1px solid var(--hair);border-radius:13px;padding:10px 6px;text-align:center}
+  .wx.today{outline:2px solid var(--turq);background:var(--turq-soft)}
+  .wx .d{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted)}
+  .wx .e{font-size:26px;line-height:1.3;margin:2px 0}
+  .wx .t{font-family:"DM Mono",monospace;font-size:12px}
+  .wx .t b{color:#C0392B;font-weight:600}
+  .wx .t span{color:var(--sea-deep)}
+  .wx .r{font-size:10.5px;color:var(--sea-deep);margin-top:2px}
+  .wxnote{font-size:11.5px;color:var(--muted);margin-top:9px;line-height:1.5}
+
+  /* 工具分頁 */
+  .pill.tools[aria-selected="true"]{background:var(--turq);border-color:var(--turq)}
+  .tool .sec{background:#fff;border:1px solid var(--hair);border-radius:16px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .tool h3{margin:0 0 10px;font-size:15.5px}
+  .fx{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
+  .fx .cur{display:flex;flex-direction:column;gap:4px}
+  .fx label{font-family:"DM Mono",monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted)}
+  .fx input,.rate input,.lg input,.lg select{width:100%;box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;
+    padding:10px 11px;font-size:16px;font-family:"DM Mono",monospace;background:var(--sand);color:var(--ink)}
+  .fx input:focus,.rate input:focus,.lg input:focus{outline:2px solid var(--turq);border-color:var(--turq)}
+  .fx .swap{font-size:18px;color:var(--turq);font-weight:900}
+  .rate{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--muted)}
+  .rate input{width:90px;padding:6px 8px;font-size:13px}
+  .payseg{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--hair);border-radius:13px;overflow:hidden;margin-bottom:10px}
+  .payseg button{border:none;background:#fff;padding:13px 0;font-weight:900;font-size:15px;cursor:pointer;color:var(--muted);transition:.12s}
+  .payseg button.onJ{background:#8E76D6;color:#fff}
+  .payseg button.onS{background:#0C6E9C;color:#fff}
+  .amtbox{position:relative;margin-bottom:8px}
+  .amtbox .yen{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-family:"DM Mono",monospace;font-size:20px;color:var(--muted)}
+  .amtbox input{width:100%;box-sizing:border-box;border:1.5px solid var(--hair);border-radius:13px;background:var(--sand);
+    padding:14px 90px 14px 36px;font-size:24px;font-family:"DM Mono",monospace;color:var(--ink)}
+  .amtbox input:focus{outline:2px solid var(--turq);border-color:var(--turq)}
+  .amtbox .twdhint{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--sea-deep);font-family:"DM Mono",monospace}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}
+  .chips button{border:1.5px solid var(--hair);background:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:pointer;color:var(--ink)}
+  .chips button:active{background:var(--turq-soft)}
+  .bigadd{width:100%;border:none;border-radius:13px;padding:14px;font-weight:900;font-size:16px;color:#fff;background:var(--sea);cursor:pointer;box-shadow:0 8px 18px -8px rgba(12,110,156,.6)}
+  .bigadd:active{transform:scale(.99)}
+  .paybar{display:flex;height:14px;border-radius:99px;overflow:hidden;margin:10px 0 4px;background:#EAE2D1}
+  .paybar i{display:block;height:100%}
+  .paylbl{display:flex;justify-content:space-between;font-size:11.5px;font-family:"DM Mono",monospace;color:var(--muted);margin-bottom:8px}
+  .lgl{border-top:1px dashed var(--hair)}
+  .lgi{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--hair);font-size:13px}
+  .lgi .w8{flex:0 0 auto;font-weight:800;border-radius:999px;padding:2px 9px;font-size:11px;color:#fff}
+  .lgi .amt{font-family:"DM Mono",monospace;margin-left:auto;white-space:nowrap}
+  .lgi .del{border:none;background:none;color:#C0392B;font-size:15px;cursor:pointer;padding:2px 4px}
+  .settle{margin-top:12px}
+  .stat{background:var(--sand);border:1px solid var(--hair);border-radius:13px;padding:10px 14px;margin-bottom:10px;
+    display:flex;align-items:baseline;gap:10px}
+  .stat span{font-size:10.5px;font-family:"DM Mono",monospace;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+  .stat b{font-family:"DM Mono",monospace;font-size:21px;font-weight:600;color:var(--ink)}
+  .stat i{font-style:normal;font-size:11.5px;color:var(--sea-deep);font-family:"DM Mono",monospace;margin-left:auto}
+  .transfer{background:linear-gradient(135deg,var(--turq-soft),#EAF6F0);border:1px solid var(--hair);border-radius:15px;padding:14px 16px 16px}
+  .transfer{text-align:center}
+  .tsent{display:flex;align-items:center;justify-content:center;gap:9px;font-weight:900;margin-bottom:6px}
+  .tsent b{font-size:17px}
+  .tsent .nJ{color:#8E76D6}.tsent .nS{color:#0C6E9C}
+  .tgive{font-size:12px;color:var(--muted);background:#fff;border:1px solid var(--hair);border-radius:999px;padding:3px 10px}
+  .tamt{display:block;font-family:"DM Mono",monospace;font-size:30px;font-weight:600;color:var(--ink);line-height:1.2}
+  .tntd{display:block;font-style:normal;font-size:12px;color:var(--sea-deep);font-family:"DM Mono",monospace;margin-top:1px}
+  .even{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#FFF6DE,#EAF6F0);
+    border:1px solid var(--hair);border-radius:15px;padding:16px;font-weight:800;font-size:15px}
+  .xbtn{margin-top:12px;width:100%;background:var(--violet);color:#fff;border:none;border-radius:12px;padding:12px;font-weight:800;font-size:14px;cursor:pointer}
+  .xbtn:disabled{opacity:.5}
+
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
   @keyframes drift{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
@@ -241,7 +338,9 @@ const PHONE={
   'ChIJ08xJDcur9TQRh-L9k5q-pGs':'+81 90-9476-3215','ChIJ-aqKiYCr9TQRvxxoQS-19aU':'+81 980-78-5454',
   'ChIJywMekvtT9DQRXG8_qHHWtLU':'+81 980-79-0979','ChIJr8OEhjpT9DQRYvuS1oZywm0':'+81 90-9785-0150',
   'ChIJ2TUvcvRT9DQR4O8927gciEU':'+81 70-4217-7556','ChIJY4hf1fRT9DQR34y_Q9IMwKw':'+81 980-79-0188',
-  'ChIJCQmLZJtT9DQRNJnNSlaTyFk':'+81 980-79-8703','ChIJkQECoO5T9DQRYrGckwtvbo0':'+81 980-79-5494'};
+  'ChIJCQmLZJtT9DQRNJnNSlaTyFk':'+81 980-79-8703','ChIJkQECoO5T9DQRYrGckwtvbo0':'+81 980-79-5494',
+  'ChIJB65gMm1U9DQR82shTzA-E7A':'+81 980-73-7711','ChIJAyru7gZU9DQR4O-PhmDIeGc':'+81 980-72-7255',
+  'ChIJnfgiqKpW9DQRaX2rS0kxHmI':'+81 980-74-2255'};
 const tel=p=>'+'+p.replace(/\D/g,'');
 const IC={
   car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l1.5-4.5A2 2 0 018.4 7h7.2a2 2 0 011.9 1.5L19 13m-14 0h14m-14 0v4m14-4v4M7 17h.01M17 17h.01"/></svg>',
@@ -284,7 +383,7 @@ const days=[
  {n:1,date:'7/20',wd:'MON',theme:'抵達 · 下地島一日',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.8266,125.1447&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.812313%2C125.1826324%7C24.8073194%2C125.1942711%7C24.842318%2C125.140722%7C24.8236648%2C125.1361496%7C24.8217429%2C125.1724791%7C24.7950803%2C125.2564785',
   stops:[
-   {t:'13:00',c:'機場',name:'みやこ下地島空港',en:'Arrival · 取車',drive:'落地辦租車約 30–45 分',lat:24.8266,lng:125.1447},
+   {t:'13:00',c:'機場',name:'みやこ下地島空港',en:'JX890 抵達 13:00 · 取車',drive:'落地辦租車約 30–45 分',lat:24.8266,lng:125.1447},
    {t:'14:00',c:'午餐',name:'Blue Turtle',en:'伊良部島海景餐廳',open:'11:00–21:00 每日',drive:'機場約 10 分',tip:'龍蝦／漢堡咖哩，飯後有冰沙雪酪',lat:24.812313,lng:125.1826324,pid:'ChIJ4UHlGg2r9TQRbBVc5W_J1zI',
     alts:[
      {tag:'義式',name:'The Olivea',rate:4.9,cnt:35,note:'義式 × 宮古食材 · 正對伊良部大橋海景 · 午間套餐 CP 高（11:30–21:00）',lat:24.811536,lng:125.2173166,pid:'ChIJY1kSLrJV9DQRfIakp3fC6aw',ph:'+81 980-79-6541'},
@@ -311,7 +410,7 @@ const days=[
  {n:2,date:'7/21',wd:'TUE',theme:'新城水上 · 東平安名崎',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7598523%2C125.4248602%7C24.7191788%2C125.4684503%7C24.7204686%2C125.3242413%7C24.7247007%2C125.3583502%7C24.7958761%2C125.2742848%7C24.8041645%2C125.2795736',
   stops:[
-   {t:'10:40',c:'水上',name:'新城海灘',en:'浮潛 + SUP 划船',open:'現場可租裝備·停免費區',drive:'飯店約 40 分',tip:'看海龜熱點，建議事先預約教練帶',lat:24.7598523,lng:125.4248602,pid:'ChIJRe3qlIdZ9DQReV321AJnrj0'},
+   {t:'10:40',c:'水上',name:'新城海灘',en:'浮潛 + SUP 划船',open:'現場可租裝備·停免費區',drive:'飯店約 40 分',tip:'看海龜熱點，建議事先預約教練帶；✅ 有更衣室（男女各 3 間、換衣免費），淋浴 ¥100/5 分投幣式——記得備 100 円硬幣',lat:24.7598523,lng:125.4248602,pid:'ChIJRe3qlIdZ9DQReV321AJnrj0'},
    {t:'13:30',c:'速食',name:'SUP 後快食外帶',en:'上岸先墊肚子 · 撐到 15:00 午餐',open:'首選：海灘停車場旁飯糰攤',tip:'ポーク玉子（SPAM 豬肉蛋）飯糰小攤就在上岸走幾步的停車場旁；小本經營不一定每天出攤，沒開就看下方備案，都在往東平安名崎的順路上',lat:24.7599305,lng:125.4248687,pid:'ChIJ71fmw5JZ9DQRBxc1ExdF3Xk',
     alts:[
      {tag:'超市外帶',name:'A Coop 城辺店',rate:3.9,cnt:78,note:'最可靠的補給站：便當/飯糰/現切鳳梨/鮪魚生魚片評價超好 · 回程往午餐路上順路（8:30–20:00 每日，有 ATM）',lat:24.758894,lng:125.382882,pid:'ChIJg5rKr1tX9DQRpSq3QcB_raI',ph:'+81 980-77-4713'},
@@ -336,7 +435,8 @@ const days=[
      {tag:'琉球居酒屋',name:'琉球居酒屋 昴',rate:4.4,cnt:111,note:'シギラ度假村內的琉球風居酒屋 · 主廚吧台現做 · 軟絲生魚片/島關東煮 · 在上野離市區 25 分，適合東南部玩晚時直接吃再回程（17:00–22:00 每日，建議訂位）',lat:24.7206676,lng:125.3346725,pid:'ChIJAQwUQABX9DQRyMkYYAiIFjY',ph:'+81 980-74-7353'},
      {tag:'西式',name:'The Gozero Grill',rate:4.3,cnt:162,note:'西式小酒館換換口味 · 海鮮義大利麵/炙燒鮪魚前菜 · 店員會英文 · 現代明亮空間',lat:24.8012196,lng:125.2838192,pid:'ChIJ3XkiwbFT9DQReD_6q7eY0vc'},
      {tag:'義式',name:'trattoria IPPO',rate:4.8,cnt:16,note:'手打義大利麵 × 葡萄酒 · 大人系隱密小店 · 全店無菸（18:00 開，週四休）',lat:24.8061621,lng:125.2792903,pid:'ChIJpweZlSBT9DQRlu1lg5b-j9k',ph:'+81 980-79-5084'}
-    ]}
+    ]},
+   {t:'20:30',c:'購物',name:'AEON Town 宮古南（選配）',en:'超市 24h + 藥妝 + 百圓店',open:'MAXVALU 超市 24 小時',drive:'晚餐處約 7 分',tip:'一站購足：伴手禮/零食/隔日早餐，現烤鹽奶油麵包好評；專門店約 21–22 點關、超市不打烊',lat:24.7877418,lng:125.2806897,pid:'ChIJB65gMm1U9DQR82shTzA-E7A'}
   ]},
  {n:3,date:'7/22',wd:'WED',theme:'太陽陶窯 · 來間 · 前濱',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7258801%2C125.3486466%7C24.7316398%2C125.3517456%7C24.7212819%2C125.2575638%7C24.7249593%2C125.2512719%7C24.7260129%2C125.2516393%7C24.7349726%2C125.2629745%7C24.8020797%2C125.280613',
@@ -357,20 +457,21 @@ const days=[
     ]},
    {t:'14:40',c:'景點',name:'竜宮城展望台',en:'俯瞰來間大橋+前濱全景',tip:'三層樓龍宮造型展望台，宮古藍一次看滿',lat:24.7260129,lng:125.2516393,pid:'ChIJ0XiGNI__9DQREaRvPPydG5E'},
    {t:'15:00',c:'購物',name:'琉球ザッカ青空',en:'來間島 · 陶器/琉球玻璃雜貨',open:'10–12 / 13–17 每日',tip:'和 Kiari 同一停車區；走累了同區還有 PANIPANI（4.4★ 峇里島風咖啡）和 AOSORA PARLOR 果昔可以歇腿吹風',lat:24.7229592,lng:125.2540389,pid:'ChIJ-T8PxoD_9DQREumHmgKzAnQ'},
-   {t:'15:30',c:'景點',name:'與那霸前濱',en:'東洋第一白沙灘 · 曬太陽',lat:24.7349726,lng:125.2629745,pid:'ChIJOfnsBJBV9DQRA0W-m-UpUUo'},
-   {t:'18:00',c:'晚餐',name:'アンドミヤコ And Miyako',en:'全島人氣最高創意居酒屋',open:'18:00–23:00（週四休 · 今天週三有開）',tip:'招牌特製蛋包飯/炸雞/島食材小皿，手機點餐+英文說明小卡；天天客滿，務必先用 IG（@andmiyako）訂位——它週四公休，這趟只有今晚能去',lat:24.8020797,lng:125.280613,pid:'ChIJCQmLZJtT9DQRNJnNSlaTyFk',
+   {t:'15:30',c:'景點',name:'與那霸前濱',en:'東洋第一白沙灘 · 曬太陽',tip:'✅ 兩個停車場旁都有男女別更衣室＋廁所＋¥100 淋浴，玩完直接換裝，7–9 月有水母防護網最安心',lat:24.7349726,lng:125.2629745,pid:'ChIJOfnsBJBV9DQRA0W-m-UpUUo'},
+   {t:'18:00',c:'晚餐',name:'アンドミヤコ And Miyako',en:'✅ 已訂位 7/22（三）18:00 · 2 名（飯店代訂）',open:'18:00–23:00（週四休）',tip:'招牌特製蛋包飯/炸雞/島食材小皿，手機點餐+英文說明小卡；訂位名：ホン マン ファーン · 席位限約 2 小時內，18:00 準時到慢慢吃剛剛好',lat:24.8020797,lng:125.280613,pid:'ChIJCQmLZJtT9DQRNJnNSlaTyFk',
     alts:[
      {tag:'日本料理',name:'日本料理 三感',rate:4.8,cnt:31,note:'宮古島少見的正統日料/懷石 · 榻榻米半包廂+QR 點餐 · 想安靜吃頓精緻的選這間（18:00–22:30，週日休；亦列於 Day 2 備案）',lat:24.8027395,lng:125.281867,pid:'ChIJBZ6nmH9T9DQRkvyOAA9dYqc',ph:'+81 980-79-5889'},
      {tag:'割烹小料理',name:'小料理 縁の郷',rate:4.7,cnt:146,note:'吧台僅 6 席的隱密割烹 · 主廚面前現做阿古豬/宮古牛/蛤蜊 · 評論稱「日本行最難忘的一餐」· 評論無菸味（17:00–24:00，週日休，需訂位）',lat:24.8033592,lng:125.2845124,pid:'ChIJ2TUvcvRT9DQR4O8927gciEU',ph:'+81 70-4217-7556'},
      {tag:'鐵板燒',name:'Teppanyaki Steak Shu',rate:4.7,cnt:38,note:'犒賞級鐵板燒 · 宮古和牛+在地海鮮全餐 · 價位高但評價極好（需預約，週一休；亦列於 Day 5 備案）',lat:24.8071342,lng:125.279289,pid:'ChIJL5URkuFT9DQR_lAIykFLIHY',ph:'+81 980-79-7335'},
      {tag:'民謠居酒屋',name:'和おん・♪ Waon',rate:4.5,cnt:211,note:'Threads 推薦 · 夫妻經營的島唄 live 居酒屋（每晚一場約 19:30）· 沖繩料理偏甜合台灣胃 · iPad 點餐 · 座位少務必訂位（18:00–21:30，週四日休、週三有開）',lat:24.8026361,lng:125.2829244,pid:'ChIJn8-pr_RT9DQRpxlnXzsTAQw',ph:'+81 980-73-5275'},
      {tag:'拉麵',name:'らーめん蔵之介',rate:4.5,cnt:153,note:'宮古味噌拉麵+煎餃高評價 · QR 點餐有英文 · 現代明亮店面 · 17–20 生啤 Happy Hour ¥300（週五休）',lat:24.7930409,lng:125.2902635,pid:'ChIJXQ6QcztV9DQRn97190WWg2c',ph:'+81 980-79-7773'}
-    ]}
+    ]},
+   {t:'20:30',c:'購物',name:'ドラッグストアモリ 宮古島（選配）',en:'藥妝掃貨 · 開到半夜 12 點',open:'9:00–24:00 每日 · 可免稅',drive:'晚餐處約 5 分',tip:'合利他命/EVE/休足時間/曬後蘆薈膠一次補齊，帶護照可免稅；評論有台灣旅客受傷獲店員暖心協助的五星好評',lat:24.792478,lng:125.29535,pid:'ChIJAyru7gZU9DQR4O-PhmDIeGc'}
   ]},
  {n:4,date:'7/23',wd:'THU',theme:'砂山 · 池間島',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.8395634%2C125.2806924%7C24.877956%2C125.288553%7C24.9080822%2C125.258247%7C24.9200526%2C125.2604759%7C24.9299217%2C125.2334483%7C24.9022357%2C125.2683734%7C24.8039931%2C125.2812135%7C24.8044446%2C125.2816475',
   stops:[
-   {t:'10:20',c:'景點',name:'砂山海灘',en:'翻過沙丘的天然岩拱',drive:'飯店約 15 分',lat:24.8395634,lng:125.2806924,pid:'ChIJ-zfBYbVT9DQR9rYeL_9KHpw'},
+   {t:'10:20',c:'景點',name:'砂山海灘',en:'翻過沙丘的天然岩拱',drive:'飯店約 15 分',tip:'入口停車場有廁所和簡易淋浴（⚠️ 無正式更衣室），下水的話沖腳沖砂快速解決即可；注意離岸流不深游',lat:24.8395634,lng:125.2806924,pid:'ChIJ-zfBYbVT9DQR9rYeL_9KHpw'},
    {t:'11:15',c:'景點',name:'島尻マングローブ林',en:'紅樹林木棧道 · 約 20 分來回',drive:'往池間路上 · 約 15 分',tip:'退潮時招潮蟹/彈塗魚最多，有停車場和廁所',lat:24.877956,lng:125.288553,pid:'ChIJcau8-AhS9DQRg4DAigdI2w8'},
    {t:'12:00',c:'午餐',name:"Harry's 蝦蝦飯",en:'西平安名崎 · 蒜香奶油蝦',open:'11:00–17:00 每日',tip:'就在池間大橋前，沒遮蔭會排隊，帶帽',lat:24.9080822,lng:125.258247,pid:'ChIJS0PU6I5N9DQRrhjueIzkdm8',
     alts:[
@@ -391,7 +492,8 @@ const days=[
      {tag:'民謠居酒屋',name:'唄やしき キジムナー',rate:4.8,cnt:57,note:'三線+エイサー太鼓+獅子舞現場表演 · 全席禁菸（Google 評論證實，18:00 開，店休看 IG，有表演費）',lat:24.8036212,lng:125.2842194,pid:'ChIJr8OEhjpT9DQRYvuS1oZywm0',ph:'+81 90-9785-0150'},
      {tag:'燒肉',name:'焼肉 焼武者',rate:4.7,cnt:240,note:'燒肉×居酒屋 · 宮古牛套餐/壽喜燒收尾 · QR 英文菜單 · 明亮乾淨新型態店（17:00–23:00）',lat:24.8030896,lng:125.2823603,pid:'ChIJTfn3yuFT9DQRfK9BJ0XRLyc'},
      {tag:'鐵板燒',name:'ユキシオステーキ',rate:4.3,cnt:425,note:'宮古牛鐵板燒 · 主廚現場煎給你看 · 蜜月/慶祝場合有驚喜（17:00–22:00，週五休；亦列於 Day 1 備案）',lat:24.7994313,lng:125.2690255,pid:'ChIJ5zoEtkRV9DQRImNpp9o_W84',ph:'+81 980-79-7978'}
-    ]}
+    ]},
+   {t:'20:00',c:'購物',name:'MAXVALU 西里店（選配）',en:'24 小時超市 · 在地人日常',open:'24 小時營業',drive:'晚餐處約 5 分',tip:'熟食便當/生魚片晚場常打折，零食選擇比便利店多很多；順手補隔天北部行程的飲料和冰',lat:24.7931876,lng:125.3026368,pid:'ChIJnfgiqKpW9DQRaX2rS0kxHmI'}
   ]},
  {n:5,date:'7/24',wd:'FRI',theme:'藥妝購物 · 飯店泳池',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.8077675%2C125.2805333%7C24.8081297%2C125.2816295%7C24.7764468%2C125.297604%7C24.8039621%2C125.2787251%7C24.8050704%2C125.2797511%7C24.7874151%2C125.3065537%7C24.8028903%2C125.2797905%7C24.7947547%2C125.2746075%7C24.793505%2C125.294444',
@@ -438,9 +540,9 @@ const days=[
    {t:'10:00',c:'住宿',name:'Canopy 泳池 · 退房',en:'約 10:45 退房',lat:24.7994493,lng:125.2592204,pid:'ChIJyREvegBV9DQRK4b4ZndUclE'},
    {t:'11:05',c:'加油',name:'apollostation みなみ給油所',en:'還車前最後補滿',open:'8:00–18:00（週日休 · 週六有開）',drive:'過橋後約 15 分',tip:'伊良部評價最好的加油站（4.3★）· 前晚市區已加滿，這裡只需補一點點就滿油還車 · 記得跟店員拿收據（領収書）',lat:24.8288916,lng:125.1680398,pid:'ChIJ-aqKiYCr9TQRvxxoQS-19aU'},
    {t:'11:20',c:'冰·咖啡',name:'なかゆくい商店',en:'紅芋サーターアンダギー（沙翁）',open:'9:30–12:00 / 13:30–16:00（週一四休）',drive:'加油站旁 400m',tip:'台灣人瘋傳的紅芋炸沙翁 ¥110，+Blue Seal 冰淇淋更讚；熱門時段排 20–30 分，中午 12 點休息前到',lat:24.8258947,lng:125.1700315,pid:'ChIJ08xJDcur9TQRh-L9k5q-pGs'},
-   {t:'11:50',c:'景點',name:'渡口の浜',en:'伊良部島粉白細沙 · 順路收尾',tip:'旁邊的 1 LAB Hello, VACAY!（4.8★ 海島系咖啡）可外帶冰飲上路',lat:24.8118193,lng:125.1788554,pid:'ChIJ75SIJdSr9TQR9Zuc5oTF4vg'},
+   {t:'11:50',c:'景點',name:'渡口の浜',en:'伊良部島粉白細沙 · 順路收尾',tip:'旁邊的 1 LAB Hello, VACAY!（4.8★ 海島系咖啡）可外帶冰飲上路；有廁所和兩端簡易淋浴、⚠️ 無更衣室——散步收尾不下水就沒差',lat:24.8118193,lng:125.1788554,pid:'ChIJ75SIJdSr9TQR9Zuc5oTF4vg'},
    {t:'12:10',c:'景點',name:'佐和田の浜',en:'日本渚百選 · 淺灘散落津波大石',tip:'離機場 5 分鐘的最後一站，退潮時奇岩倒影超好拍；若是國際線班機建議 12:15 前抵達機場，這站視時間彈性跳過',lat:24.8377299,lng:125.1572351,pid:'ChIJBZ10JXes9TQRfCVDIOg5eAk'},
-   {t:'12:35',c:'機場',name:'みやこ下地島空港',en:'還車 · 登機（航班 14:00）',lat:24.8266,lng:125.1447}
+   {t:'12:35',c:'機場',name:'みやこ下地島空港',en:'還車 · JX891 14:00 起飛（14:10 抵台北）',lat:24.8266,lng:125.1447}
   ]}
 ];
 
@@ -559,10 +661,10 @@ const NOTES=[
  ['🚭','無菸過濾：已依 Tabelog 禁菸標示＋Google 評論逐店掃描——移除幸蔵、道すじ、中山、魚天、宮古横丁（評論指室內菸霧瀰漫）、島おでんたから（評論明寫可吸菸）；一魚一会、美ら太陽、鮨階、キジムナー均已證實全席禁菸，其餘為新法規範下的現代店型。訂位時仍可加問一句「店内は禁煙ですか？」最保險。'],
  ['📞','需要預約的點：太陽陶窯（電話）、新城浮潛教練、鮨 階／かめ寿司等壽司店、美ら太陽（旺季晚餐）；居酒屋名店多不收臨時散客，可用 Tabelog 線上訂位或請飯店代訂最穩。'],
  ['🌌','宮古島光害少：晴天晚上記得抬頭，肉眼就能看到銀河、運氣好還有流星；飯店頂樓和前濱海灘都是好觀星點。'],
- ['🛒','超市攻略：Big1 是島上最便宜超市、AEON 宮古南（藥妝+超市）開到深夜、島の駅買在地農產和現烤麵包——香蕉生吐司記得帶一條。'],
+ ['🛒','超市攻略（已排入各晚選配）：AEON 宮古南與 MAXVALU 西里的超市都是 24 小時、藥妝モリ開到半夜 12 點可免稅；Big1 買酒最便宜、島の駅買在地農產——香蕉生吐司記得帶一條。'],
  ['☀️','紫外線非常強：帽子、太陽眼鏡、防曬（珊瑚友善）、水壺缺一不可；正中午盡量安排室內或有遮蔭的點。'],
  ['🎐','7–9 月是ハブクラゲ（箱水母）高峰：盡量在有防護網的海域下水（與那霸前濱等），被螫先用「醋」沖、不要用清水搓；新城、砂山等天然海灘注意離岸流，不單獨下水。'],
- ['💴','很多食堂與小店只收現金：準備足夠日幣，郵局與 FamilyMart ATM 可跨國提領；San-A 滿 5,000 日圓可免稅，記得帶護照。'],
+ ['💴','很多食堂與小店只收現金：準備足夠日幣，郵局與 FamilyMart ATM 可跨國提領；San-A 滿 5,000 日圓可免稅，記得帶護照。海灘淋浴多為 ¥100 投幣式，口袋常備幾枚硬幣。'],
  ['🚗','右駕靠左行駛：台灣駕照需附「日文譯本」+ 護照；停紅燈禁止左轉（與台灣右轉習慣不同）。'],
  ['⛽','雙保險加油：Day 5 晚餐後先在市區 Showa Shell 西里加滿（–20:30，比伊良部便宜約 ¥20/L）；Day 6 還車前再到伊良部 apollostation みなみ給油所（已排入行程，就在なかゆくい商店旁）補到全滿。兩張收據都留給還車櫃檯最保險。'],
  ['📅','店休地雷日：週三是宮古島店休大宗（丸吉只開三四六日、Ninufa/Kiari 等也有固定休）；出發當天早上再用 Google Maps 確認「營業中」最保險。'],
@@ -585,18 +687,238 @@ function renderInfo(){
   </div>`).join('');
   const noteHtml=`<div class="sec"><h3>⚠️ 需要注意的事項</h3>
     ${NOTES.map(n=>`<div class="note"><span class="em">${n[0]}</span><span>${n[1]}</span></div>`).join('')}</div>`;
-  main.innerHTML=`<div class="info">
+  main.innerHTML=`<div class="info">${typeof backBar==='function'?backBar():''}
     <div class="pagehead"><div class="big">必買 & 注意</div>
     <div class="sub2">Shopping list · Before you go</div>
     <div class="progwrap"><div class="progtxt"><span>採買進度</span><span id="progtxt"></span></div>
     <div class="progbar"><i id="progfill"></i></div></div></div>
     ${buyHtml}${noteHtml}${ART_WAVE}</div>`;
   main.querySelectorAll('.chk input').forEach(el=>el.onchange=()=>{chkState[el.dataset.id]=el.checked;updateProg();});
+  bindBack();
   updateProg();
   activeLayer.remove();activeLayer=L.layerGroup().addTo(map);
   curFit={pts:allPts,pad:30,maxZoom:18};
   map.fitBounds(L.latLngBounds(allPts),{padding:[30,30]});
 }
+/* ---------- 工具：匯率兌換 & 記帳 ---------- */
+const store={
+  get(k,dv){try{const v=localStorage.getItem('miyako_'+k);return v==null?dv:JSON.parse(v);}catch(e){return this._m&&k in this._m?this._m[k]:dv;}},
+  set(k,v){try{localStorage.setItem('miyako_'+k,JSON.stringify(v));}catch(e){(this._m=this._m||{})[k]=v;}}
+};
+let fxRate=store.get('rate',0.205);           // 1 JPY = ? TWD（可自行修改）
+let ledger=store.get('ledger',[]);            // {who,amt,note,ts}
+let curWho=store.get('who','Julie');
+const WHOC={'Julie':'#8E76D6','劭':'#0C6E9C'};
+const nf=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:0});
+const nf2=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:2});
+
+function settleCalc(){
+  const tot=ledger.reduce((a,e)=>a+e.amt,0);
+  const j=ledger.filter(e=>e.who==='Julie').reduce((a,e)=>a+e.amt,0);
+  const st=ledger.filter(e=>e.who==='劭').reduce((a,e)=>a+e.amt,0);
+  const half=tot/2, diff=(j-st)/2;   // >0：劭 要給 Julie
+  return {tot,j,st,half,diff};
+}
+/* ---------- 旅程：航班·飯店·天氣 ---------- */
+const WXE=c=>c===0?'☀️':c<=2?'🌤️':c===3?'☁️':c<49?'🌫️':c<58?'🌦️':c<66?'🌧️':c<78?'🌧️':c<83?'🌧️':c<95?'🌧️':'⛈️';
+function renderTrip(){
+  const main=document.getElementById('main');
+  main.innerHTML=`<div class="tool">${backBar()}
+    <div class="sec"><h3>✈️ 航班（星宇航空）</h3>
+      <div class="fcard"><div class="frow"><span class="fbadge">去程 · 7/20（一）</span><span class="fno">JX890</span></div>
+        <div class="fseg"><div class="pt"><b>10:40</b><span>TPE 桃園</span></div><div class="arrow">✈</div><div class="pt" style="text-align:right"><b>13:00</b><span>SHI 下地島</span></div></div></div>
+      <div class="fcard"><div class="frow"><span class="fbadge">回程 · 7/25（六）</span><span class="fno">JX891</span></div>
+        <div class="fseg"><div class="pt"><b>14:00</b><span>SHI 下地島</span></div><div class="arrow">✈</div><div class="pt" style="text-align:right"><b>14:10</b><span>TPE 桃園</span></div></div></div>
+      <div class="wxnote">時間皆為當地時間（日本比台灣快 1 小時）· 出發前 48 小時記得線上報到</div>
+    </div>
+    <div class="sec"><h3>🏨 住宿</h3>
+      <div class="hotelrow"><span class="hl">飯店</span><span>Canopy by Hilton 沖縄宮古島リゾート</span></div>
+      <div class="hotelrow"><span class="hl">日期</span><span>7/20（一）入住 – 7/25（六）退房 · 5 晚</span></div>
+      <div class="hotelrow"><span class="hl">確認號</span><b>3479692495</b></div>
+      <div class="hotelrow"><span class="hl">電話</span><a href="tel:+81980753330" style="color:var(--sea-deep);font-weight:700;text-decoration:none">+81 980-75-3330</a></div>
+      <div class="hotelrow"><span class="hl">已代訂</span><span>アンドミヤコ 7/22（三）18:00 · 2 名（野口さん協助）</span></div>
+      <div class="hotelrow"><span class="hl">地圖</span><a target="_blank" rel="noopener" href="${D(24.7994493,125.2592204,'ChIJyREvegBV9DQRK4b4ZndUclE')}" style="color:var(--sea-deep);font-weight:700;text-decoration:none">開啟 Google 地圖 ↗</a></div>
+    </div>
+    <div class="sec"><h3>🌤 行程天氣（7/20–7/25）</h3>
+      <div class="wxgrid" id="wxgrid"><div style="grid-column:1/-1;color:var(--muted);font-size:13px;padding:8px 0">取得天氣中…</div></div>
+      <div class="wxnote">資料：Open-Meteo 即時預報，每次打開自動更新；7 月是颱風季，也請搭配日本氣象廳（jma.go.jp）颱風路徑確認。</div>
+    </div>
+  </div>`;
+  bindBack();loadWx();
+  activeLayer.remove();activeLayer=L.layerGroup().addTo(map);
+  curFit={pts:allPts,pad:30,maxZoom:18};
+  map.fitBounds(L.latLngBounds(allPts),{padding:[30,30]});
+}
+function loadWx(){
+  const g=document.getElementById('wxgrid');if(!g)return;
+  const cache=store.get('wx',null);
+  const draw=d=>{
+    const today=new Date().toISOString().slice(0,10);
+    g.innerHTML=d.time.map((t,i)=>{
+      const dd=new Date(t+'T00:00:00');
+      const lbl=(dd.getMonth()+1)+'/'+dd.getDate()+'（'+'日一二三四五六'[dd.getDay()]+'）';
+      return `<div class="wx ${t===today?'today':''}">
+        <div class="d">${lbl}</div><div class="e">${WXE(d.weathercode[i])}</div>
+        <div class="t"><b>${Math.round(d.temperature_2m_max[i])}°</b> <span>${Math.round(d.temperature_2m_min[i])}°</span></div>
+        <div class="r">💧${d.precipitation_probability_max[i]}%</div></div>`;
+    }).join('');
+  };
+  if(cache&&Date.now()-cache.ts<3*3600e3){draw(cache.d);return;}
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=24.805&longitude=125.281&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&start_date=2026-07-20&end_date=2026-07-25')
+    .then(r=>r.json()).then(j=>{store.set('wx',{ts:Date.now(),d:j.daily});draw(j.daily);})
+    .catch(()=>{if(cache)draw(cache.d);else g.innerHTML='<div style="grid-column:1/-1;color:var(--muted);font-size:13px;padding:8px 0">暫時無法取得天氣（需要網路），出發前再打開更新即可。</div>';});
+}
+
+function backBar(){return `<button class="backhub" id="bkh">‹ 工具箱</button>`;}
+function bindBack(){const b=document.getElementById('bkh');if(b)b.onclick=renderHub;}
+function renderHub(){
+  const main=document.getElementById('main');
+  main.innerHTML=`<div class="tool">
+    <div class="hubhead"><div class="big">工具箱</div><div class="sub2">Trip toolkit</div></div>
+    <div class="hub">
+      <button class="hcard" id="h1"><span class="hi">✈️</span><b>航班 · 天氣</b><small>JX890/891 · 每日預報</small></button>
+      <button class="hcard" id="h2"><span class="hi">🛍️</span><b>必買 & 注意</b><small>採買清單 · 行前提醒</small></button>
+      <button class="hcard" id="h3"><span class="hi">💱</span><b>匯率換算</b><small>日幣 ⇄ 台幣</small></button>
+      <button class="hcard" id="h4"><span class="hi">🧾</span><b>記帳分帳</b><small>Julie & 劭 · 匯出 Excel</small></button>
+    </div>
+  </div>`;
+  document.getElementById('h1').onclick=renderTrip;
+  document.getElementById('h2').onclick=renderInfo;
+  document.getElementById('h3').onclick=renderFx;
+  document.getElementById('h4').onclick=renderLedger;
+  activeLayer.remove();activeLayer=L.layerGroup().addTo(map);
+  curFit={pts:allPts,pad:30,maxZoom:18};
+  map.fitBounds(L.latLngBounds(allPts),{padding:[30,30]});
+}
+function renderFx(){
+  const main=document.getElementById('main');
+  main.innerHTML=`<div class="tool">${backBar()}
+    <div class="sec">
+      <h3>💱 日幣 ⇄ 台幣</h3>
+      <div class="fx">
+        <div class="cur"><label>JPY 日幣</label><input id="fxj" type="number" inputmode="decimal" placeholder="0"></div>
+        <div class="swap">⇄</div>
+        <div class="cur"><label>TWD 台幣</label><input id="fxt" type="number" inputmode="decimal" placeholder="0"></div>
+      </div>
+      <div class="rate">匯率：1 JPY = <input id="fxr" type="number" step="0.001" inputmode="decimal" value="${fxRate}"> TWD（可自行修改，出發前查即期匯率）</div>
+    </div>
+  </div>`;
+  bindBack();
+  const fj=document.getElementById('fxj'),ft=document.getElementById('fxt'),fr=document.getElementById('fxr');
+  fj.oninput=()=>{ft.value=fj.value===''?'':nf2(fj.value*fxRate).replace(/,/g,'');};
+  ft.oninput=()=>{fj.value=ft.value===''?'':nf2(ft.value/fxRate).replace(/,/g,'');};
+  fr.onchange=()=>{const v=parseFloat(fr.value);if(v>0){fxRate=v;store.set('rate',v);fj.oninput();}};
+  activeLayer.remove();activeLayer=L.layerGroup().addTo(map);
+  curFit={pts:allPts,pad:30,maxZoom:18};
+  map.fitBounds(L.latLngBounds(allPts),{padding:[30,30]});
+}
+function renderLedger(){
+  const main=document.getElementById('main');
+  main.innerHTML=`<div class="tool">${backBar()}
+    <div class="sec">
+      <h3>🧾 記帳 · 這筆誰付的？</h3>
+      <div class="payseg">
+        <button id="wJ" class="${curWho==='Julie'?'onJ':''}">Julie</button>
+        <button id="wS" class="${curWho==='劭'?'onS':''}">劭</button>
+      </div>
+      <div class="amtbox"><span class="yen">¥</span>
+        <input id="lgAmt" type="number" inputmode="decimal" placeholder="0">
+        <span class="twdhint" id="lgTwd"></span>
+      </div>
+      <input id="lgNote" type="text" placeholder="這筆是什麼？（選填，或點下面標籤）" style="width:100%;box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;padding:10px 11px;font-size:14px;background:var(--sand)">
+      <div class="chips" id="lgChips"></div>
+      <button class="bigadd" id="lgAdd">✓ 記下這筆</button>
+    </div>
+    <div class="sec">
+      <h3>📋 明細與分帳</h3>
+      <div class="lgl" id="lgList"></div>
+      <div id="lgBar"></div>
+      <div class="settle" id="lgSettle"></div>
+      <button class="xbtn" id="lgXls">📥 匯出 Excel（.xlsx）</button>
+    </div>
+  </div>`;
+  bindBack();
+  const amt=document.getElementById('lgAmt'),twd=document.getElementById('lgTwd'),note=document.getElementById('lgNote');
+  amt.oninput=()=>{twd.textContent=amt.value?('≈ NT$ '+nf(amt.value*fxRate)):'';};
+  const wJ=document.getElementById('wJ'),wS=document.getElementById('wS');
+  const setWho=w=>{curWho=w;store.set('who',w);
+    wJ.className=w==='Julie'?'onJ':'';wS.className=w==='劭'?'onS':'';};
+  wJ.onclick=()=>setWho('Julie');wS.onclick=()=>setWho('劭');
+  const chips=document.getElementById('lgChips');
+  ['晚餐','午餐','咖啡','伴手禮','超市','加油','門票','交通'].forEach(c=>{
+    const b=document.createElement('button');b.textContent=c;
+    b.onclick=()=>{note.value=c;amt.focus();};chips.appendChild(b);});
+  document.getElementById('lgAdd').onclick=()=>{
+    const a=parseFloat(amt.value);
+    if(!a||a<=0){amt.focus();return;}
+    ledger.push({who:curWho,amt:a,note:note.value.trim()||'未命名',ts:Date.now()});
+    store.set('ledger',ledger);amt.value='';twd.textContent='';note.value='';renderLg();
+    const ab=document.getElementById('lgAdd');ab.textContent='✓ 已記下！';ab.style.background='#1E9E6A';
+    setTimeout(()=>{ab.textContent='✓ 記下這筆';ab.style.background='';},900);
+  };
+  document.getElementById('lgXls').onclick=exportXlsx;
+  renderLg();
+  activeLayer.remove();activeLayer=L.layerGroup().addTo(map);
+  curFit={pts:allPts,pad:30,maxZoom:18};
+  map.fitBounds(L.latLngBounds(allPts),{padding:[30,30]});
+}
+function renderLg(){
+  const list=document.getElementById('lgList'),st=document.getElementById('lgSettle');
+  if(!list)return;
+  list.innerHTML=ledger.length?ledger.map((e,i)=>`<div class="lgi">
+    <span class="w8" style="background:${WHOC[e.who]}">${e.who}</span>
+    <span>${e.note}</span>
+    <span class="amt">¥${nf(e.amt)} <small style="color:var(--muted)">≈NT$${nf(e.amt*fxRate)}</small></span>
+    <button class="del" data-i="${i}" aria-label="刪除">✕</button>
+  </div>`).join(''):'<div style="padding:12px 0;color:var(--muted);font-size:13px">還沒有記錄，上面記第一筆吧</div>';
+  list.querySelectorAll('.del').forEach(b=>b.onclick=()=>{ledger.splice(+b.dataset.i,1);store.set('ledger',ledger);renderLg();});
+  const c=settleCalc();
+  const bar=document.getElementById('lgBar');
+  if(bar)bar.innerHTML=ledger.length&&c.tot>0?`<div class="paybar">
+      <i style="width:${c.j/c.tot*100}%;background:#8E76D6"></i>
+      <i style="width:${c.st/c.tot*100}%;background:#0C6E9C"></i></div>
+    <div class="paylbl"><span style="color:#8E76D6">Julie ¥${nf(c.j)}</span><span style="color:#0C6E9C">劭 ¥${nf(c.st)}</span></div>`:'';
+  const pay=c.diff>0?{from:'劭',fc:'S',to:'Julie',tc:'J',amt:c.diff}:{from:'Julie',fc:'J',to:'劭',tc:'S',amt:-c.diff};
+  st.innerHTML=ledger.length?`
+    <div class="stat"><span>總支出</span><b>¥${nf(c.tot)}</b><i>≈ NT$ ${nf(c.tot*fxRate)}</i></div>
+    ${Math.abs(c.diff)<1
+      ?`<div class="even">🎉 剛好平帳，誰都不用給誰</div>`
+      :`<div class="transfer">
+          <div class="tsent"><b class="n${pay.fc}">${pay.from}</b><span class="tgive">要給</span><b class="n${pay.tc}">${pay.to}</b></div>
+          <b class="tamt">¥${nf(pay.amt)}</b>
+          <i class="tntd">≈ NT$ ${nf(pay.amt*fxRate)}</i>
+        </div>`}`:'';
+}
+function exportXlsx(){
+  const btn=document.getElementById('lgXls');btn.disabled=true;btn.textContent='產生中…';
+  const build=()=>{
+    const c=settleCalc();
+    const rows=[['日期','付款人','項目','日幣 ¥','台幣 NT$（匯率 '+fxRate+'）']];
+    ledger.forEach(e=>rows.push([new Date(e.ts).toLocaleDateString('zh-TW'),e.who,e.note,e.amt,Math.round(e.amt*fxRate)]));
+    rows.push([],['總支出','','',c.tot,Math.round(c.tot*fxRate)],
+      ['Julie 已付','','',c.j,Math.round(c.j*fxRate)],['劭 已付','','',c.st,Math.round(c.st*fxRate)],
+      ['結算','',(Math.abs(c.diff)<1?'平帳':c.diff>0?'劭 → Julie':'Julie → 劭'),Math.round(Math.abs(c.diff)),Math.round(Math.abs(c.diff)*fxRate)]);
+    const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=[{wch:12},{wch:8},{wch:22},{wch:12},{wch:16}];
+    const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'宮古島旅費');
+    XLSX.writeFile(wb,'miyako-expenses.xlsx');
+    btn.disabled=false;btn.textContent='📥 匯出 Excel（.xlsx）';
+  };
+  if(window.XLSX){build();return;}
+  const sc=document.createElement('script');
+  sc.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  sc.onload=build;
+  sc.onerror=()=>{ // 離線備援：CSV（Excel 可直接開）
+    const c=settleCalc();
+    let csv='\ufeff日期,付款人,項目,日幣,台幣\n';
+    ledger.forEach(e=>{csv+=`${new Date(e.ts).toLocaleDateString('zh-TW')},${e.who},"${e.note}",${e.amt},${Math.round(e.amt*fxRate)}\n`;});
+    csv+=`\n總支出,,,${c.tot},${Math.round(c.tot*fxRate)}\n結算,,${c.diff>0?'劭→Julie':'Julie→劭'},${Math.round(Math.abs(c.diff))},\n`;
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+    a.download='miyako-expenses.csv';a.click();
+    btn.disabled=false;btn.textContent='📥 匯出 Excel（.xlsx）';
+  };
+  document.head.appendChild(sc);
+}
+
 function scrollToContent(){
   const nav=document.getElementById('daynav');
   const top=nav.getBoundingClientRect().top+window.scrollY;
@@ -612,12 +934,12 @@ days.forEach((d,i)=>{
     b.setAttribute('aria-selected','true');render(i);scrollToContent();b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});};
   nav.appendChild(b);
 });
-const ib=document.createElement('button');
-ib.className='pill list';ib.setAttribute('role','tab');ib.setAttribute('aria-selected','false');
-ib.innerHTML=`必買·注意<small>LIST</small>`;
-ib.onclick=()=>{[...nav.children].forEach(c=>c.setAttribute('aria-selected','false'));
-  ib.setAttribute('aria-selected','true');renderInfo();scrollToContent();ib.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});};
-nav.appendChild(ib);
+const mb=document.createElement('button');
+mb.className='pill toolbox';mb.setAttribute('role','tab');mb.setAttribute('aria-selected','false');
+mb.innerHTML=`🧰 工具箱<small>MORE</small>`;
+mb.onclick=()=>{[...nav.children].forEach(c=>c.setAttribute('aria-selected','false'));
+  mb.setAttribute('aria-selected','true');renderHub();scrollToContent();mb.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});};
+nav.appendChild(mb);
 render(0);
 </script>
 <template id="__bundler_thumbnail">
