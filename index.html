@@ -173,7 +173,7 @@
   .hcard{display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:#fff;border:1px solid var(--hair);
     border-radius:16px;padding:16px 15px 14px;cursor:pointer;text-align:left;box-shadow:var(--shadow);transition:transform .12s}
   .hcard:active{transform:scale(.97)}
-  .hcard .hi{font-size:30px;line-height:1.2;margin-bottom:4px}
+  .hcard .hi{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:5px}
   .hcard b{font-size:15px;color:var(--ink)}
   .hcard small{font-size:11px;color:var(--muted);line-height:1.45}
   .backhub{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--hair);background:#fff;color:var(--sea-deep);
@@ -238,6 +238,8 @@
   .paybar i{display:block;height:100%}
   .paylbl{display:flex;justify-content:space-between;font-size:11.5px;font-family:"DM Mono",monospace;color:var(--muted);margin-bottom:8px}
   .lgl{border-top:1px dashed var(--hair)}
+  .lgd{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.1em;color:var(--sea-deep);
+    background:var(--turq-soft);border-radius:999px;display:inline-block;padding:3px 11px;margin:11px 0 3px}
   .lgi{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--hair);font-size:13px}
   .lgi .w8{flex:0 0 auto;font-weight:800;border-radius:999px;padding:2px 9px;font-size:11px;color:#fff}
   .lgi .amt{font-family:"DM Mono",monospace;margin-left:auto;white-space:nowrap}
@@ -361,17 +363,16 @@ const ART_PARASOL=`<svg class="lead-art" viewBox="0 0 132 76" aria-hidden="true"
   </g>
   <g class="bob2">
     <g fill="#0A4E6E" stroke="#0A4E6E" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="78" cy="33" r="5.5" stroke="none"/>
-      <path d="M83 29q5 .5 4.5 6.5q-2.5-3-4.5-3z" stroke="none"/>
-      <path d="M74.5 39.5h7l3.5 19h-14z" stroke="none"/>
-      <path d="M76 58.5l-.6 6.5M80 58.5l.6 6.5" stroke-width="2.8" fill="none"/>
-      <path d="M77 42l-6.5-5M79.5 43l12 5" stroke-width="2.8" fill="none"/>
-      <circle cx="106" cy="32" r="5.5" stroke="none"/>
-      <path d="M102.5 38.5h7v14h-7z" stroke="none"/>
-      <path d="M104 52.5l-1 12M108 52.5l1 12" stroke-width="2.8" fill="none"/>
-      <path d="M104.5 41.5l-13 6M107.5 41l6.5-6.5" stroke-width="2.8" fill="none"/>
+      <circle cx="86" cy="42" r="5.5" stroke="none"/>
+      <path d="M89 38q4.5 1 4 6.5q-2.3-2.7-4.3-3z" stroke="none"/>
+      <path d="M82 48.5h8l1.5 13.5h-11z" stroke="none"/>
+      <path d="M82.5 50.5l-5.5 5.5" stroke-width="2.8" fill="none"/>
+      <circle cx="103" cy="39" r="5.5" stroke="none"/>
+      <path d="M99 45.5h8l1.5 16.5h-11z" stroke="none"/>
+      <path d="M108 48.5l6 6.5" stroke-width="2.8" fill="none"/>
+      <path d="M99.5 48.5q-6 4-9.5 3.5" stroke-width="2.8" fill="none"/>
     </g>
-    <path d="M91.8 41.5c-1.2-1.2-3.2-.3-3.2 1.2 0 1.6 2 2.8 3.2 3.4 1.2-.6 3.2-1.8 3.2-3.4 0-1.5-2-2.4-3.2-1.2z" fill="#17B9C6"/>
+    <path d="M95 27.6c-1.4-1.4-3.8-.4-3.8 1.4 0 1.9 2.4 3.3 3.8 4 1.4-.7 3.8-2.1 3.8-4 0-1.8-2.4-2.8-3.8-1.4z" fill="#17B9C6"/>
   </g>
   <path d="M4 66q9-7 18 0t18 0t18 0t18 0t18 0t18 0t18 0" fill="none" stroke="#7FE0DD" stroke-width="3" stroke-linecap="round"/>
 </svg>`;
@@ -427,7 +428,7 @@ const days=[
    {t:'16:15',c:'景點',name:'イムギャーマリンガーデン',en:'環礁潟湖 · 環灣步道展望台',drive:'午餐處約 10 分',tip:'內灣平靜好走，飯後散步剛好；雨天可改ユートピアファーム熱帶果園（4.4★，芒果聖代）',lat:24.7247007,lng:125.3583502,pid:'ChIJH9px0qVX9DQRqBB2sPVZ0t0'},
    {t:'16:50',c:'冰·咖啡',name:'Blue Turtle Farm Mango Cafe（選配）',en:'芒果農園咖啡 · 7 月正值產季',open:'10:00–17:30',tip:'回程順路：產季芒果聖代必吃、叢林系空間好拍，17:30 關門抓緊',lat:24.7747453,lng:125.2948238,pid:'ChIJWZa9-ShV9DQRGL6fq1gsht4'},
    {t:'17:15',c:'購物',name:'島の駅みやこ',en:'在地物產直賣所',open:'7:30–18:00',drive:'回程順路 · 飯店約 5 分',tip:'宮古牛便當/現烤麵包/當季芒果，伴手禮比機場便宜，18:00 關門抓緊',lat:24.7958761,lng:125.2742848,pid:'ChIJBedbNXJU9DQRtQXKX09HOPw'},
-   {t:'18:30',c:'晚餐',name:'しゃぶ禅や Shabuzenya',en:'あぐー豚涮涮鍋專門店 · 全席禁菸/有個室',open:'17:00–23:00 每日',tip:'豚匠訂不到的最佳替代：宮古 No.1 阿古豬+雪鹽蛤蜊/石蓴海藻雙湯底，牛舌握壽司也必點；Tabelog 可線上訂位',lat:24.8041645,lng:125.2795736,pid:'ChIJywMekvtT9DQRXG8_qHHWtLU',
+   {t:'20:00',c:'晚餐',name:'しゃぶ禅や Shabuzenya',en:'✅ 已訂位 20:00 · 2 名 · 全席禁菸/有個室',open:'17:00–23:00 每日',tip:'宮古 No.1 阿古豬+雪鹽蛤蜊/石蓴海藻雙湯底，牛舌握壽司也必點；晚餐前的空檔（18:00–20:00）可先回飯店泳池或頂樓看夕陽休息',lat:24.8041645,lng:125.2795736,pid:'ChIJywMekvtT9DQRXG8_qHHWtLU',
     alts:[
      {tag:'涮涮鍋',name:'しゃぶ邸 百八',rate:4.7,cnt:79,note:'阿古豬涮涮鍋+不定期三線現場演奏 · Tabelog 標示全席禁菸/有個室 · 老闆體貼細心（11:30–24:00 每日）',lat:24.8048821,lng:125.2777561,pid:'ChIJOVQ9urRT9DQROS8KzEkf0m0',ph:'+81 980-79-6905'},
      {tag:'日本料理',name:'日本料理 三感',rate:4.8,cnt:31,note:'宮古島少見的正統日料/懷石 · 榻榻米半包廂+QR 點餐 · 離豚匠原址 70m 超近（18:00–22:30，週日休）',lat:24.8027395,lng:125.281867,pid:'ChIJBZ6nmH9T9DQRkvyOAA9dYqc',ph:'+81 980-79-5889'},
@@ -436,7 +437,7 @@ const days=[
      {tag:'西式',name:'The Gozero Grill',rate:4.3,cnt:162,note:'西式小酒館換換口味 · 海鮮義大利麵/炙燒鮪魚前菜 · 店員會英文 · 現代明亮空間',lat:24.8012196,lng:125.2838192,pid:'ChIJ3XkiwbFT9DQReD_6q7eY0vc'},
      {tag:'義式',name:'trattoria IPPO',rate:4.8,cnt:16,note:'手打義大利麵 × 葡萄酒 · 大人系隱密小店 · 全店無菸（18:00 開，週四休）',lat:24.8061621,lng:125.2792903,pid:'ChIJpweZlSBT9DQRlu1lg5b-j9k',ph:'+81 980-79-5084'}
     ]},
-   {t:'20:30',c:'購物',name:'AEON Town 宮古南（選配）',en:'超市 24h + 藥妝 + 百圓店',open:'MAXVALU 超市 24 小時',drive:'晚餐處約 7 分',tip:'一站購足：伴手禮/零食/隔日早餐，現烤鹽奶油麵包好評；專門店約 21–22 點關、超市不打烊',lat:24.7877418,lng:125.2806897,pid:'ChIJB65gMm1U9DQR82shTzA-E7A'}
+   {t:'21:45',c:'購物',name:'AEON Town 宮古南（選配）',en:'超市 24h + 藥妝 + 百圓店',open:'MAXVALU 超市 24 小時',drive:'晚餐處約 7 分',tip:'一站購足：伴手禮/零食/隔日早餐，現烤鹽奶油麵包好評；專門店約 21–22 點關、超市不打烊',lat:24.7877418,lng:125.2806897,pid:'ChIJB65gMm1U9DQR82shTzA-E7A'}
   ]},
  {n:3,date:'7/22',wd:'WED',theme:'太陽陶窯 · 來間 · 前濱',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7258801%2C125.3486466%7C24.7316398%2C125.3517456%7C24.7212819%2C125.2575638%7C24.7249593%2C125.2512719%7C24.7260129%2C125.2516393%7C24.7349726%2C125.2629745%7C24.8020797%2C125.280613',
@@ -466,7 +467,8 @@ const days=[
      {tag:'民謠居酒屋',name:'和おん・♪ Waon',rate:4.5,cnt:211,note:'Threads 推薦 · 夫妻經營的島唄 live 居酒屋（每晚一場約 19:30）· 沖繩料理偏甜合台灣胃 · iPad 點餐 · 座位少務必訂位（18:00–21:30，週四日休、週三有開）',lat:24.8026361,lng:125.2829244,pid:'ChIJn8-pr_RT9DQRpxlnXzsTAQw',ph:'+81 980-73-5275'},
      {tag:'拉麵',name:'らーめん蔵之介',rate:4.5,cnt:153,note:'宮古味噌拉麵+煎餃高評價 · QR 點餐有英文 · 現代明亮店面 · 17–20 生啤 Happy Hour ¥300（週五休）',lat:24.7930409,lng:125.2902635,pid:'ChIJXQ6QcztV9DQRn97190WWg2c',ph:'+81 980-79-7773'}
     ]},
-   {t:'20:30',c:'購物',name:'ドラッグストアモリ 宮古島（選配）',en:'藥妝掃貨 · 開到半夜 12 點',open:'9:00–24:00 每日 · 可免稅',drive:'晚餐處約 5 分',tip:'合利他命/EVE/休足時間/曬後蘆薈膠一次補齊，帶護照可免稅；評論有台灣旅客受傷獲店員暖心協助的五星好評',lat:24.792478,lng:125.29535,pid:'ChIJAyru7gZU9DQR4O-PhmDIeGc'}
+   {t:'20:30',c:'購物',name:'ドラッグストアモリ 宮古島（選配）',en:'藥妝掃貨 · 開到半夜 12 點',open:'9:00–24:00 每日 · 可免稅',drive:'晚餐處約 5 分',tip:'合利他命/EVE/休足時間/曬後蘆薈膠一次補齊，帶護照可免稅；評論有台灣旅客受傷獲店員暖心協助的五星好評',lat:24.792478,lng:125.29535,pid:'ChIJAyru7gZU9DQR4O-PhmDIeGc'},
+   {t:'21:30',c:'景點',name:'銀河攝影 · 星空フォト（預計安排）',en:'請攝影師拍銀河合照 · 約 60 分',open:'常見集合：與那霸前濱或砂山',lat:24.7349726,lng:125.2629745,pid:'ChIJOfnsBJBV9DQRA0W-m-UpUUo'}
   ]},
  {n:4,date:'7/23',wd:'THU',theme:'砂山 · 池間島',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.8395634%2C125.2806924%7C24.877956%2C125.288553%7C24.9080822%2C125.258247%7C24.9200526%2C125.2604759%7C24.9299217%2C125.2334483%7C24.9022357%2C125.2683734%7C24.8039931%2C125.2812135%7C24.8044446%2C125.2816475',
@@ -736,7 +738,6 @@ function renderTrip(){
       <div class="hotelrow"><span class="hl">日期</span><span>7/20（一）入住 – 7/25（六）退房 · 5 晚</span></div>
       <div class="hotelrow"><span class="hl">確認號</span><b>3479692495</b></div>
       <div class="hotelrow"><span class="hl">電話</span><a href="tel:+81980753330" style="color:var(--sea-deep);font-weight:700;text-decoration:none">+81 980-75-3330</a></div>
-      <div class="hotelrow"><span class="hl">已代訂</span><span>アンドミヤコ 7/22（三）18:00 · 2 名（野口さん協助）</span></div>
       <div class="hotelrow"><span class="hl">地圖</span><a target="_blank" rel="noopener" href="${D(24.7994493,125.2592204,'ChIJyREvegBV9DQRK4b4ZndUclE')}" style="color:var(--sea-deep);font-weight:700;text-decoration:none">開啟 Google 地圖 ↗</a></div>
     </div>
     <div class="sec"><h3>🌤 行程天氣（7/20–7/25）</h3>
@@ -776,10 +777,10 @@ function renderHub(){
   main.innerHTML=`<div class="tool">
     <div class="hubhead"><div class="big">工具箱</div><div class="sub2">Trip toolkit</div></div>
     <div class="hub">
-      <button class="hcard" id="h1"><span class="hi">✈️</span><b>航班 · 天氣</b><small>JX890/891 · 每日預報</small></button>
-      <button class="hcard" id="h2"><span class="hi">🛍️</span><b>必買 & 注意</b><small>採買清單 · 行前提醒</small></button>
-      <button class="hcard" id="h3"><span class="hi">💱</span><b>匯率換算</b><small>日幣 ⇄ 台幣</small></button>
-      <button class="hcard" id="h4"><span class="hi">🧾</span><b>記帳分帳</b><small>Julie & 劭 · 匯出 Excel</small></button>
+      <button class="hcard" id="h1"><span class="hi" style="background:var(--sea)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="5.5" r="2" fill="#FFD66B" stroke="none"></circle><path d="M4 13.5 21 6.5l-6 15-2.8-6.7L4 13.5z"></path></svg></span><b>航班 · 天氣</b><small>JX890/891 · 每日預報</small></button>
+      <button class="hcard" id="h2"><span class="hi" style="background:var(--turq)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 8.3h11.6l1.1 12.2H5.1L6.2 8.3z"></path><path d="M9.3 8.3V6.6a2.7 2.7 0 0 1 5.4 0v1.7"></path></svg></span><b>必買 & 注意</b><small>採買清單 · 行前提醒</small></button>
+      <button class="hcard" id="h3"><span class="hi" style="background:var(--sun)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#08313F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="5.4"></circle><path d="M6.5 5.6l2 2.7 2-2.7M8.5 8.3v2.5M6.8 9.2h3.4"></path><path d="M14 15.5h6.5m0 0-2.2-2.2"></path><path d="M20.5 21H14m0 0 2.2-2.2"></path></svg></span><b>匯率換算</b><small>日幣 ⇄ 台幣</small></button>
+      <button class="hcard" id="h4"><span class="hi" style="background:var(--violet)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h11V20.5l-1.85-1.4-1.83 1.4-1.82-1.4-1.82 1.4-1.83-1.4L6.5 20.5V3.5z"></path><path d="M9.5 8h5M9.5 11.5h5M9.5 15h3"></path></svg></span><b>記帳分帳</b><small>Julie & 劭 · 匯出 Excel</small></button>
     </div>
   </div>`;
   document.getElementById('h1').onclick=renderTrip;
@@ -825,7 +826,10 @@ function renderLedger(){
         <input id="lgAmt" type="number" inputmode="decimal" placeholder="0">
         <span class="twdhint" id="lgTwd"></span>
       </div>
-      <input id="lgNote" type="text" placeholder="這筆是什麼？（選填，或點下面標籤）" style="width:100%;box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;padding:10px 11px;font-size:14px;background:var(--sand)">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:8px">
+        <input id="lgNote" type="text" placeholder="這筆是什麼？（選填，或點下面標籤）" style="box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;padding:10px 11px;font-size:14px;background:var(--sand);min-width:0">
+        <input id="lgDate" type="date" value="${new Date().toISOString().slice(0,10)}" style="box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;padding:10px 9px;font-size:13px;font-family:'DM Mono',monospace;background:var(--sand);color:var(--ink)">
+      </div>
       <div class="chips" id="lgChips"></div>
       <button class="bigadd" id="lgAdd">✓ 記下這筆</button>
     </div>
@@ -851,7 +855,8 @@ function renderLedger(){
   document.getElementById('lgAdd').onclick=()=>{
     const a=parseFloat(amt.value);
     if(!a||a<=0){amt.focus();return;}
-    ledger.push({who:curWho,amt:a,note:note.value.trim()||'未命名',ts:Date.now()});
+    const dv=document.getElementById('lgDate').value||new Date().toISOString().slice(0,10);
+    ledger.push({who:curWho,amt:a,note:note.value.trim()||'未命名',d:dv,ts:Date.now()});
     store.set('ledger',ledger);amt.value='';twd.textContent='';note.value='';renderLg();
     const ab=document.getElementById('lgAdd');ab.textContent='✓ 已記下！';ab.style.background='#1E9E6A';
     setTimeout(()=>{ab.textContent='✓ 記下這筆';ab.style.background='';},900);
@@ -865,12 +870,23 @@ function renderLedger(){
 function renderLg(){
   const list=document.getElementById('lgList'),st=document.getElementById('lgSettle');
   if(!list)return;
-  list.innerHTML=ledger.length?ledger.map((e,i)=>`<div class="lgi">
-    <span class="w8" style="background:${WHOC[e.who]}">${e.who}</span>
-    <span>${e.note}</span>
-    <span class="amt">¥${nf(e.amt)} <small style="color:var(--muted)">≈NT$${nf(e.amt*fxRate)}</small></span>
-    <button class="del" data-i="${i}" aria-label="刪除">✕</button>
-  </div>`).join(''):'<div style="padding:12px 0;color:var(--muted);font-size:13px">還沒有記錄，上面記第一筆吧</div>';
+  const eD=e=>e.d||new Date(e.ts).toISOString().slice(0,10);
+  const fmtD=d=>{const x=new Date(d+'T00:00:00');return (x.getMonth()+1)+'/'+x.getDate()+'（'+'日一二三四五六'[x.getDay()]+'）';};
+  if(ledger.length){
+    const idx=ledger.map((e,i)=>({e,i})).sort((a,b)=>eD(a.e)===eD(b.e)?a.e.ts-b.e.ts:(eD(a.e)<eD(b.e)?-1:1));
+    let html='',last='';
+    idx.forEach(({e,i})=>{
+      const d=eD(e);
+      if(d!==last){html+=`<div class="lgd">${fmtD(d)}</div>`;last=d;}
+      html+=`<div class="lgi">
+        <span class="w8" style="background:${WHOC[e.who]}">${e.who}</span>
+        <span>${e.note}</span>
+        <span class="amt">¥${nf(e.amt)} <small style="color:var(--muted)">≈NT$${nf(e.amt*fxRate)}</small></span>
+        <button class="del" data-i="${i}" aria-label="刪除">✕</button>
+      </div>`;
+    });
+    list.innerHTML=html;
+  }else list.innerHTML='<div style="padding:12px 0;color:var(--muted);font-size:13px">還沒有記錄，上面記第一筆吧</div>';
   list.querySelectorAll('.del').forEach(b=>b.onclick=()=>{ledger.splice(+b.dataset.i,1);store.set('ledger',ledger);renderLg();});
   const c=settleCalc();
   const bar=document.getElementById('lgBar');
@@ -894,7 +910,7 @@ function exportXlsx(){
   const build=()=>{
     const c=settleCalc();
     const rows=[['日期','付款人','項目','日幣 ¥','台幣 NT$（匯率 '+fxRate+'）']];
-    ledger.forEach(e=>rows.push([new Date(e.ts).toLocaleDateString('zh-TW'),e.who,e.note,e.amt,Math.round(e.amt*fxRate)]));
+    [...ledger].sort((a,b)=>((a.d||'')<(b.d||'')?-1:1)).forEach(e=>rows.push([e.d||new Date(e.ts).toISOString().slice(0,10),e.who,e.note,e.amt,Math.round(e.amt*fxRate)]));
     rows.push([],['總支出','','',c.tot,Math.round(c.tot*fxRate)],
       ['Julie 已付','','',c.j,Math.round(c.j*fxRate)],['劭 已付','','',c.st,Math.round(c.st*fxRate)],
       ['結算','',(Math.abs(c.diff)<1?'平帳':c.diff>0?'劭 → Julie':'Julie → 劭'),Math.round(Math.abs(c.diff)),Math.round(Math.abs(c.diff)*fxRate)]);
@@ -910,7 +926,7 @@ function exportXlsx(){
   sc.onerror=()=>{ // 離線備援：CSV（Excel 可直接開）
     const c=settleCalc();
     let csv='\ufeff日期,付款人,項目,日幣,台幣\n';
-    ledger.forEach(e=>{csv+=`${new Date(e.ts).toLocaleDateString('zh-TW')},${e.who},"${e.note}",${e.amt},${Math.round(e.amt*fxRate)}\n`;});
+    [...ledger].sort((a,b)=>((a.d||'')<(b.d||'')?-1:1)).forEach(e=>{csv+=`${e.d||new Date(e.ts).toISOString().slice(0,10)},${e.who},"${e.note}",${e.amt},${Math.round(e.amt*fxRate)}\n`;});
     csv+=`\n總支出,,,${c.tot},${Math.round(c.tot*fxRate)}\n結算,,${c.diff>0?'劭→Julie':'Julie→劭'},${Math.round(Math.abs(c.diff))},\n`;
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
     a.download='miyako-expenses.csv';a.click();
@@ -936,7 +952,7 @@ days.forEach((d,i)=>{
 });
 const mb=document.createElement('button');
 mb.className='pill toolbox';mb.setAttribute('role','tab');mb.setAttribute('aria-selected','false');
-mb.innerHTML=`🧰 工具箱<small>MORE</small>`;
+mb.innerHTML=`<span style="display:flex;align-items:center;gap:5px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8.5" width="17" height="11" rx="2"></rect><path d="M9 8.5V6.7A1.7 1.7 0 0 1 10.7 5h2.6A1.7 1.7 0 0 1 15 6.7v1.8"></path><path d="M3.5 13.2H10M14 13.2h6.5"></path><rect x="10" y="11.8" width="4" height="3" rx=".8" fill="currentColor" stroke="none"></rect></svg>工具箱</span><small>MORE</small>`;
 mb.onclick=()=>{[...nav.children].forEach(c=>c.setAttribute('aria-selected','false'));
   mb.setAttribute('aria-selected','true');renderHub();scrollToContent();mb.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});};
 nav.appendChild(mb);
