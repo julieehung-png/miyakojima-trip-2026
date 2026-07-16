@@ -27,7 +27,7 @@
   .app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;background:var(--sand);overflow-x:hidden}
 
   /* Map hero */
-  .maphero{position:relative;height:48vh;min-height:280px;max-height:400px;background:#bfe0ea}
+  .maphero{position:relative;height:38vh;min-height:250px;max-height:340px;background:#bfe0ea}
   #map{position:absolute;inset:0;width:100%;height:100%;z-index:1}
   .map-overlay{position:absolute;left:0;right:0;bottom:0;z-index:5;pointer-events:none;
     padding:36px 20px 26px;color:#fff;background:linear-gradient(transparent, rgba(6,40,54,.74) 62%)}
@@ -98,12 +98,13 @@
   .card h3{margin:0;font-size:16.5px;font-weight:700}
   .card .en{font-family:"DM Mono",monospace;font-size:11px;color:var(--muted);margin-top:1px}
   .meta{margin-top:9px;display:flex;flex-direction:column;gap:5px}
-  .meta .row{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.5}
+  .meta .row{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--muted);line-height:1.5}
   .meta .row svg{width:14px;height:14px;flex:0 0 auto;margin-top:3px;opacity:.85}
-  .meta .row.tip{color:var(--ink)}
+  .meta .row.tip{color:var(--ink);background:#FFF8E5;border:1px solid #F2DFC0;border-radius:11px;padding:9px 10px;margin-top:3px}
+  .meta .row.tip svg{color:#C98A00;opacity:1}
   .actions{margin-top:11px;display:flex;gap:8px;flex-wrap:wrap}
-  .maplink{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--sea-deep);
-    font-weight:700;font-size:13px;border:1.5px solid var(--hair);padding:7px 12px;border-radius:11px;transition:.15s ease}
+  .maplink{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;text-decoration:none;color:var(--sea-deep);
+    font-weight:700;font-size:13.5px;border:1.5px solid var(--hair);padding:9px 14px;border-radius:12px;transition:.15s ease}
   .maplink:active{background:var(--sand)}
   .maplink:focus-visible{outline:3px solid var(--turq);outline-offset:2px}
   .maplink svg{width:14px;height:14px}
@@ -265,6 +266,15 @@
   .xbtn{margin-top:12px;width:100%;background:var(--violet);color:#fff;border:none;border-radius:12px;padding:12px;font-weight:800;font-size:14px;cursor:pointer}
   .xbtn:disabled{opacity:.5}
 
+  .tool-fab{position:fixed;right:max(16px,calc((100vw - 480px)/2 + 16px));bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:30;
+    display:flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.72);border-radius:999px;
+    padding:11px 15px;background:var(--violet);color:#fff;font-family:"Zen Maru Gothic";font-size:13.5px;font-weight:900;
+    box-shadow:0 12px 26px -10px rgba(75,57,126,.62);cursor:pointer}
+  .tool-fab svg{width:17px;height:17px}
+  .tool-fab:active{transform:translateY(1px)}
+  .tool-fab:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+  @media (min-width:700px){.maphero{border-radius:0 0 24px 24px}}
+
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
   @keyframes drift{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
@@ -291,6 +301,10 @@
 
   <nav class="daynav" id="daynav" role="tablist" aria-label="選擇日期"></nav>
   <main id="main" role="tabpanel"></main>
+  <button class="tool-fab" id="toolFab" aria-label="開啟旅遊工具箱">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8.5" width="17" height="11" rx="2"></rect><path d="M9 8.5V6.7A1.7 1.7 0 0 1 10.7 5h2.6A1.7 1.7 0 0 1 15 6.7v1.8"></path><path d="M3.5 13.2H10M14 13.2h6.5"></path><rect x="10" y="11.8" width="4" height="3" rx=".8" fill="currentColor" stroke="none"></rect></svg>
+    工具箱
+  </button>
 
   <footer>
     <div class="beach" aria-hidden="true">
@@ -384,22 +398,18 @@ const ART_WAVE=`<div class="day-end" aria-hidden="true"><svg viewBox="0 0 120 20
 
 const days=[
  {n:1,date:'7/20',wd:'MON',theme:'抵達 · 下地島一日',
-  route:'https://www.google.com/maps/dir/?api=1&origin=24.8266,125.1447&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.812313%2C125.1826324%7C24.8073194%2C125.1942711%7C24.842318%2C125.140722%7C24.8236648%2C125.1361496%7C24.8217429%2C125.1724791%7C24.7950803%2C125.2564785',
+  route:'https://www.google.com/maps/dir/?api=1&origin=24.8266,125.1447&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.812313%2C125.1826324%7C24.842318%2C125.140722%7C24.8236648%2C125.1361496%7C24.8217429%2C125.1724791%7C24.7950803%2C125.2564785',
   stops:[
-   {t:'13:00',c:'機場',name:'みやこ下地島空港',en:'JX890 抵達 13:00 · 取車',drive:'落地辦租車約 30–45 分',lat:24.8266,lng:125.1447},
-   {t:'14:00',c:'午餐',name:'Blue Turtle',en:'伊良部島海景餐廳',open:'11:00–21:00 每日',drive:'機場約 10 分',tip:'龍蝦／漢堡咖哩，飯後有冰沙雪酪',lat:24.812313,lng:125.1826324,pid:'ChIJ4UHlGg2r9TQRbBVc5W_J1zI',
+   {t:'13:00',c:'機場',name:'みやこ下地島空港',en:'JX890 抵達 13:00 · 入境領行李',tip:'取車時間是 15:00，入境後可先在機場咖啡店休息、買點輕食墊胃',lat:24.8266,lng:125.1447},
+   {t:'15:00',c:'機場',name:'TOYOTA 租車取車',en:'下地島機場店 · 車型 C1',bk:'15:00',open:'預約番号 99978094000',tip:'記得帶：台灣駕照＋日文譯本＋護照；店電話 0980-75-0100（詳細資訊在工具箱→航班·天氣）',lat:24.8271782,lng:125.1489081},
+   {t:'15:20',c:'午餐',name:'Blue Turtle',en:'伊良部島海景餐廳',open:'11:00–21:00 每日',drive:'取車後約 10 分',tip:'龍蝦／漢堡咖哩，飯後有冰沙雪酪',lat:24.812313,lng:125.1826324,pid:'ChIJ4UHlGg2r9TQRbBVc5W_J1zI',
     alts:[
      {tag:'義式',name:'The Olivea',rate:4.9,cnt:35,note:'義式 × 宮古食材 · 正對伊良部大橋海景 · 午間套餐 CP 高（11:30–21:00）',lat:24.811536,lng:125.2173166,pid:'ChIJY1kSLrJV9DQRfIakp3fC6aw',ph:'+81 980-79-6541'},
      {tag:'海景餐廳',name:'Restaurant HoKuLaNi',rate:4.8,cnt:91,note:'佐和田海景餐廳 · 近 17END 順路 · 午餐 12:00–14:30',lat:24.8397085,lng:125.1598777,pid:'ChIJ-RzEQQCt9TQRIV6ogyNoTsA'},
      {tag:'宮古そば',name:'ニュー浜や New-Hamaya',rate:4.5,cnt:375,note:'伊良部長濱的排骨そば名店 · 份量超大湯頭喝到見底 · 貨櫃屋風明亮空間+黑糖布丁（9:00–20:00 每日；Day 6 離島日想簡單吃也順路）',lat:24.8215812,lng:125.1727201,pid:'ChIJFXfEgAmt9TQRhe_dXRcHy_s',ph:'+81 980-79-8971'}
     ]},
-   {t:'15:15',c:'冰·咖啡',name:'國仲商店（選配）',en:'伊良部自家烘焙咖啡 · 想歇腿再去',open:'8:00–19:00（週五六休）',tip:'黑糖拿鐵+現烤麵包，綠意庭園可久坐',lat:24.8285322,lng:125.1631996,pid:'ChIJgYtHeoqr9TQROiQl8fLY-oA',
-    alts:[
-     {tag:'咖啡',name:'Soraniwa Hotel & Cafe',rate:4.2,cnt:379,note:'伊良部海景飯店附設咖啡 · 法式薄餅/提拉米蘇 · 看海放空首選（11:30–18:00，週三休）',lat:24.8068206,lng:125.1963806,pid:'ChIJvVEVY0Gr9TQRL8-20pyOdpM'}
-    ]},
-   {t:'15:30',c:'購物',name:'DESLIE',en:'海系飾品 select shop',open:'10:00–17:00（週三休）',drive:'午餐處約 5 分',tip:'珊瑚/天然石手作飾品與泳裝小物，老闆英文流利，紀念小禮好選',lat:24.8073194,lng:125.1942711,pid:'ChIJJUD6Ym2r9TQRNonTKqFMOiA'},
-   {t:'16:10',c:'景點',name:'17END',en:'跑道盡頭夢幻漸層海',drive:'約 15 分',tip:'今天不用趕：卡位羽田線 16 點多降落從頭頂進場、17:10 起飛，可以待好待滿；車停管制柵欄前步行約 10 分。當天早上查 shimojishima.jp/flight 確認時刻',lat:24.842318,lng:125.140722,pid:'ChIJ_566wEut9TQRZ01ze1pYJV8'},
-   {t:'17:20',c:'景點',name:'通り池',en:'下地島天然雙池 · 龍宮傳說',open:'24h · 免費停車場',tip:'木棧道來回約 30 分，兩座相連的神祕天然池與海底洞穴相通；旁邊的「帯岩」是 1771 年海嘯搬上岸的兩萬噸巨岩，順路一看',lat:24.8236648,lng:125.1361496,pid:'ChIJWxeNweWr9TQRs76MjAFnCjk'},
+   {t:'16:20',c:'景點',name:'17END',en:'跑道盡頭夢幻漸層海',drive:'約 15 分',tip:'今天不用趕：卡位羽田線 16 點多降落從頭頂進場、17:10 起飛，可以待好待滿；車停管制柵欄前步行約 10 分。當天早上查 shimojishima.jp/flight 確認時刻',lat:24.842318,lng:125.140722,pid:'ChIJ_566wEut9TQRZ01ze1pYJV8'},
+   {t:'17:25',c:'景點',name:'通り池',en:'下地島天然雙池 · 龍宮傳說',open:'24h · 免費停車場',tip:'木棧道來回約 30 分，兩座相連的神祕天然池與海底洞穴相通；旁邊的「帯岩」是 1771 年海嘯搬上岸的兩萬噸巨岩，順路一看',lat:24.8236648,lng:125.1361496,pid:'ChIJWxeNweWr9TQRs76MjAFnCjk'},
    {t:'18:30',c:'晚餐',name:'焼肉CURURU',en:'伊良部 4.9★ 人氣燒肉',bk:'18:30',open:'16:00–23:00 每日',drive:'通り池約 12 分',tip:'4.9★ 神店：老闆會英文超親切、QR 翻譯菜單，宮古牛單人套餐可多部位嘗試，牛舌和小黃瓜小菜必點——評論說「17END 看完就該來這」，你們的動線剛剛好',lat:24.8217429,lng:125.1724791,pid:'ChIJL20kZRar9TQRmey1h-axPQw',
     alts:[
      {tag:'義式',name:'The Olivea',rate:4.9,cnt:35,note:'同在伊良部的晚餐備援 · 義式 × 宮古食材 · 正對大橋海景（11:30–21:00）',lat:24.811536,lng:125.2173166,pid:'ChIJY1kSLrJV9DQRfIakp3fC6aw',ph:'+81 980-79-6541'},
@@ -541,12 +551,12 @@ const days=[
  {n:6,date:'7/25',wd:'SAT',theme:'離島日',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.8266,125.1447&travelmode=driving&waypoints=24.8288916%2C125.1680398%7C24.8258947%2C125.1700315%7C24.8118193%2C125.1788554%7C24.8377299%2C125.1572351',
   stops:[
-   {t:'10:00',c:'住宿',name:'Canopy 泳池 · 退房',en:'約 10:45 退房',lat:24.7994493,lng:125.2592204,pid:'ChIJyREvegBV9DQRK4b4ZndUclE'},
-   {t:'11:05',c:'加油',name:'apollostation みなみ給油所',en:'還車前最後補滿',open:'8:00–18:00（週日休 · 週六有開）',drive:'過橋後約 15 分',tip:'伊良部評價最好的加油站（4.3★）· 前晚市區已加滿，這裡只需補一點點就滿油還車 · 記得跟店員拿收據（領収書）',lat:24.8288916,lng:125.1680398,pid:'ChIJ-aqKiYCr9TQRvxxoQS-19aU'},
-   {t:'11:20',c:'冰·咖啡',name:'なかゆくい商店',en:'紅芋サーターアンダギー（沙翁）',open:'9:30–12:00 / 13:30–16:00（週一四休）',drive:'加油站旁 400m',tip:'台灣人瘋傳的紅芋炸沙翁 ¥110，+Blue Seal 冰淇淋更讚；熱門時段排 20–30 分，中午 12 點休息前到',lat:24.8258947,lng:125.1700315,pid:'ChIJ08xJDcur9TQRh-L9k5q-pGs'},
-   {t:'11:50',c:'景點',name:'渡口の浜',en:'伊良部島粉白細沙 · 順路收尾',tip:'旁邊的 1 LAB Hello, VACAY!（4.8★ 海島系咖啡）可外帶冰飲上路；有廁所和兩端簡易淋浴、⚠️ 無更衣室——散步收尾不下水就沒差',lat:24.8118193,lng:125.1788554,pid:'ChIJ75SIJdSr9TQR9Zuc5oTF4vg'},
-   {t:'12:10',c:'景點',name:'佐和田の浜',en:'日本渚百選 · 淺灘散落津波大石',tip:'離機場 5 分鐘的最後一站，退潮時奇岩倒影超好拍；若是國際線班機建議 12:15 前抵達機場，這站視時間彈性跳過',lat:24.8377299,lng:125.1572351,pid:'ChIJBZ10JXes9TQRfCVDIOg5eAk'},
-   {t:'12:35',c:'機場',name:'みやこ下地島空港',en:'還車 · JX891 14:00 起飛（14:10 抵台北）',lat:24.8266,lng:125.1447}
+   {t:'09:30',c:'住宿',name:'Canopy 泳池 · 退房',en:'10:30 前退房出發（還車期限 12:00）',lat:24.7994493,lng:125.2592204,pid:'ChIJyREvegBV9DQRK4b4ZndUclE'},
+   {t:'10:35',c:'加油',name:'apollostation みなみ給油所',en:'還車前最後補滿',open:'8:00–18:00（週日休 · 週六有開）',drive:'過橋後約 15 分',tip:'伊良部評價最好的加油站（4.3★）· 前晚市區已加滿，這裡只需補一點點就滿油還車 · 記得跟店員拿收據（領収書）',lat:24.8288916,lng:125.1680398,pid:'ChIJ-aqKiYCr9TQRvxxoQS-19aU'},
+   {t:'10:50',c:'冰·咖啡',name:'なかゆくい商店',en:'紅芋サーターアンダギー（沙翁）',open:'9:30–12:00 / 13:30–16:00（週一四休）',drive:'加油站旁 400m',tip:'台灣人瘋傳的紅芋炸沙翁 ¥110，+Blue Seal 冰淇淋更讚；熱門時段排 20–30 分，中午 12 點休息前到',lat:24.8258947,lng:125.1700315,pid:'ChIJ08xJDcur9TQRh-L9k5q-pGs'},
+   {t:'11:15',c:'景點',name:'渡口の浜',en:'伊良部島粉白細沙 · 順路收尾',tip:'旁邊的 1 LAB Hello, VACAY!（4.8★ 海島系咖啡）可外帶冰飲上路；有廁所和兩端簡易淋浴、⚠️ 無更衣室——散步收尾不下水就沒差',lat:24.8118193,lng:125.1788554,pid:'ChIJ75SIJdSr9TQR9Zuc5oTF4vg'},
+   {t:'11:33',c:'景點',name:'佐和田の浜',en:'日本渚百選 · 淺灘散落津波大石',tip:'離機場 5 分鐘的最後一站，退潮時奇岩倒影超好拍；⚠️ 還車期限 12:00，這站快拍即走、時間不夠就跳過',lat:24.8377299,lng:125.1572351,pid:'ChIJBZ10JXes9TQRfCVDIOg5eAk'},
+   {t:'11:48',c:'機場',name:'みやこ下地島空港',en:'TOYOTA 還車（期限 12:00）· JX891 14:00 起飛',lat:24.8266,lng:125.1447}
   ]}
 ];
 
@@ -673,7 +683,7 @@ const NOTES=[
  ['⛽','雙保險加油：Day 5 晚餐後先在市區 Showa Shell 西里加滿（–20:30，比伊良部便宜約 ¥20/L）；Day 6 還車前再到伊良部 apollostation みなみ給油所（已排入行程，就在なかゆくい商店旁）補到全滿。兩張收據都留給還車櫃檯最保險。'],
  ['📅','店休地雷日：週三是宮古島店休大宗（丸吉只開三四六日、Ninufa/Kiari 等也有固定休）；出發當天早上再用 Google Maps 確認「營業中」最保險。'],
  ['🐢','浮潛看海龜請保持距離不觸摸、不站在珊瑚上；宮古島海灘幾乎沒有垃圾桶，自備垃圾袋帶走。'],
- ['✈️','回程日（週六）下地島機場很小、餐飲選擇少：建議 12:30 前還車，伴手禮別全留到機場買；液體（泡盛、辣油）記得託運。']
+ ['✈️','回程日（週六）下地島機場很小、餐飲選擇少：TOYOTA 還車期限 12:00（已排 11:50 抵達），伴手禮別全留到機場買；液體（泡盛、辣油）記得託運。']
 ];
 const chkState={};
 function updateProg(){
@@ -741,6 +751,15 @@ function renderTrip(){
       <div class="hotelrow"><span class="hl">確認號</span><b>3479692495</b></div>
       <div class="hotelrow"><span class="hl">電話</span><a href="tel:+81980753330" style="color:var(--sea-deep);font-weight:700;text-decoration:none">+81 980-75-3330</a></div>
       <div class="hotelrow"><span class="hl">地圖</span><a target="_blank" rel="noopener" href="${D(24.7994493,125.2592204,'ChIJyREvegBV9DQRK4b4ZndUclE')}" style="color:var(--sea-deep);font-weight:700;text-decoration:none">開啟 Google 地圖 ↗</a></div>
+    </div>
+    <div class="sec"><h3>🚗 租車（TOYOTA Rent a Car）</h3>
+      <div class="hotelrow"><span class="hl">店舖</span><span>下地島機場店（宮古島市伊良部字佐和田1727）</span></div>
+      <div class="hotelrow"><span class="hl">預約番号</span><b>99978094000</b></div>
+      <div class="hotelrow"><span class="hl">取車</span><span>7/20（一）<b>15:00</b></span></div>
+      <div class="hotelrow"><span class="hl">還車</span><span>7/25（六）<b>12:00</b> 前 · 同店</span></div>
+      <div class="hotelrow"><span class="hl">車型</span><span>C1</span></div>
+      <div class="hotelrow"><span class="hl">電話</span><a href="tel:+81980750100" style="color:var(--sea-deep);font-weight:700;text-decoration:none">0980-75-0100</a></div>
+      <div class="hotelrow"><span class="hl">攜帶</span><span>台灣駕照＋日文譯本＋護照（缺一不可）</span></div>
     </div>
     <div class="sec"><h3>🌤 行程天氣（7/20–7/25）</h3>
       <div class="wxgrid" id="wxgrid"><div style="grid-column:1/-1;color:var(--muted);font-size:13px;padding:8px 0">取得天氣中…</div></div>
@@ -957,7 +976,10 @@ mb.className='pill toolbox';mb.setAttribute('role','tab');mb.setAttribute('aria-
 mb.innerHTML=`<span style="display:flex;align-items:center;gap:5px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8.5" width="17" height="11" rx="2"></rect><path d="M9 8.5V6.7A1.7 1.7 0 0 1 10.7 5h2.6A1.7 1.7 0 0 1 15 6.7v1.8"></path><path d="M3.5 13.2H10M14 13.2h6.5"></path><rect x="10" y="11.8" width="4" height="3" rx=".8" fill="currentColor" stroke="none"></rect></svg>工具箱</span><small>MORE</small>`;
 mb.onclick=()=>{[...nav.children].forEach(c=>c.setAttribute('aria-selected','false'));
   mb.setAttribute('aria-selected','true');renderHub();scrollToContent();mb.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});};
-nav.appendChild(mb);
+document.getElementById('toolFab').onclick=()=>{
+  [...nav.children].forEach(c=>c.setAttribute('aria-selected','false'));
+  renderHub();scrollToContent();
+};
 render(0);
 </script>
 <template id="__bundler_thumbnail">
