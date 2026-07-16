@@ -164,6 +164,8 @@
   footer .beach .drift{animation:drift 5s ease-in-out infinite}
   footer .sig{text-align:center;font-family:"DM Mono",monospace;letter-spacing:.12em;font-size:10.5px;opacity:.7;text-transform:uppercase}
 
+  .badge.bkd{background:#FFD66B;color:#6B4E00;margin-left:6px;border:1px solid #F0C24A}
+
   /* 工具箱 hub */
   .pill.toolbox[aria-selected="true"]{background:var(--violet);border-color:var(--violet)}
   .hubhead{margin:2px 0 14px}
@@ -173,7 +175,7 @@
   .hcard{display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:#fff;border:1px solid var(--hair);
     border-radius:16px;padding:16px 15px 14px;cursor:pointer;text-align:left;box-shadow:var(--shadow);transition:transform .12s}
   .hcard:active{transform:scale(.97)}
-  .hcard .hi{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:5px}
+  .hcard .hi{font-size:30px;line-height:1.2;margin-bottom:4px}
   .hcard b{font-size:15px;color:var(--ink)}
   .hcard small{font-size:11px;color:var(--muted);line-height:1.45}
   .backhub{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--hair);background:#fff;color:var(--sea-deep);
@@ -363,16 +365,17 @@ const ART_PARASOL=`<svg class="lead-art" viewBox="0 0 132 76" aria-hidden="true"
   </g>
   <g class="bob2">
     <g fill="#0A4E6E" stroke="#0A4E6E" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="86" cy="42" r="5.5" stroke="none"/>
-      <path d="M89 38q4.5 1 4 6.5q-2.3-2.7-4.3-3z" stroke="none"/>
-      <path d="M82 48.5h8l1.5 13.5h-11z" stroke="none"/>
-      <path d="M82.5 50.5l-5.5 5.5" stroke-width="2.8" fill="none"/>
-      <circle cx="103" cy="39" r="5.5" stroke="none"/>
-      <path d="M99 45.5h8l1.5 16.5h-11z" stroke="none"/>
-      <path d="M108 48.5l6 6.5" stroke-width="2.8" fill="none"/>
-      <path d="M99.5 48.5q-6 4-9.5 3.5" stroke-width="2.8" fill="none"/>
+      <circle cx="78" cy="33" r="5.5" stroke="none"/>
+      <path d="M83 29q5 .5 4.5 6.5q-2.5-3-4.5-3z" stroke="none"/>
+      <path d="M74.5 39.5h7l3.5 19h-14z" stroke="none"/>
+      <path d="M76 58.5l-.6 6.5M80 58.5l.6 6.5" stroke-width="2.8" fill="none"/>
+      <path d="M77 42l-6.5-5M79.5 43l12 5" stroke-width="2.8" fill="none"/>
+      <circle cx="106" cy="32" r="5.5" stroke="none"/>
+      <path d="M102.5 38.5h7v14h-7z" stroke="none"/>
+      <path d="M104 52.5l-1 12M108 52.5l1 12" stroke-width="2.8" fill="none"/>
+      <path d="M104.5 41.5l-13 6M107.5 41l6.5-6.5" stroke-width="2.8" fill="none"/>
     </g>
-    <path d="M95 27.6c-1.4-1.4-3.8-.4-3.8 1.4 0 1.9 2.4 3.3 3.8 4 1.4-.7 3.8-2.1 3.8-4 0-1.8-2.4-2.8-3.8-1.4z" fill="#17B9C6"/>
+    <path d="M91.8 41.5c-1.2-1.2-3.2-.3-3.2 1.2 0 1.6 2 2.8 3.2 3.4 1.2-.6 3.2-1.8 3.2-3.4 0-1.5-2-2.4-3.2-1.2z" fill="#17B9C6"/>
   </g>
   <path d="M4 66q9-7 18 0t18 0t18 0t18 0t18 0t18 0t18 0" fill="none" stroke="#7FE0DD" stroke-width="3" stroke-linecap="round"/>
 </svg>`;
@@ -398,7 +401,7 @@ const days=[
    {t:'15:30',c:'購物',name:'DESLIE',en:'海系飾品 select shop',open:'10:00–17:00（週三休）',drive:'午餐處約 5 分',tip:'珊瑚/天然石手作飾品與泳裝小物，老闆英文流利，紀念小禮好選',lat:24.8073194,lng:125.1942711,pid:'ChIJJUD6Ym2r9TQRNonTKqFMOiA'},
    {t:'16:10',c:'景點',name:'17END',en:'跑道盡頭夢幻漸層海',drive:'約 15 分',tip:'今天不用趕：卡位羽田線 16 點多降落從頭頂進場、17:10 起飛，可以待好待滿；車停管制柵欄前步行約 10 分。當天早上查 shimojishima.jp/flight 確認時刻',lat:24.842318,lng:125.140722,pid:'ChIJ_566wEut9TQRZ01ze1pYJV8'},
    {t:'17:20',c:'景點',name:'通り池',en:'下地島天然雙池 · 龍宮傳說',open:'24h · 免費停車場',tip:'木棧道來回約 30 分，兩座相連的神祕天然池與海底洞穴相通；旁邊的「帯岩」是 1771 年海嘯搬上岸的兩萬噸巨岩，順路一看',lat:24.8236648,lng:125.1361496,pid:'ChIJWxeNweWr9TQRs76MjAFnCjk'},
-   {t:'18:30',c:'晚餐',name:'焼肉CURURU',en:'✅ 已訂位 18:30 · 伊良部人氣燒肉',open:'16:00–23:00 每日',drive:'通り池約 12 分',tip:'4.9★ 神店：老闆會英文超親切、QR 翻譯菜單，宮古牛單人套餐可多部位嘗試，牛舌和小黃瓜小菜必點——評論說「17END 看完就該來這」，你們的動線剛剛好',lat:24.8217429,lng:125.1724791,pid:'ChIJL20kZRar9TQRmey1h-axPQw',
+   {t:'18:30',c:'晚餐',name:'焼肉CURURU',en:'伊良部 4.9★ 人氣燒肉',bk:'18:30',open:'16:00–23:00 每日',drive:'通り池約 12 分',tip:'4.9★ 神店：老闆會英文超親切、QR 翻譯菜單，宮古牛單人套餐可多部位嘗試，牛舌和小黃瓜小菜必點——評論說「17END 看完就該來這」，你們的動線剛剛好',lat:24.8217429,lng:125.1724791,pid:'ChIJL20kZRar9TQRmey1h-axPQw',
     alts:[
      {tag:'義式',name:'The Olivea',rate:4.9,cnt:35,note:'同在伊良部的晚餐備援 · 義式 × 宮古食材 · 正對大橋海景（11:30–21:00）',lat:24.811536,lng:125.2173166,pid:'ChIJY1kSLrJV9DQRfIakp3fC6aw',ph:'+81 980-79-6541'},
      {tag:'燒肉',name:'宮古牛焼肉 玉城',rate:4.5,cnt:520,note:'臨時改回市區吃的備援 · Threads/台灣媒體一致點名的宮古牛 · 中文菜單+專人代烤（17:00–23:00 每日，Tabelog 可訂）',lat:24.8042797,lng:125.2790888,pid:'ChIJcSMnBK1T9DQR5t_CSK_U2HI',ph:'+81 980-79-0429'}
@@ -411,7 +414,7 @@ const days=[
  {n:2,date:'7/21',wd:'TUE',theme:'新城水上 · 東平安名崎',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7598523%2C125.4248602%7C24.7191788%2C125.4684503%7C24.7204686%2C125.3242413%7C24.7247007%2C125.3583502%7C24.7958761%2C125.2742848%7C24.8041645%2C125.2795736',
   stops:[
-   {t:'10:40',c:'水上',name:'新城海灘',en:'浮潛 + SUP 划船',open:'現場可租裝備·停免費區',drive:'飯店約 40 分',tip:'看海龜熱點，建議事先預約教練帶；✅ 有更衣室（男女各 3 間、換衣免費），淋浴 ¥100/5 分投幣式——記得備 100 円硬幣',lat:24.7598523,lng:125.4248602,pid:'ChIJRe3qlIdZ9DQReV321AJnrj0'},
+   {t:'10:40',c:'水上',name:'新城海灘',en:'浮潛 + SUP 划船',bk:'10:40',open:'現場可租裝備·停免費區',drive:'飯店約 40 分',tip:'⏰ 最晚 09:45 從飯店出發（車程 40 分＋報到著裝留 15 分）；有更衣室（男女各 3 間、換衣免費），淋浴 ¥100/5 分投幣式——記得備 100 円硬幣',lat:24.7598523,lng:125.4248602,pid:'ChIJRe3qlIdZ9DQReV321AJnrj0'},
    {t:'13:30',c:'速食',name:'SUP 後快食外帶',en:'上岸先墊肚子 · 撐到 15:00 午餐',open:'首選：海灘停車場旁飯糰攤',tip:'ポーク玉子（SPAM 豬肉蛋）飯糰小攤就在上岸走幾步的停車場旁；小本經營不一定每天出攤，沒開就看下方備案，都在往東平安名崎的順路上',lat:24.7599305,lng:125.4248687,pid:'ChIJ71fmw5JZ9DQRBxc1ExdF3Xk',
     alts:[
      {tag:'超市外帶',name:'A Coop 城辺店',rate:3.9,cnt:78,note:'最可靠的補給站：便當/飯糰/現切鳳梨/鮪魚生魚片評價超好 · 回程往午餐路上順路（8:30–20:00 每日，有 ATM）',lat:24.758894,lng:125.382882,pid:'ChIJg5rKr1tX9DQRpSq3QcB_raI',ph:'+81 980-77-4713'},
@@ -428,7 +431,7 @@ const days=[
    {t:'16:15',c:'景點',name:'イムギャーマリンガーデン',en:'環礁潟湖 · 環灣步道展望台',drive:'午餐處約 10 分',tip:'內灣平靜好走，飯後散步剛好；雨天可改ユートピアファーム熱帶果園（4.4★，芒果聖代）',lat:24.7247007,lng:125.3583502,pid:'ChIJH9px0qVX9DQRqBB2sPVZ0t0'},
    {t:'16:50',c:'冰·咖啡',name:'Blue Turtle Farm Mango Cafe（選配）',en:'芒果農園咖啡 · 7 月正值產季',open:'10:00–17:30',tip:'回程順路：產季芒果聖代必吃、叢林系空間好拍，17:30 關門抓緊',lat:24.7747453,lng:125.2948238,pid:'ChIJWZa9-ShV9DQRGL6fq1gsht4'},
    {t:'17:15',c:'購物',name:'島の駅みやこ',en:'在地物產直賣所',open:'7:30–18:00',drive:'回程順路 · 飯店約 5 分',tip:'宮古牛便當/現烤麵包/當季芒果，伴手禮比機場便宜，18:00 關門抓緊',lat:24.7958761,lng:125.2742848,pid:'ChIJBedbNXJU9DQRtQXKX09HOPw'},
-   {t:'20:00',c:'晚餐',name:'しゃぶ禅や Shabuzenya',en:'✅ 已訂位 20:00 · 2 名 · 全席禁菸/有個室',open:'17:00–23:00 每日',tip:'宮古 No.1 阿古豬+雪鹽蛤蜊/石蓴海藻雙湯底，牛舌握壽司也必點；晚餐前的空檔（18:00–20:00）可先回飯店泳池或頂樓看夕陽休息',lat:24.8041645,lng:125.2795736,pid:'ChIJywMekvtT9DQRXG8_qHHWtLU',
+   {t:'20:00',c:'晚餐',name:'しゃぶ禅や Shabuzenya',en:'あぐー豚涮涮鍋 · 全席禁菸/有個室',bk:'20:00',open:'17:00–23:00 每日',tip:'宮古 No.1 阿古豬+雪鹽蛤蜊/石蓴海藻雙湯底，牛舌握壽司也必點；晚餐前的空檔（18:00–20:00）可先回飯店泳池或頂樓看夕陽休息',lat:24.8041645,lng:125.2795736,pid:'ChIJywMekvtT9DQRXG8_qHHWtLU',
     alts:[
      {tag:'涮涮鍋',name:'しゃぶ邸 百八',rate:4.7,cnt:79,note:'阿古豬涮涮鍋+不定期三線現場演奏 · Tabelog 標示全席禁菸/有個室 · 老闆體貼細心（11:30–24:00 每日）',lat:24.8048821,lng:125.2777561,pid:'ChIJOVQ9urRT9DQROS8KzEkf0m0',ph:'+81 980-79-6905'},
      {tag:'日本料理',name:'日本料理 三感',rate:4.8,cnt:31,note:'宮古島少見的正統日料/懷石 · 榻榻米半包廂+QR 點餐 · 離豚匠原址 70m 超近（18:00–22:30，週日休）',lat:24.8027395,lng:125.281867,pid:'ChIJBZ6nmH9T9DQRkvyOAA9dYqc',ph:'+81 980-79-5889'},
@@ -442,7 +445,7 @@ const days=[
  {n:3,date:'7/22',wd:'WED',theme:'太陽陶窯 · 來間 · 前濱',
   route:'https://www.google.com/maps/dir/?api=1&origin=24.7994493,125.2592204&destination=24.7994493,125.2592204&travelmode=driving&waypoints=24.7258801%2C125.3486466%7C24.7316398%2C125.3517456%7C24.7212819%2C125.2575638%7C24.7249593%2C125.2512719%7C24.7260129%2C125.2516393%7C24.7349726%2C125.2629745%7C24.8020797%2C125.280613',
   stops:[
-   {t:'10:30',c:'手作',name:'てぃだ(太陽)が窯',en:'捏陶手作 · 約 2 小時',open:'9:00–19:00（週一休）',drive:'飯店約 30 分',tip:'務必先電話預約 +81 980-76-2266',lat:24.7258801,lng:125.3486466,pid:'ChIJQ3lAabNX9DQReXps3yGydKw'},
+   {t:'10:30',c:'手作',name:'てぃだ(太陽)が窯',en:'捏陶手作 · 約 2 小時',bk:'10:30',open:'9:00–19:00（週一休）',drive:'飯店約 30 分',tip:'⏰ 最晚 09:50 從飯店出發（車程 30 分＋緩衝 10 分）；捏完作品約 1–2 個月後寄達，留好收件資訊',lat:24.7258801,lng:125.3486466,pid:'ChIJQ3lAabNX9DQReXps3yGydKw'},
    {t:'12:50',c:'午餐',name:'丸吉食堂',en:'軟骨ソーキそば',open:'週三四六日 10:30–14:00',drive:'距陶窯約 10 分',tip:'排隊+賣完為止·14:00 打烊，捏完陶直接衝',lat:24.7316398,lng:125.3517456,pid:'ChIJVzDy0a1X9DQRE0oDzDWPGRQ',
     alts:[
      {tag:'食堂',name:'みつや食堂 Mitsuya',rate:4.5,cnt:49,note:'上野 · 宮古そば+超人氣勝丼（丸吉撲空時的最佳替補，11:00–15:00）',lat:24.7613986,lng:125.3253721,pid:'ChIJj56YUgBX9DQRHVkStHl-KAI'},
@@ -459,7 +462,7 @@ const days=[
    {t:'14:40',c:'景點',name:'竜宮城展望台',en:'俯瞰來間大橋+前濱全景',tip:'三層樓龍宮造型展望台，宮古藍一次看滿',lat:24.7260129,lng:125.2516393,pid:'ChIJ0XiGNI__9DQREaRvPPydG5E'},
    {t:'15:00',c:'購物',name:'琉球ザッカ青空',en:'來間島 · 陶器/琉球玻璃雜貨',open:'10–12 / 13–17 每日',tip:'和 Kiari 同一停車區；走累了同區還有 PANIPANI（4.4★ 峇里島風咖啡）和 AOSORA PARLOR 果昔可以歇腿吹風',lat:24.7229592,lng:125.2540389,pid:'ChIJ-T8PxoD_9DQREumHmgKzAnQ'},
    {t:'15:30',c:'景點',name:'與那霸前濱',en:'東洋第一白沙灘 · 曬太陽',tip:'✅ 兩個停車場旁都有男女別更衣室＋廁所＋¥100 淋浴，玩完直接換裝，7–9 月有水母防護網最安心',lat:24.7349726,lng:125.2629745,pid:'ChIJOfnsBJBV9DQRA0W-m-UpUUo'},
-   {t:'18:00',c:'晚餐',name:'アンドミヤコ And Miyako',en:'✅ 已訂位 7/22（三）18:00 · 2 名（飯店代訂）',open:'18:00–23:00（週四休）',tip:'招牌特製蛋包飯/炸雞/島食材小皿，手機點餐+英文說明小卡；訂位名：ホン マン ファーン · 席位限約 2 小時內，18:00 準時到慢慢吃剛剛好',lat:24.8020797,lng:125.280613,pid:'ChIJCQmLZJtT9DQRNJnNSlaTyFk',
+   {t:'18:00',c:'晚餐',name:'アンドミヤコ And Miyako',en:'全島人氣最高創意居酒屋',bk:'18:00',open:'18:00–23:00（週四休）',tip:'招牌特製蛋包飯/炸雞/島食材小皿，手機點餐+英文說明小卡；訂位名：ホン マン ファーン · 席位限約 2 小時內，18:00 準時到慢慢吃剛剛好',lat:24.8020797,lng:125.280613,pid:'ChIJCQmLZJtT9DQRNJnNSlaTyFk',
     alts:[
      {tag:'日本料理',name:'日本料理 三感',rate:4.8,cnt:31,note:'宮古島少見的正統日料/懷石 · 榻榻米半包廂+QR 點餐 · 想安靜吃頓精緻的選這間（18:00–22:30，週日休；亦列於 Day 2 備案）',lat:24.8027395,lng:125.281867,pid:'ChIJBZ6nmH9T9DQRkvyOAA9dYqc',ph:'+81 980-79-5889'},
      {tag:'割烹小料理',name:'小料理 縁の郷',rate:4.7,cnt:146,note:'吧台僅 6 席的隱密割烹 · 主廚面前現做阿古豬/宮古牛/蛤蜊 · 評論稱「日本行最難忘的一餐」· 評論無菸味（17:00–24:00，週日休，需訂位）',lat:24.8033592,lng:125.2845124,pid:'ChIJ2TUvcvRT9DQR4O8927gciEU',ph:'+81 70-4217-7556'},
@@ -488,7 +491,7 @@ const days=[
     ]},
    {t:'15:20',c:'購物',name:'雪塩ミュージアム',en:'雪鹽製鹽所 · 免費見學',open:'9:00–18:00 每日',drive:'回程順路（狩俣）',tip:'雪鹽霜淇淋必吃！必買清單的雪鹽系列這裡最齊、還有限定品',lat:24.9022357,lng:125.2683734,pid:'ChIJn47M6plN9DQR-eFd68m8QK4'},
    {t:'17:15',c:'購物',name:'MIYAKOJIMA GIFT ちゅらかじ',en:'手作飾品+嚴選伴手禮',open:'15:00–22:00 每日',tip:'雪塩回程若提早到市區，可先去 400m 外的モンテドール本店（–19:00）收香蕉蛋糕、內用咖啡歇腿，再過來逛',lat:24.8039931,lng:125.2812135,pid:'ChIJ--cWsfRT9DQR7zEzjuJJuoc'},
-   {t:'18:00',c:'晚餐',name:'Ryukyu Tonkatsu Mitsuya',en:'琉球豬排 · 明亮新型態店',open:'11:00–22:00（週五休 · 今天週四有開）',tip:'Premium 豬排油脂入口即化+彈牙麵線套餐；家庭客多、店面明亮可愛，尖峰時段可先電話留位',lat:24.8044446,lng:125.2816475,pid:'ChIJkQECoO5T9DQRYrGckwtvbo0',
+   {t:'18:30',c:'晚餐',name:'Ryukyu Tonkatsu Mitsuya',en:'琉球豬排 · 明亮新型態店',bk:'18:30',open:'11:00–22:00（週五休）',tip:'Premium 豬排油脂入口即化+彈牙麵線套餐；前一站ちゅらかじ 17:15 逛完走過去剛剛好',lat:24.8044446,lng:125.2816475,pid:'ChIJkQECoO5T9DQRYrGckwtvbo0',
     alts:[
      {tag:'海鮮居酒屋',name:'漁師の居酒屋 一魚一会',rate:4.0,cnt:300,note:'漁師直送島魚生魚片/握壽司+三線 live 表演另收費 · Tabelog 標示全席禁菸/有個室（17:00–22:00 每日）',lat:24.8022239,lng:125.280738,pid:'ChIJY4hf1fRT9DQR34y_Q9IMwKw',ph:'+81 980-79-0188'},
      {tag:'民謠居酒屋',name:'唄やしき キジムナー',rate:4.8,cnt:57,note:'三線+エイサー太鼓+獅子舞現場表演 · 全席禁菸（Google 評論證實，18:00 開，店休看 IG，有表演費）',lat:24.8036212,lng:125.2842194,pid:'ChIJr8OEhjpT9DQRYvuS1oZywm0',ph:'+81 90-9785-0150'},
@@ -607,7 +610,7 @@ function render(i){
       </div>`).join('')}</details>`:'';
     return `<div class="stop" style="--cat:${color}">
       <div class="clock">${s.t}</div><div class="dot"></div>
-      <div class="card"><span class="badge">${s.c}</span>
+      <div class="card"><span class="badge">${s.c}</span>${s.bk?`<span class="badge bkd">✔ 已預約 ${s.bk}</span>`:''}
         <h3>${s.name}</h3>${s.en?`<div class="en">${s.en}</div>`:''}
         ${meta.length?`<div class="meta">${meta.join('')}</div>`:''}
         <div class="actions">
@@ -777,10 +780,10 @@ function renderHub(){
   main.innerHTML=`<div class="tool">
     <div class="hubhead"><div class="big">工具箱</div><div class="sub2">Trip toolkit</div></div>
     <div class="hub">
-      <button class="hcard" id="h1"><span class="hi" style="background:var(--sea)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="5.5" r="2" fill="#FFD66B" stroke="none"></circle><path d="M4 13.5 21 6.5l-6 15-2.8-6.7L4 13.5z"></path></svg></span><b>航班 · 天氣</b><small>JX890/891 · 每日預報</small></button>
-      <button class="hcard" id="h2"><span class="hi" style="background:var(--turq)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 8.3h11.6l1.1 12.2H5.1L6.2 8.3z"></path><path d="M9.3 8.3V6.6a2.7 2.7 0 0 1 5.4 0v1.7"></path></svg></span><b>必買 & 注意</b><small>採買清單 · 行前提醒</small></button>
-      <button class="hcard" id="h3"><span class="hi" style="background:var(--sun)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#08313F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="5.4"></circle><path d="M6.5 5.6l2 2.7 2-2.7M8.5 8.3v2.5M6.8 9.2h3.4"></path><path d="M14 15.5h6.5m0 0-2.2-2.2"></path><path d="M20.5 21H14m0 0 2.2-2.2"></path></svg></span><b>匯率換算</b><small>日幣 ⇄ 台幣</small></button>
-      <button class="hcard" id="h4"><span class="hi" style="background:var(--violet)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h11V20.5l-1.85-1.4-1.83 1.4-1.82-1.4-1.82 1.4-1.83-1.4L6.5 20.5V3.5z"></path><path d="M9.5 8h5M9.5 11.5h5M9.5 15h3"></path></svg></span><b>記帳分帳</b><small>Julie & 劭 · 匯出 Excel</small></button>
+      <button class="hcard" id="h1"><span class="hi">✈️</span><b>航班 · 天氣</b><small>JX890/891 · 每日預報</small></button>
+      <button class="hcard" id="h2"><span class="hi">🛍️</span><b>必買 & 注意</b><small>採買清單 · 行前提醒</small></button>
+      <button class="hcard" id="h3"><span class="hi">💱</span><b>匯率換算</b><small>日幣 ⇄ 台幣</small></button>
+      <button class="hcard" id="h4"><span class="hi">🧾</span><b>記帳分帳</b><small>Julie & 劭 · 匯出 Excel</small></button>
     </div>
   </div>`;
   document.getElementById('h1').onclick=renderTrip;
@@ -952,7 +955,7 @@ days.forEach((d,i)=>{
 });
 const mb=document.createElement('button');
 mb.className='pill toolbox';mb.setAttribute('role','tab');mb.setAttribute('aria-selected','false');
-mb.innerHTML=`<span style="display:flex;align-items:center;gap:5px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8.5" width="17" height="11" rx="2"></rect><path d="M9 8.5V6.7A1.7 1.7 0 0 1 10.7 5h2.6A1.7 1.7 0 0 1 15 6.7v1.8"></path><path d="M3.5 13.2H10M14 13.2h6.5"></path><rect x="10" y="11.8" width="4" height="3" rx=".8" fill="currentColor" stroke="none"></rect></svg>工具箱</span><small>MORE</small>`;
+mb.innerHTML=`🧰 工具箱<small>MORE</small>`;
 mb.onclick=()=>{[...nav.children].forEach(c=>c.setAttribute('aria-selected','false'));
   mb.setAttribute('aria-selected','true');renderHub();scrollToContent();mb.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});};
 nav.appendChild(mb);
