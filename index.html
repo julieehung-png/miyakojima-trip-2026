@@ -276,6 +276,25 @@
     border:1px solid var(--hair);border-radius:15px;padding:16px;font-weight:800;font-size:15px}
   .xbtn{margin-top:12px;width:100%;background:var(--violet);color:#fff;border:none;border-radius:12px;padding:12px;font-weight:800;font-size:14px;cursor:pointer}
   .xbtn:disabled{opacity:.5}
+  .syncbox{background:linear-gradient(135deg,#F1FBFC,#F7F3FF);border:1px solid var(--hair);border-radius:15px;padding:12px 13px;margin-bottom:14px}
+  .syncstate{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--ink)}
+  .syncdot{width:9px;height:9px;border-radius:50%;background:#B8AEA0;box-shadow:0 0 0 3px rgba(184,174,160,.18);flex:0 0 auto}
+  .syncdot.on{background:#1E9E6A;box-shadow:0 0 0 3px rgba(30,158,106,.16)}
+  .syncdot.busy{background:#E3A018;box-shadow:0 0 0 3px rgba(227,160,24,.16)}
+  .synctime{margin-left:auto;font-family:"DM Mono",monospace;font-size:10px;color:var(--muted);font-weight:500}
+  .syncbox details{margin-top:8px;border-top:1px dashed var(--hair);padding-top:7px}
+  .syncbox summary{cursor:pointer;list-style:none;color:var(--sea-deep);font-size:12.5px;font-weight:800}
+  .syncbox summary::-webkit-details-marker{display:none}
+  .syncbox summary::after{content:"＋";float:right;color:var(--turq)}
+  .syncbox details[open] summary::after{content:"－"}
+  .syncform{display:grid;gap:8px;margin-top:10px}
+  .syncform label{display:grid;gap:4px;font-size:10.5px;color:var(--muted);font-family:"DM Mono",monospace;letter-spacing:.05em}
+  .syncform input{width:100%;box-sizing:border-box;border:1.5px solid var(--hair);border-radius:10px;padding:9px 10px;background:#fff;color:var(--ink);font-size:13px}
+  .syncform input:focus{outline:2px solid var(--turq);border-color:var(--turq)}
+  .syncactions{display:grid;grid-template-columns:1fr auto;gap:8px}
+  .syncbtn{border:none;border-radius:10px;padding:10px 12px;background:var(--sea);color:#fff;font-weight:900;cursor:pointer}
+  .syncbtn.alt{background:#fff;color:var(--sea-deep);border:1.5px solid var(--hair)}
+  .synchelp{font-size:11px;color:var(--muted);line-height:1.55;margin-top:2px}
 
   .tool-fab{position:fixed;right:max(16px,calc((100vw - 480px)/2 + 16px));bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:30;
     display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.72);border-radius:50%;
@@ -788,6 +807,108 @@ const toTWD=e=>(e.cur==='TWD'?e.amt:e.amt*fxRate);        // 一律折台幣結�
 const amtLabel=e=>e.cur==='TWD'
   ?`NT$${nf(e.amt)}`
   :`¥${nf(e.amt)} <small style="color:var(--muted)">≈NT$${nf(e.amt*fxRate)}</small>`;
+const makeId=()=>globalThis.crypto&&crypto.randomUUID?crypto.randomUUID():
+  'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==='x'?r:(r&3|8)).toString(16);});
+const htmlAttr=s=>String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+let cloudCfg=store.get('cloud',{url:'',key:'',trip:''});
+let cloudTimer=null,cloudLast=0;
+try{
+  const q=new URLSearchParams(location.search);
+  if(q.get('sync_url')&&q.get('sync_key')&&q.get('trip')){
+    cloudCfg={url:q.get('sync_url'),key:q.get('sync_key'),trip:q.get('trip')};
+    store.set('cloud',cloudCfg);
+    q.delete('sync_url');q.delete('sync_key');q.delete('trip');
+    history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash);
+  }
+}catch(e){}
+if(!cloudCfg.trip){cloudCfg.trip=makeId();store.set('cloud',cloudCfg);}
+
+const cloudReady=()=>/^https:\/\/.+\.supabase\.co\/?$/.test(cloudCfg.url||'')&&
+  (cloudCfg.key||'').length>30&&(cloudCfg.trip||'').length>=8;
+function cloudState(text,mode=''){
+  const t=document.getElementById('syncText'),d=document.getElementById('syncDot'),x=document.getElementById('syncTime');
+  if(t)t.textContent=text;
+  if(d)d.className='syncdot '+mode;
+  if(x)x.textContent=cloudLast?'更新 '+new Date(cloudLast).toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}):'';
+}
+function cloudHeaders(prefer=''){
+  const h={'apikey':cloudCfg.key,'Content-Type':'application/json'};
+  if(!cloudCfg.key.startsWith('sb_publishable_'))h.Authorization='Bearer '+cloudCfg.key;
+  if(prefer)h.Prefer=prefer;
+  return h;
+}
+const cloudRpc=name=>cloudCfg.url.replace(/\/+$/,'')+'/rest/v1/rpc/'+name;
+function entryToRow(e){
+  e.clientId=e.clientId||makeId();
+  return {trip_code:cloudCfg.trip,client_id:e.clientId,who:e.who,amount:e.amt,
+    currency:e.cur||'JPY',note:e.note||'未命名',expense_date:e.d||new Date(e.ts).toISOString().slice(0,10),client_ts:e.ts||Date.now()};
+}
+const rowToEntry=r=>({id:r.id,clientId:r.client_id,who:r.who,amt:Number(r.amount),cur:r.currency,
+  note:r.note,d:r.expense_date,ts:Number(r.client_ts)});
+async function cloudRows(){
+  const r=await fetch(cloudRpc('miyako_list'),{method:'POST',headers:cloudHeaders(),body:JSON.stringify({p_trip:cloudCfg.trip})});
+  if(!r.ok)throw new Error((await r.text())||('同步讀取失敗 '+r.status));
+  return r.json();
+}
+async function cloudPut(e){
+  const x=entryToRow(e);
+  const r=await fetch(cloudRpc('miyako_upsert'),{method:'POST',headers:cloudHeaders(),body:JSON.stringify({
+    p_trip:x.trip_code,p_client:x.client_id,p_who:x.who,p_amount:x.amount,p_currency:x.currency,
+    p_note:x.note,p_date:x.expense_date,p_ts:x.client_ts
+  })});
+  if(!r.ok)throw new Error((await r.text())||('同步寫入失敗 '+r.status));
+  const rows=await r.json();
+  return rows[0]?rowToEntry(rows[0]):e;
+}
+async function cloudRemove(e){
+  if(!e.id)return;
+  const r=await fetch(cloudRpc('miyako_delete'),{method:'POST',headers:cloudHeaders(),
+    body:JSON.stringify({p_trip:cloudCfg.trip,p_id:e.id})});
+  if(!r.ok)throw new Error((await r.text())||('同步刪除失敗 '+r.status));
+}
+async function cloudSync(seed=true){
+  if(!cloudReady())return;
+  cloudState('同步中…','busy');
+  try{
+    if(seed){
+      const localOnly=ledger.filter(e=>!e.id);
+      for(const e of localOnly){
+        const saved=await cloudPut(e);
+        const i=ledger.findIndex(x=>x===e||x.clientId===saved.clientId);
+        if(i>=0)ledger[i]=saved;
+      }
+    }
+    ledger=(await cloudRows()).map(rowToEntry);
+    store.set('ledger',ledger);cloudLast=Date.now();cloudState('雙人同步已連線','on');renderLg();
+  }catch(e){
+    console.error(e);cloudState('暫時離線 · 資料留在此裝置');
+    throw e;
+  }
+}
+function cloudStart(){
+  clearInterval(cloudTimer);
+  if(!cloudReady())return;
+  cloudTimer=setInterval(()=>{if(!document.hidden)cloudSync(true).catch(()=>{});},8000);
+}
+function cloudShareUrl(){
+  const u=new URL(location.href);
+  u.searchParams.set('sync_url',cloudCfg.url);u.searchParams.set('sync_key',cloudCfg.key);u.searchParams.set('trip',cloudCfg.trip);
+  return u.href;
+}
+async function copyText(text){
+  try{await navigator.clipboard.writeText(text);return true;}catch(e){}
+  const a=document.createElement('textarea');a.value=text;a.style.position='fixed';a.style.opacity='0';
+  document.body.appendChild(a);a.select();const ok=document.execCommand('copy');a.remove();return ok;
+}
+async function cloudAdd(e){
+  if(!cloudReady())return;
+  cloudState('正在同步這筆…','busy');
+  try{
+    const saved=await cloudPut(e),i=ledger.findIndex(x=>x===e||x.clientId===saved.clientId);
+    if(i>=0)ledger[i]=saved;
+    store.set('ledger',ledger);cloudLast=Date.now();cloudState('雙人同步已連線','on');renderLg();
+  }catch(err){console.error(err);cloudState('尚未上傳 · 稍後再試');}
+}
 
 function settleCalc(){                                    // 全部以 TWD 計
   const tot=ledger.reduce((a,e)=>a+toTWD(e),0);
@@ -900,6 +1021,20 @@ function renderFx(){
 function renderLedger(){
   const main=document.getElementById('main');
   main.innerHTML=emojify(`<div class="tool">${backBar()}
+    <div class="syncbox">
+      <div class="syncstate"><span class="syncdot ${cloudReady()?'on':''}" id="syncDot"></span>
+        <span id="syncText">${cloudReady()?'雙人同步已設定':'目前只存在這個裝置'}</span><span class="synctime" id="syncTime"></span></div>
+      <details ${cloudReady()?'':'open'}>
+        <summary>雙人同步設定</summary>
+        <div class="syncform">
+          <label>SUPABASE PROJECT URL<input id="syncUrl" type="url" value="${htmlAttr(cloudCfg.url)}" placeholder="https://xxxxx.supabase.co"></label>
+          <label>SUPABASE PUBLISHABLE / ANON KEY<input id="syncKey" type="password" value="${htmlAttr(cloudCfg.key)}" placeholder="貼上 publishable 或 anon key"></label>
+          <label>共同旅程代碼<input id="syncTrip" type="text" value="${htmlAttr(cloudCfg.trip)}"></label>
+          <div class="syncactions"><button class="syncbtn" id="syncConnect">連線並同步</button><button class="syncbtn alt" id="syncShare">複製雙人連結</button></div>
+          <div class="synchelp">兩人開啟同一個雙人連結後，每 8 秒自動更新。第一次使用前，需先在 Supabase 執行隨附的資料表設定。</div>
+        </div>
+      </details>
+    </div>
     <div class="sec">
       <h3>${titleize('🧾 記帳 · 這筆誰付的？')}</h3>
       <div class="payseg">
@@ -927,6 +1062,21 @@ function renderLedger(){
     </div>
   </div>`);
   bindBack();
+  const su=document.getElementById('syncUrl'),sk=document.getElementById('syncKey'),sp=document.getElementById('syncTrip');
+  const saveCloudForm=()=>{
+    cloudCfg={url:su.value.trim(),key:sk.value.trim(),trip:sp.value.trim()};
+    store.set('cloud',cloudCfg);return cloudReady();
+  };
+  document.getElementById('syncConnect').onclick=async()=>{
+    if(!saveCloudForm()){cloudState('請確認三項設定是否完整');return;}
+    cloudStart();
+    try{await cloudSync(true);}catch(e){alert('連線失敗。請確認 Supabase URL、anon key，以及資料表是否已建立。');}
+  };
+  document.getElementById('syncShare').onclick=async()=>{
+    if(!saveCloudForm()){cloudState('請先填完同步設定');return;}
+    const ok=await copyText(cloudShareUrl());
+    cloudState(ok?'雙人連結已複製':'無法自動複製，請改用瀏覽器分享功能',ok?'on':'');
+  };
   const amt=document.getElementById('lgAmt'),twd=document.getElementById('lgTwd'),note=document.getElementById('lgNote');
   const curBtn=document.getElementById('lgCur');
   const hint=()=>{twd.textContent=amt.value?(curCur==='TWD'?('≈ ¥ '+nf(amt.value/fxRate)):('≈ NT$ '+nf(amt.value*fxRate))):'';};
@@ -945,13 +1095,16 @@ function renderLedger(){
     const a=parseFloat(amt.value);
     if(!a||a<=0){amt.focus();return;}
     const dv=document.getElementById('lgDate').value||new Date().toISOString().slice(0,10);
-    ledger.push({who:curWho,amt:a,cur:curCur,note:note.value.trim()||'未命名',d:dv,ts:Date.now()});
+    const entry={clientId:makeId(),who:curWho,amt:a,cur:curCur,note:note.value.trim()||'未命名',d:dv,ts:Date.now()};
+    ledger.push(entry);
     store.set('ledger',ledger);amt.value='';twd.textContent='';note.value='';renderLg();
+    cloudAdd(entry);
     const ab=document.getElementById('lgAdd');ab.textContent='✓ 已記下！';ab.style.background='#1E9E6A';
     setTimeout(()=>{ab.textContent='✓ 記下這筆';ab.style.background='';},900);
   };
   document.getElementById('lgXls').onclick=exportXlsx;
   renderLg();
+  if(cloudReady()){cloudStart();cloudSync(true).catch(()=>{});}
   activeLayer.remove();activeLayer=L.layerGroup().addTo(map);
   curFit={pts:allPts,pad:30,maxZoom:18};
   map.fitBounds(L.latLngBounds(allPts),{padding:[30,30]});
@@ -976,7 +1129,18 @@ function renderLg(){
     });
     list.innerHTML=html;
   }else list.innerHTML='<div style="padding:12px 0;color:var(--muted);font-size:13px">還沒有記錄，上面記第一筆吧</div>';
-  list.querySelectorAll('.del').forEach(b=>b.onclick=()=>{ledger.splice(+b.dataset.i,1);store.set('ledger',ledger);renderLg();});
+  list.querySelectorAll('.del').forEach(b=>b.onclick=async()=>{
+    const e=ledger[+b.dataset.i];
+    if(cloudReady()&&e&&e.id){
+      cloudState('正在同步刪除…','busy');
+      try{await cloudRemove(e);}catch(err){console.error(err);cloudState('刪除失敗 · 請檢查網路');return;}
+    }
+    const i=ledger.findIndex(x=>x===e||(e.id&&x.id===e.id));
+    if(i>=0)ledger.splice(i,1);
+    store.set('ledger',ledger);cloudLast=cloudReady()?Date.now():cloudLast;
+    if(cloudReady())cloudState('雙人同步已連線','on');
+    renderLg();
+  });
   const c=settleCalc();
   const bar=document.getElementById('lgBar');
   if(bar)bar.innerHTML=ledger.length&&c.tot>0?`<div class="paybar">
