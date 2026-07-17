@@ -817,8 +817,8 @@ try{
   if(q.get('sync_url')&&q.get('sync_key')&&q.get('trip')){
     cloudCfg={url:q.get('sync_url'),key:q.get('sync_key'),trip:q.get('trip')};
     store.set('cloud',cloudCfg);
-    q.delete('sync_url');q.delete('sync_key');q.delete('trip');
-    history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash);
+    // 保留同步參數：iOS 主畫面 Web App 有獨立儲存空間，
+    // 第一次從圖示開啟時需要再由啟動網址匯入設定。
   }
 }catch(e){}
 if(!cloudCfg.trip){cloudCfg.trip=makeId();store.set('cloud',cloudCfg);}
