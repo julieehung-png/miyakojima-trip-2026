@@ -349,6 +349,7 @@
   @media (max-width:600px){
     .edit-grid input,.edit-grid select,.edit-grid textarea{font-size:16px}
     .edit-grid input[type="time"],.edit-grid select{height:45px}
+    .edit-grid .mobile-full{grid-column:1/-1}
   }
 
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -855,7 +856,7 @@ function renderEditor(i){
     <div class="editor-sync ${cloudReady()?(itineraryCloudError?'bad':'on'):''}" id="itinerarySyncState">${cloudReady()?(itineraryCloudError||'與記帳共用同一個雙人雲端'):'目前只存在此裝置 · 請先到記帳完成同步設定'}</div>
     <div class="edit-list" id="editList"></div><div class="editor-bottom"><button id="editAdd">＋ 新增行程</button><button id="editReset">恢復原始行程</button><button class="save" id="editSave">${cloudReady()?'儲存並同步':'儲存行程'}</button></div>
     <div class="edit-modal" id="editModal"><div class="edit-sheet"><h3 id="editModalTitle">編輯行程</h3><div class="edit-grid">
-      <label>時間<input id="efTime" type="time"></label><label>分類<select id="efCat">${Object.keys(CAT).map(x=>`<option>${x}</option>`).join('')}</select></label>
+      <label class="mobile-full">時間<input id="efTime" type="time"></label><label class="mobile-full">分類<select id="efCat">${Object.keys(CAT).map(x=>`<option>${x}</option>`).join('')}</select></label>
       <label class="wide">Google Maps 連結<input id="efMap" type="text" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="貼上 Google Maps 分享連結"><span class="map-detect" id="efMapStatus">貼上後會嘗試讀取地標名稱與地圖位置</span></label>
       <label class="wide">名稱<input id="efName" type="text" placeholder="景點或店家名稱"></label><label class="wide">副標題<input id="efEn" type="text" placeholder="簡短補充"></label>
       <label>車程<input id="efDrive" type="text" placeholder="約 15 分"></label><label>營業時間<input id="efOpen" type="text" placeholder="10:00–18:00"></label>
