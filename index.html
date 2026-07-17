@@ -148,7 +148,7 @@
   .edit-sheet{width:min(480px,100%);max-height:88vh;overflow:auto;background:var(--sand);border-radius:22px 22px 0 0;padding:18px 18px calc(env(safe-area-inset-bottom) + 18px);box-shadow:0 -12px 34px rgba(8,49,63,.22)}
   .edit-sheet h3{margin:0 0 12px;font-family:"Zen Maru Gothic"}
   .edit-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}.edit-grid label{display:grid;min-width:0;gap:4px;color:var(--muted);font-size:10.5px;font-weight:700}
-  .edit-grid label.wide{grid-column:1/-1}.edit-grid input,.edit-grid select,.edit-grid textarea{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1.5px solid var(--hair);border-radius:10px;padding:9px 10px;background:#fff;color:var(--ink);font:inherit;font-size:13px}.edit-grid input[type="time"]{min-inline-size:0;overflow:hidden}.edit-grid textarea{min-height:70px;resize:vertical}
+  .edit-grid label.wide{grid-column:1/-1}.edit-grid input,.edit-grid select,.edit-grid textarea{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1.5px solid var(--hair);border-radius:10px;padding:9px 10px;background:#fff;color:var(--ink);font:inherit;font-size:13px}.edit-grid .time-input{text-align:center;font-family:"DM Mono",monospace;letter-spacing:.04em}.edit-grid textarea{min-height:70px;resize:vertical}
   .map-detect{min-height:18px;font-size:10.5px;line-height:1.45;color:var(--muted);font-weight:500}.map-detect.ok{color:#187052}.map-detect.warn{color:#A26300}.map-detect.bad{color:#B33D35}
   .edit-modal-actions{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:12px}.edit-modal-actions button{border:0;border-radius:11px;padding:12px;font-weight:900;cursor:pointer}
   .edit-modal-actions .done{background:var(--sea);color:#fff}.edit-modal-actions .cancel{background:#fff;color:var(--muted);border:1px solid var(--hair)}
@@ -347,9 +347,10 @@
   .tool-fab:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
   @media (min-width:700px){.maphero{border-radius:0 0 24px 24px}}
   @media (max-width:600px){
-    .edit-grid input,.edit-grid select,.edit-grid textarea{font-size:16px}
-    .edit-grid input[type="time"],.edit-grid select{height:45px}
-    .edit-grid .mobile-full{grid-column:1/-1}
+    input,select,textarea{font-size:16px!important}
+    .amtbox input{font-size:24px!important}
+    .edit-grid .time-input,.edit-grid select{height:45px}
+    #lgNote,#lgDate{min-width:0;width:100%}
   }
 
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -848,6 +849,19 @@ function render(i){
 /* ---------- 行程編輯（本機保存＋Supabase 雙人同步） ---------- */
 let editingDay=-1,editDraft=[],editingKey=null,editingMap={url:'',lat:null,lng:null,pid:''};
 const stopMinute=value=>{const m=String(value||'').match(/^(\d{1,2}):(\d{2})/);return m?Number(m[1])*60+Number(m[2]):Infinity;};
+function normalizeStopTime(value){
+  const raw=String(value||'').trim();let hour,minute;
+  const colon=raw.match(/^(\d{1,2}):(\d{1,2})$/);
+  if(colon){hour=Number(colon[1]);minute=Number(colon[2]);}
+  else{
+    const digits=raw.replace(/\D/g,'');
+    if(!digits||digits.length>4)return '';
+    if(digits.length<=2){hour=Number(digits);minute=0;}
+    else{hour=Number(digits.slice(0,-2));minute=Number(digits.slice(-2));}
+  }
+  return hour>=0&&hour<24&&minute>=0&&minute<60
+    ?String(hour).padStart(2,'0')+':'+String(minute).padStart(2,'0'):'';
+}
 function renderEditor(i){
   editingDay=i;editDraft=clone(days[i].stops);
   const main=document.getElementById('main');
@@ -856,7 +870,7 @@ function renderEditor(i){
     <div class="editor-sync ${cloudReady()?(itineraryCloudError?'bad':'on'):''}" id="itinerarySyncState">${cloudReady()?(itineraryCloudError||'與記帳共用同一個雙人雲端'):'目前只存在此裝置 · 請先到記帳完成同步設定'}</div>
     <div class="edit-list" id="editList"></div><div class="editor-bottom"><button id="editAdd">＋ 新增行程</button><button id="editReset">恢復原始行程</button><button class="save" id="editSave">${cloudReady()?'儲存並同步':'儲存行程'}</button></div>
     <div class="edit-modal" id="editModal"><div class="edit-sheet"><h3 id="editModalTitle">編輯行程</h3><div class="edit-grid">
-      <label class="mobile-full">時間<input id="efTime" type="time"></label><label class="mobile-full">分類<select id="efCat">${Object.keys(CAT).map(x=>`<option>${x}</option>`).join('')}</select></label>
+      <label>時間<input class="time-input" id="efTime" type="text" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="12:00" aria-label="時間，例如 1230"></label><label>分類<select id="efCat">${Object.keys(CAT).map(x=>`<option>${x}</option>`).join('')}</select></label>
       <label class="wide">Google Maps 連結<input id="efMap" type="text" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="貼上 Google Maps 分享連結"><span class="map-detect" id="efMapStatus">貼上後會嘗試讀取地標名稱與地圖位置</span></label>
       <label class="wide">名稱<input id="efName" type="text" placeholder="景點或店家名稱"></label><label class="wide">副標題<input id="efEn" type="text" placeholder="簡短補充"></label>
       <label>車程<input id="efDrive" type="text" placeholder="約 15 分"></label><label>營業時間<input id="efOpen" type="text" placeholder="10:00–18:00"></label>
@@ -869,6 +883,9 @@ function renderEditor(i){
   document.getElementById('efCancel').onclick=closeStopEditor;
   document.getElementById('efDone').onclick=saveStopEditor;
   const mapInput=document.getElementById('efMap');
+  const timeInput=document.getElementById('efTime');
+  timeInput.oninput=()=>{if(timeInput.setCustomValidity)timeInput.setCustomValidity('');};
+  timeInput.onblur=()=>{const normalized=normalizeStopTime(timeInput.value);if(normalized)timeInput.value=normalized;};
   mapInput.onpaste=e=>{const text=e.clipboardData&&e.clipboardData.getData('text');if(!text)return;e.preventDefault();mapInput.value=text;readMapLink(text,true);};
   mapInput.onchange=()=>readMapLink(mapInput.value,false);
   document.getElementById('editModal').onclick=e=>{if(e.target.id==='editModal')closeStopEditor();};
@@ -963,8 +980,14 @@ function saveStopEditor(){
   const mapText=document.getElementById('efMap').value.trim(),parsed=parseMapLink(mapText);
   if(mapText&&!parsed.valid){setMapStatus('請貼上 Google Maps 的分享連結','bad');document.getElementById('efMap').focus();return;}
   if(parsed.valid)editingMap={url:parsed.url,lat:parsed.lat,lng:parsed.lng,pid:parsed.pid};
+  const timeInput=document.getElementById('efTime'),time=normalizeStopTime(timeInput.value);
+  if(!time){
+    if(timeInput.setCustomValidity){timeInput.setCustomValidity('請輸入正確時間，例如 1230 或 12:30');timeInput.reportValidity();}
+    timeInput.focus();return;
+  }
+  timeInput.value=time;
   const name=document.getElementById('efName').value.trim();if(!name){document.getElementById('efName').focus();return;}
-  const values={t:document.getElementById('efTime').value||'12:00',c:document.getElementById('efCat').value,name,en:document.getElementById('efEn').value.trim(),drive:document.getElementById('efDrive').value.trim(),open:document.getElementById('efOpen').value.trim(),tip:document.getElementById('efTip').value.trim(),mapUrl:editingMap.url,lat:editingMap.lat,lng:editingMap.lng,pid:editingMap.pid};
+  const values={t:time,c:document.getElementById('efCat').value,name,en:document.getElementById('efEn').value.trim(),drive:document.getElementById('efDrive').value.trim(),open:document.getElementById('efOpen').value.trim(),tip:document.getElementById('efTip').value.trim(),mapUrl:editingMap.url,lat:editingMap.lat,lng:editingMap.lng,pid:editingMap.pid};
   if(editingKey){const index=editDraft.findIndex(s=>s._key===editingKey);editDraft[index]=Object.assign({},editDraft[index],values);}
   else{editDraft.push(Object.assign({},values,{_key:'custom-'+makeId()}));editDraft.sort((a,b)=>stopMinute(a.t)-stopMinute(b.t));}
   closeStopEditor();drawEditorList();
