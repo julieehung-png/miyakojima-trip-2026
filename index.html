@@ -154,7 +154,14 @@
   .chk input:checked+.w{opacity:.42;text-decoration:line-through}
   .note{display:flex;gap:9px;padding:8px 0;font-size:13px;line-height:1.55;border-bottom:1px dashed var(--hair)}
   .note:last-child{border-bottom:none;padding-bottom:2px}
-  .note .em{flex:0 0 auto;font-size:15px;line-height:1.4}
+  .note .em{flex:0 0 auto;font-size:15px;line-height:1.4;color:var(--sea)}
+  .emi{width:1.15em;height:1.15em;vertical-align:-0.22em;display:inline-block;flex:0 0 auto}
+  h3 .emi{color:var(--sea)}
+  .emib{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;vertical-align:-9px;margin-right:2px}
+  .emib .emi{width:17px;height:17px;vertical-align:0}
+  .tool h3{display:flex;align-items:center;gap:8px}
+  .wx .e .emi{width:29px;height:29px;color:var(--sea-deep)}
+  .wx .r .emi{color:var(--pool)}
 
   footer{padding:6px 20px calc(env(safe-area-inset-bottom) + 34px);color:var(--muted);font-size:12px;line-height:1.7}
   footer .tips{background:#fff;border:1px solid var(--hair);border-radius:14px;padding:14px 16px;margin-bottom:16px}
@@ -372,6 +379,52 @@ const IC={
   layers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg>',
   route:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H15a3.5 3.5 0 000-7H9a3.5 3.5 0 010-7h6.5"/></svg>'
 };
+/* 手繪 icon：取代所有 emoji（沿用 IC 線條風格） */
+const _e=p=>`<svg class="emi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const EM={
+'🧂':_e('<rect x="8.5" y="9" width="7" height="11.5" rx="2"/><path d="M9.4 9l.9-3.4h3.4l.9 3.4"/><path d="M10.4 2.6h.01M13.6 2.6h.01M12 1.4h.01"/>'),
+'🥃':_e('<path d="M6 4.5h12l-1.4 15H7.4L6 4.5z"/><path d="M6.7 12h10.6"/>'),
+'🥭':_e('<path d="M11 6.6c5.5-.9 9 2.7 9 6.9a7 7 0 01-14 .3C6 10 7.5 7.2 11 6.6z"/><path d="M11 6.6c0-1.8 1.3-3 3-3.4"/>'),
+'🌶':_e('<path d="M18.6 6.2c1.4 4.5-1.6 11.3-8.6 12.8-3 .6-5.5-.4-6.5-2 5.5 1 11.6-3.6 12.1-10.8"/><path d="M15.6 6.2c0-1.8 1.4-3 3.1-3"/>'),
+'🧵':_e('<path d="M6.5 4.5h11M6.5 19.5h11"/><path d="M8 4.5v15M16 4.5v15"/><path d="M8 9h8M8 12h8M8 15h8"/>'),
+'💊':_e('<rect x="4.8" y="8.5" width="14.4" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="M12 8.5v7" transform="rotate(-45 12 12)"/>'),
+'⚠':_e('<path d="M12 3.8L21.2 19.5H2.8L12 3.8z" fill="#FFD66B"/><g stroke="#C98A00"><path d="M12 3.8L21.2 19.5H2.8L12 3.8z" fill="none"/><path d="M12 10v4.2M12 16.8h.01"/></g>'),
+'🌀':_e('<circle cx="12" cy="12" r="3.2" fill="#7FE0DD"/><path d="M15.2 12c3.8 0 5.3-1.8 5.8-3.8M8.8 12c-3.8 0-5.3 1.8-5.8 3.8"/>'),
+'⏰':_e('<circle cx="12" cy="13" r="7.2" fill="#CDEBEF"/><path d="M12 9.8v3.4l2.3 1.6"/><path d="M4.6 5.4L7 3.4M19.4 5.4L17 3.4"/>'),
+'🚭':_e('<circle cx="12" cy="12" r="8.5"/><path d="M7 13.8h7.6"/><path d="M6 6l12 12"/>'),
+'📞':_e('<path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8.1 9.6a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/>'),
+'🌌':_e('<path d="M12 3.5l1.3 3.2 3.2 1.3-3.2 1.3L12 12.5l-1.3-3.2-3.2-1.3 3.2-1.3z" fill="#FFD66B"/><path d="M5 15h.01M19 13h.01M8.5 19.5h.01M15.5 18h.01"/>'),
+'🛒':_e('<path d="M5.3 4.2l2.2 10.8h10l2-7.8H6.1z" fill="#7FE0DD" stroke="none" opacity=".55"/><circle cx="9.7" cy="19.3" r="1.5" fill="#7FE0DD"/><circle cx="16.8" cy="19.3" r="1.5" fill="#7FE0DD"/><path d="M3 4.2h2.3l2.2 10.8h10l2-7.8H6.1"/>'),
+'☀':_e('<circle cx="12" cy="12" r="4" fill="#FFD66B"/><path d="M12 2.8V5M12 19v2.2M2.8 12H5M19 12h2.2M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M18.5 5.5l-1.6 1.6M7.1 16.9l-1.6 1.6"/>'),
+'🌤':_e('<circle cx="8.2" cy="7.6" r="2.8" fill="#FFD66B" stroke="#F0B440"/><path d="M8.2 2.6v1.2M3.2 7.6h1.2M4.7 4.1l.9.9M11.7 4.1l-.9.9" stroke="#F0B440"/><path d="M9.6 19.5h7.6a3.6 3.6 0 000-7.2 5.2 5.2 0 00-10-1.1 3.9 3.9 0 002.4 8.3z"/>'),
+'☁':_e('<path d="M7.3 18.5h9.2a4 4 0 000-8 5.6 5.6 0 00-10.9-1A4.3 4.3 0 007.3 18.5z" fill="#CDEBEF"/>'),
+'🌫':_e('<path d="M8 12.5h8.4a3.4 3.4 0 000-6.8 4.8 4.8 0 00-9.3-.9A3.7 3.7 0 008 12.5z" fill="#CDEBEF"/><path d="M4.5 16.5h15M7 19.8h10"/>'),
+'🌦':_e('<path d="M7.5 15h9a3.8 3.8 0 000-7.6 5.3 5.3 0 00-10.3-1A4.1 4.1 0 007.5 15z" fill="#CDEBEF"/><path d="M9.5 18l-.6 2.2M15.9 18l-.6 2.2" stroke="#12A6C4"/>'),
+'🌧':_e('<path d="M7.5 15h9a3.8 3.8 0 000-7.6 5.3 5.3 0 00-10.3-1A4.1 4.1 0 007.5 15z" fill="#CDEBEF"/><path d="M9 18l-.6 2.2M12.6 18l-.6 2.2M16.2 18l-.6 2.2" stroke="#12A6C4"/>'),
+'⛈':_e('<path d="M7.5 14h9a3.8 3.8 0 000-7.6 5.3 5.3 0 00-10.3-1A4.1 4.1 0 007.5 14z" fill="#CDEBEF"/><path d="M12.9 14l-2.3 3.9h2.9l-1.7 3.6" stroke="#F0B440"/>'),
+'💧':_e('<path d="M12 3.8c3 3.8 5.6 6.9 5.6 9.7a5.6 5.6 0 11-11.2 0C6.4 10.7 9 7.6 12 3.8z" fill="#7FE0DD"/>'),
+'🎐':_e('<path d="M5.8 11.2a6.2 6.2 0 0112.4 0c0 1.1-1 1.7-2.3 1.7H8.1c-1.3 0-2.3-.6-2.3-1.7z" fill="#7FE0DD"/><path d="M9 15.2c.3 1.6-.6 2.7-.3 4.4M12 15.2c.3 1.6-.3 2.7 0 4.4M15 15.2c-.3 1.6.6 2.7.3 4.4"/>'),
+'💴':_e('<rect x="2.8" y="6.5" width="18.4" height="11" rx="2" fill="#CDEBEF"/><circle cx="12" cy="12" r="3" fill="#7FE0DD"/><path d="M6 9.3h.01M18 14.7h.01"/>'),
+'🚗':_e('<path d="M6.5 8.5A2 2 0 018.4 7h7.2a2 2 0 011.9 1.5L19 13H5z" fill="#7FE0DD" stroke="none"/><path d="M5 13l1.5-4.5A2 2 0 018.4 7h7.2a2 2 0 011.9 1.5L19 13m-14 0h14m-14 0v4m14-4v4M7 17h.01M17 17h.01"/>'),
+'⛽':_e('<rect x="4.5" y="3.8" width="9.5" height="16.4" rx="1.6"/><rect x="6.6" y="6.2" width="5.3" height="4" rx=".8" fill="#7FE0DD"/><path d="M14 9.5h2.3l2.5 3v4.4a1.8 1.8 0 11-3.6 0v-2.4"/>'),
+'📅':_e('<path d="M3.8 7.3a2 2 0 012-2h12.4a2 2 0 012 2v2.5H3.8z" fill="#7FE0DD" stroke="none"/><rect x="3.8" y="5.3" width="16.4" height="15" rx="2"/><path d="M3.8 9.8h16.4M8.3 3.2v4M15.7 3.2v4"/><path d="M8.5 14h.01M12 14h.01M15.5 14h.01"/>'),
+'🐢':_e('<path d="M6.6 14a5.5 5.5 0 0110.8 0z" fill="#7FE0DD"/><circle cx="19.5" cy="13.2" r="1.9" fill="#FFD66B"/><path d="M8.4 14v2.4M15 14v2.4M4 14.6l1.7-1.1"/>'),
+'✈':_e('<path d="M4 13.5L21 6.5l-6 15-2.8-6.7L4 13.5z" fill="#7FE0DD"/>'),
+'🏨':_e('<path d="M2.5 20v-8a2 2 0 012-2h15a2 2 0 012 2v8"/><path d="M4.5 10V6.5a2 2 0 012-2h11a2 2 0 012 2V10"/><path d="M2.5 17h19"/><path d="M7 7.8h3.5M13.5 7.8h3.5"/>'),
+'💱':_e('<path d="M4.5 8.3h13.7l-2.7-2.7M19.5 15.7H5.8l2.7 2.7"/>'),
+'🧾':_e('<path d="M6.5 3.5h11v17l-1.85-1.4-1.83 1.4-1.82-1.4-1.82 1.4-1.83-1.4-1.85 1.4v-17z"/><path d="M9.5 8h5M9.5 11.5h5M9.5 15h3"/>'),
+'📋':_e('<rect x="5.3" y="4.8" width="13.4" height="16" rx="2"/><rect x="9" y="2.8" width="6" height="3.6" rx="1.2"/><path d="M8.8 10.5h6.4M8.8 14h6.4M8.8 17.5h4"/>'),
+'📥':_e('<path d="M12 3.8v9.8m0 0 3.4-3.4M12 13.6 8.6 10.2"/><path d="M4.5 15.5v3.2a1.8 1.8 0 001.8 1.8h11.4a1.8 1.8 0 001.8-1.8v-3.2"/>'),
+'🎉':_e('<path d="M6.8 8.5l8.7 8.7L3 21z" fill="#FFD66B"/><path d="M14 5h.01M19 10h.01M20.5 4.5h.01M16.5 3.2l-.8 2.2M20.8 13.5l-2.2.8M17.3 7.2c1-1.3 2.4-1.5 3.5-.7"/>'),
+'✔':_e('<path d="M4.5 12.5l5 5L19.5 7"/>'),
+'✅':_e('<rect x="3.8" y="3.8" width="16.4" height="16.4" rx="4" fill="#CDEBEF"/><path d="M8.3 12.4l2.7 2.7 4.7-5.7"/>')
+};
+function emojify(s){s=String(s).replace(/\uFE0F/g,'');for(const k in EM)s=s.split(k).join(EM[k]);return s;}
+/* 標題用貼紙徽章：圓形色底 + 線條 icon */
+const BG={'✈':['#CDEBEF','#0A4E6E'],'🏨':['#E4DDF6','#5B48A8'],'🚗':['#CDEBEF','#0E93A6'],'🌤':['#FFF1C9','#C98A00'],'💱':['#FFF1C9','#C98A00'],'🧾':['#E4DDF6','#5B48A8'],'📋':['#CDEBEF','#0A4E6E'],'⚠':['#FFF1C9','#C98A00'],'🧂':['#CDEBEF','#0A4E6E'],'🥃':['#E4DDF6','#5B48A8'],'🥭':['#FFE3C2','#B4611B'],'🌶':['#FFD9D2','#C0392B'],'🧵':['#CDEBEF','#0E93A6'],'💊':['#D3F0DF','#1E7A52']};
+const LINE={'✈':'<path d="M4 13.5L21 6.5l-6 15-2.8-6.7L4 13.5z"/>','🏨':'<path d="M2.5 20v-8a2 2 0 012-2h15a2 2 0 012 2v8"/><path d="M4.5 10V6.5a2 2 0 012-2h11a2 2 0 012 2V10"/><path d="M2.5 17h19"/><path d="M7 7.8h3.5M13.5 7.8h3.5"/>','🚗':'<path d="M5 13l1.5-4.5A2 2 0 018.4 7h7.2a2 2 0 011.9 1.5L19 13m-14 0h14m-14 0v4m14-4v4M7 17h.01M17 17h.01"/>','🌤':'<circle cx="8.2" cy="7.6" r="2.8"/><path d="M8.2 2.6v1.2M3.2 7.6h1.2M4.7 4.1l.9.9M11.7 4.1l-.9.9"/><path d="M9.6 19.5h7.6a3.6 3.6 0 000-7.2 5.2 5.2 0 00-10-1.1 3.9 3.9 0 002.4 8.3z"/>','💱':'<path d="M4.5 8.3h13.7l-2.7-2.7M19.5 15.7H5.8l2.7 2.7"/>','🧾':'<path d="M6.5 3.5h11v17l-1.85-1.4-1.83 1.4-1.82-1.4-1.82 1.4-1.83-1.4-1.85 1.4v-17z"/><path d="M9.5 8h5M9.5 11.5h5M9.5 15h3"/>','📋':'<rect x="5.3" y="4.8" width="13.4" height="16" rx="2"/><rect x="9" y="2.8" width="6" height="3.6" rx="1.2"/><path d="M8.8 10.5h6.4M8.8 14h6.4M8.8 17.5h4"/>','⚠':'<path d="M12 3.8L21.2 19.5H2.8L12 3.8z"/><path d="M12 10v4.2M12 16.8h.01"/>','🧂':'<rect x="8.5" y="9" width="7" height="11.5" rx="2"/><path d="M9.4 9l.9-3.4h3.4l.9 3.4"/><path d="M10.4 2.6h.01M13.6 2.6h.01M12 1.4h.01"/>','🥃':'<path d="M6 4.5h12l-1.4 15H7.4L6 4.5z"/><path d="M6.7 12h10.6"/>','🥭':'<path d="M11 6.6c5.5-.9 9 2.7 9 6.9a7 7 0 01-14 .3C6 10 7.5 7.2 11 6.6z"/><path d="M11 6.6c0-1.8 1.3-3 3-3.4"/>','🌶':'<path d="M18.6 6.2c1.4 4.5-1.6 11.3-8.6 12.8-3 .6-5.5-.4-6.5-2 5.5 1 11.6-3.6 12.1-10.8"/><path d="M15.6 6.2c0-1.8 1.4-3 3.1-3"/>','🧵':'<path d="M6.5 4.5h11M6.5 19.5h11"/><path d="M8 4.5v15M16 4.5v15"/><path d="M8 9h8M8 12h8M8 15h8"/>','💊':'<rect x="4.8" y="8.5" width="14.4" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="M12 8.5v7" transform="rotate(-45 12 12)"/>'};
+const TB=e=>{const c=BG[e];return `<span class="emib" style="background:${c[0]};color:${c[1]}">${_e(LINE[e])}</span>`;};
+function titleize(s){s=String(s).replace(/\uFE0F/g,'');const m=s.match(/^(\S+)\s*/);return m&&BG[m[1]]?TB(m[1])+s.slice(m[0].length):s;}
 /* 裝飾小圖：陽傘+太陽（Day 頁首）、小海浪（每天行程結尾） */
 const ART_PARASOL=`<svg class="lead-art" viewBox="0 0 132 76" aria-hidden="true">
   <circle cx="118" cy="12" r="8" fill="#FFD66B"/>
@@ -632,12 +685,12 @@ function render(i){
           ${phone?`<a class="maplink call" href="tel:${tel(phone)}">${IC.phone} 撥號</a>`:''}
         </div>${altsHtml}</div></div>`;
   }).join('');
-  main.innerHTML=`<div class="lead">${ART_PARASOL}
+  main.innerHTML=emojify(`<div class="lead">${ART_PARASOL}
       <div class="num">${d.n}<span>/ 6</span></div>
       <div class="date">${d.date} · ${d.wd}</div>
       <div class="theme">${d.theme}</div>
       <a class="routebtn" target="_blank" rel="noopener" href="${d.route}">${IC.route} 開啟當天 Google 導航路線</a>
-    </div><div class="timeline">${stopsHtml}</div>${ART_WAVE}`;
+    </div><div class="timeline">${stopsHtml}</div>${ART_WAVE}`);
   updateMap(i);
 }
 
@@ -700,18 +753,18 @@ function updateProg(){
 }
 function renderInfo(){
   const main=document.getElementById('main');
-  const buyHtml=BUY.map((sec,si)=>`<div class="sec"><h3>${sec.g}</h3>
+  const buyHtml=BUY.map((sec,si)=>`<div class="sec"><h3>${titleize(sec.g)}</h3>
     ${sec.items.map((it,ii)=>{const id=`b${si}-${ii}`;
       return `<label class="chk"><input type="checkbox" data-id="${id}" ${chkState[id]?'checked':''}><span class="w">${it[0]}<small>${it[1]}</small></span></label>`;}).join('')}
   </div>`).join('');
-  const noteHtml=`<div class="sec"><h3>⚠️ 需要注意的事項</h3>
+  const noteHtml=`<div class="sec"><h3>${titleize('⚠️ 需要注意的事項')}</h3>
     ${NOTES.map(n=>`<div class="note"><span class="em">${n[0]}</span><span>${n[1]}</span></div>`).join('')}</div>`;
-  main.innerHTML=`<div class="info">${typeof backBar==='function'?backBar():''}
+  main.innerHTML=emojify(`<div class="info">${typeof backBar==='function'?backBar():''}
     <div class="pagehead"><div class="big">必買 & 注意</div>
     <div class="sub2">Shopping list · Before you go</div>
     <div class="progwrap"><div class="progtxt"><span>採買進度</span><span id="progtxt"></span></div>
     <div class="progbar"><i id="progfill"></i></div></div></div>
-    ${buyHtml}${noteHtml}${ART_WAVE}</div>`;
+    ${buyHtml}${noteHtml}${ART_WAVE}</div>`);
   main.querySelectorAll('.chk input').forEach(el=>el.onchange=()=>{chkState[el.dataset.id]=el.checked;updateProg();});
   bindBack();
   updateProg();
@@ -747,22 +800,22 @@ function settleCalc(){                                    // 全部以 TWD 計
 const WXE=c=>c===0?'☀️':c<=2?'🌤️':c===3?'☁️':c<49?'🌫️':c<58?'🌦️':c<66?'🌧️':c<78?'🌧️':c<83?'🌧️':c<95?'🌧️':'⛈️';
 function renderTrip(){
   const main=document.getElementById('main');
-  main.innerHTML=`<div class="tool">${backBar()}
-    <div class="sec"><h3>✈️ 航班（星宇航空）</h3>
+  main.innerHTML=emojify(`<div class="tool">${backBar()}
+    <div class="sec"><h3>${titleize('✈️ 航班（星宇航空）')}</h3>
       <div class="fcard"><div class="frow"><span class="fbadge">去程 · 7/20（一）</span><span class="fno">JX890</span></div>
         <div class="fseg"><div class="pt"><b>10:40</b><span>TPE 桃園</span></div><div class="arrow">✈</div><div class="pt" style="text-align:right"><b>13:00</b><span>SHI 下地島</span></div></div></div>
       <div class="fcard"><div class="frow"><span class="fbadge">回程 · 7/25（六）</span><span class="fno">JX891</span></div>
         <div class="fseg"><div class="pt"><b>14:00</b><span>SHI 下地島</span></div><div class="arrow">✈</div><div class="pt" style="text-align:right"><b>14:10</b><span>TPE 桃園</span></div></div></div>
       <div class="wxnote">時間皆為當地時間（日本比台灣快 1 小時）· 出發前 48 小時記得線上報到</div>
     </div>
-    <div class="sec"><h3>🏨 住宿</h3>
+    <div class="sec"><h3>${titleize('🏨 住宿')}</h3>
       <div class="hotelrow"><span class="hl">飯店</span><span>Canopy by Hilton 沖縄宮古島リゾート</span></div>
       <div class="hotelrow"><span class="hl">日期</span><span>7/20（一）入住 – 7/25（六）退房 · 5 晚</span></div>
       <div class="hotelrow"><span class="hl">確認號</span><b>3479692495</b></div>
       <div class="hotelrow"><span class="hl">電話</span><a href="tel:+81980753330" style="color:var(--sea-deep);font-weight:700;text-decoration:none">+81 980-75-3330</a></div>
       <div class="hotelrow"><span class="hl">地圖</span><a target="_blank" rel="noopener" href="${D(24.7994493,125.2592204,'ChIJyREvegBV9DQRK4b4ZndUclE')}" style="color:var(--sea-deep);font-weight:700;text-decoration:none">開啟 Google 地圖 ↗</a></div>
     </div>
-    <div class="sec"><h3>🚗 租車（TOYOTA Rent a Car）</h3>
+    <div class="sec"><h3>${titleize('🚗 租車（TOYOTA Rent a Car）')}</h3>
       <div class="hotelrow"><span class="hl">店舖</span><span>下地島機場店（宮古島市伊良部字佐和田1727）</span></div>
       <div class="hotelrow"><span class="hl">預約番号</span><b>99978094000</b></div>
       <div class="hotelrow"><span class="hl">取車</span><span>7/20（一）<b>15:00</b></span></div>
@@ -771,11 +824,11 @@ function renderTrip(){
       <div class="hotelrow"><span class="hl">電話</span><a href="tel:+81980750100" style="color:var(--sea-deep);font-weight:700;text-decoration:none">0980-75-0100</a></div>
       <div class="hotelrow"><span class="hl">攜帶</span><span>台灣駕照＋日文譯本＋護照（缺一不可）</span></div>
     </div>
-    <div class="sec"><h3>🌤 行程天氣（7/20–7/25）</h3>
+    <div class="sec"><h3>${titleize('🌤 行程天氣（7/20–7/25）')}</h3>
       <div class="wxgrid" id="wxgrid"><div style="grid-column:1/-1;color:var(--muted);font-size:13px;padding:8px 0">取得天氣中…</div></div>
       <div class="wxnote">資料：Open-Meteo 即時預報，每次打開自動更新；7 月是颱風季，也請搭配日本氣象廳（jma.go.jp）颱風路徑確認。</div>
     </div>
-  </div>`;
+  </div>`);
   bindBack();loadWx();
   activeLayer.remove();activeLayer=L.layerGroup().addTo(map);
   curFit={pts:allPts,pad:30,maxZoom:18};
@@ -786,14 +839,14 @@ function loadWx(){
   const cache=store.get('wx',null);
   const draw=d=>{
     const today=new Date().toISOString().slice(0,10);
-    g.innerHTML=d.time.map((t,i)=>{
+    g.innerHTML=emojify(d.time.map((t,i)=>{
       const dd=new Date(t+'T00:00:00');
       const lbl=(dd.getMonth()+1)+'/'+dd.getDate()+'（'+'日一二三四五六'[dd.getDay()]+'）';
       return `<div class="wx ${t===today?'today':''}">
         <div class="d">${lbl}</div><div class="e">${WXE(d.weathercode[i])}</div>
         <div class="t"><b>${Math.round(d.temperature_2m_max[i])}°</b> <span>${Math.round(d.temperature_2m_min[i])}°</span></div>
         <div class="r">💧${d.precipitation_probability_max[i]}%</div></div>`;
-    }).join('');
+    }).join(''));
   };
   if(cache&&Date.now()-cache.ts<3*3600e3){draw(cache.d);return;}
   fetch('https://api.open-meteo.com/v1/forecast?latitude=24.805&longitude=125.281&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&start_date=2026-07-20&end_date=2026-07-25')
@@ -824,9 +877,9 @@ function renderHub(){
 }
 function renderFx(){
   const main=document.getElementById('main');
-  main.innerHTML=`<div class="tool">${backBar()}
+  main.innerHTML=emojify(`<div class="tool">${backBar()}
     <div class="sec">
-      <h3>💱 日幣 ⇄ 台幣</h3>
+      <h3>${titleize('💱 日幣 ⇄ 台幣')}</h3>
       <div class="fx">
         <div class="cur"><label>JPY 日幣</label><input id="fxj" type="number" inputmode="decimal" placeholder="0"></div>
         <div class="swap">⇄</div>
@@ -834,7 +887,7 @@ function renderFx(){
       </div>
       <div class="rate">匯率：1 JPY = <input id="fxr" type="number" step="0.001" inputmode="decimal" value="${fxRate}"> TWD（可自行修改，出發前查即期匯率）</div>
     </div>
-  </div>`;
+  </div>`);
   bindBack();
   const fj=document.getElementById('fxj'),ft=document.getElementById('fxt'),fr=document.getElementById('fxr');
   fj.oninput=()=>{ft.value=fj.value===''?'':nf2(fj.value*fxRate).replace(/,/g,'');};
@@ -846,9 +899,9 @@ function renderFx(){
 }
 function renderLedger(){
   const main=document.getElementById('main');
-  main.innerHTML=`<div class="tool">${backBar()}
+  main.innerHTML=emojify(`<div class="tool">${backBar()}
     <div class="sec">
-      <h3>🧾 記帳 · 這筆誰付的？</h3>
+      <h3>${titleize('🧾 記帳 · 這筆誰付的？')}</h3>
       <div class="payseg">
         <button id="wJ" class="${curWho==='Julie'?'onJ':''}">Julie</button>
         <button id="wS" class="${curWho==='劭'?'onS':''}">劭</button>
@@ -866,13 +919,13 @@ function renderLedger(){
       <button class="bigadd" id="lgAdd">✓ 記下這筆</button>
     </div>
     <div class="sec">
-      <h3>📋 明細與分帳</h3>
+      <h3>${titleize('📋 明細與分帳')}</h3>
       <div class="lgl" id="lgList"></div>
       <div id="lgBar"></div>
       <div class="settle" id="lgSettle"></div>
       <button class="xbtn" id="lgXls">📥 匯出 Excel（.xlsx）</button>
     </div>
-  </div>`;
+  </div>`);
   bindBack();
   const amt=document.getElementById('lgAmt'),twd=document.getElementById('lgTwd'),note=document.getElementById('lgNote');
   const curBtn=document.getElementById('lgCur');
@@ -931,7 +984,7 @@ function renderLg(){
       <i style="width:${c.st/c.tot*100}%;background:#0C6E9C"></i></div>
     <div class="paylbl"><span style="color:#8E76D6">Julie NT$${nf(c.j)}</span><span style="color:#0C6E9C">劭 NT$${nf(c.st)}</span></div>`:'';
   const pay=c.diff>0?{from:'劭',fc:'S',to:'Julie',tc:'J',amt:c.diff}:{from:'Julie',fc:'J',to:'劭',tc:'S',amt:-c.diff};
-  st.innerHTML=ledger.length?`
+  st.innerHTML=emojify(ledger.length?`
     <div class="stat"><span>總支出（台幣結算）</span><b>NT$ ${nf(c.tot)}</b><i>≈ ¥ ${nf(c.tot/fxRate)}</i></div>
     ${Math.abs(c.diff)<1
       ?`<div class="even">🎉 剛好平帳，誰都不用給誰</div>`
@@ -939,7 +992,7 @@ function renderLg(){
           <div class="tsent"><b class="n${pay.fc}">${pay.from}</b><span class="tgive">要給</span><b class="n${pay.tc}">${pay.to}</b></div>
           <b class="tamt">NT$ ${nf(pay.amt)}</b>
           <i class="tntd">≈ ¥ ${nf(pay.amt/fxRate)}</i>
-        </div>`}`:'';
+        </div>`}`:'');
 }
 function exportXlsx(){
   const btn=document.getElementById('lgXls');btn.disabled=true;btn.textContent='產生中…';
@@ -953,7 +1006,7 @@ function exportXlsx(){
     const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=[{wch:12},{wch:8},{wch:22},{wch:6},{wch:10},{wch:20}];
     const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'宮古島旅費');
     XLSX.writeFile(wb,'miyako-expenses.xlsx');
-    btn.disabled=false;btn.textContent='📥 匯出 Excel（.xlsx）';
+    btn.disabled=false;btn.innerHTML=emojify('📥 匯出 Excel（.xlsx）');
   };
   if(window.XLSX){build();return;}
   const sc=document.createElement('script');
@@ -966,7 +1019,7 @@ function exportXlsx(){
     csv+=`\n總支出(台幣),,,,,${Math.round(c.tot)}\n結算,,${c.diff>0?'劭→Julie':'Julie→劭'},,,${Math.round(Math.abs(c.diff))}\n`;
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
     a.download='miyako-expenses.csv';a.click();
-    btn.disabled=false;btn.textContent='📥 匯出 Excel（.xlsx）';
+    btn.disabled=false;btn.innerHTML=emojify('📥 匯出 Excel（.xlsx）');
   };
   document.head.appendChild(sc);
 }
