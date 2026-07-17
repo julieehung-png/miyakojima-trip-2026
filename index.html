@@ -810,18 +810,35 @@ const amtLabel=e=>e.cur==='TWD'
 const makeId=()=>globalThis.crypto&&crypto.randomUUID?crypto.randomUUID():
   'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==='x'?r:(r&3|8)).toString(16);});
 const htmlAttr=s=>String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-let cloudCfg=store.get('cloud',{url:'',key:'',trip:''});
+function readCloudCookie(){
+  try{
+    const m=document.cookie.match(/(?:^|;\s*)miyako_cloud=([^;]+)/);
+    return m?JSON.parse(decodeURIComponent(m[1])):null;
+  }catch(e){return null;}
+}
+function writeCloudCookie(cfg){
+  try{
+    const secure=location.protocol==='https:'?'; Secure':'';
+    document.cookie='miyako_cloud='+encodeURIComponent(JSON.stringify(cfg))+
+      '; Max-Age=31536000; Path=/; SameSite=Lax'+secure;
+  }catch(e){}
+}
+const storedCloudCfg=store.get('cloud',null),cookieCloudCfg=readCloudCookie();
+let cloudCfg=storedCloudCfg&&storedCloudCfg.url&&storedCloudCfg.key
+  ?storedCloudCfg:(cookieCloudCfg||storedCloudCfg||{url:'',key:'',trip:''});
+store.set('cloud',cloudCfg);
 let cloudTimer=null,cloudLast=0;
 try{
   const q=new URLSearchParams(location.search);
   if(q.get('sync_url')&&q.get('sync_key')&&q.get('trip')){
     cloudCfg={url:q.get('sync_url'),key:q.get('sync_key'),trip:q.get('trip')};
     store.set('cloud',cloudCfg);
+    writeCloudCookie(cloudCfg);
     // 保留同步參數：iOS 主畫面 Web App 有獨立儲存空間，
     // 第一次從圖示開啟時需要再由啟動網址匯入設定。
   }
 }catch(e){}
-if(!cloudCfg.trip){cloudCfg.trip=makeId();store.set('cloud',cloudCfg);}
+if(!cloudCfg.trip){cloudCfg.trip=makeId();store.set('cloud',cloudCfg);writeCloudCookie(cloudCfg);}
 
 const cloudReady=()=>/^https:\/\/.+\.supabase\.co\/?$/.test(cloudCfg.url||'')&&
   (cloudCfg.key||'').length>30&&(cloudCfg.trip||'').length>=8;
@@ -1065,7 +1082,7 @@ function renderLedger(){
   const su=document.getElementById('syncUrl'),sk=document.getElementById('syncKey'),sp=document.getElementById('syncTrip');
   const saveCloudForm=()=>{
     cloudCfg={url:su.value.trim(),key:sk.value.trim(),trip:sp.value.trim()};
-    store.set('cloud',cloudCfg);return cloudReady();
+    store.set('cloud',cloudCfg);writeCloudCookie(cloudCfg);return cloudReady();
   };
   document.getElementById('syncConnect').onclick=async()=>{
     if(!saveCloudForm()){cloudState('請確認三項設定是否完整');return;}
