@@ -316,10 +316,18 @@
   .paybar{display:flex;height:14px;border-radius:99px;overflow:hidden;margin:10px 0 4px;background:#EAE2D1}
   .paybar i{display:block;height:100%}
   .paylbl{display:flex;justify-content:space-between;font-size:11.5px;font-family:"DM Mono",monospace;color:var(--muted);margin-bottom:8px}
-  .lgl{border-top:1px dashed var(--hair)}
-  .lgd{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.1em;color:var(--sea-deep);
-    background:var(--turq-soft);border-radius:999px;display:inline-block;padding:3px 11px;margin:11px 0 3px}
+  .lgl{display:grid;gap:8px}
+  .lgday{border:1px solid var(--hair);border-radius:13px;background:#fff;overflow:hidden}
+  .lgday summary{display:grid;grid-template-columns:minmax(0,1fr) auto 18px;align-items:center;gap:8px;min-height:45px;padding:6px 10px;cursor:pointer;list-style:none;user-select:none}
+  .lgday summary::-webkit-details-marker{display:none}
+  .lgday summary:focus-visible{outline:2px solid var(--turq);outline-offset:-2px}
+  .lgd{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.08em;color:var(--sea-deep);background:var(--turq-soft);border-radius:999px;display:inline-flex;width:max-content;max-width:100%;padding:4px 10px}
+  .lgdaymeta{font-family:"DM Mono",monospace;font-size:10.5px;color:var(--muted);white-space:nowrap}
+  .lgdayarrow{color:var(--turq);font-size:15px;line-height:1;text-align:center;transition:transform .15s ease}
+  .lgday[open] .lgdayarrow{transform:rotate(180deg)}
+  .lgdaybody{padding:0 10px 4px;border-top:1px dashed var(--hair)}
   .lgi{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--hair);font-size:13px}
+  .lgdaybody .lgi:last-child{border-bottom:0}
   .lgi .w8{flex:0 0 auto;font-weight:800;border-radius:999px;padding:2px 9px;font-size:11px;color:#fff}
   .lgi .amt{font-family:"DM Mono",monospace;margin-left:auto;white-space:nowrap}
   .lgi .del{border:none;background:none;color:#C0392B;font-size:15px;cursor:pointer;padding:2px 4px}
@@ -1135,6 +1143,8 @@ const nf2=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:2});
 let curCur=store.get('cur','JPY');                        // 記帳幣別：JPY 或 TWD
 const ledgerTodayKey=()=>{const p=japanNowParts();return `${p.year}-${String(p.month).padStart(2,'0')}-${String(p.day).padStart(2,'0')}`;};
 let ledgerDraftDate=ledgerTodayKey();
+const ledgerOpenDays=new Set([ledgerTodayKey()]);
+let ledgerOpenReady=false;
 function ledgerDateLabel(key){
   const m=String(key||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return '選擇日期';
   const d=new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));
@@ -1545,6 +1555,7 @@ function renderLedger(){
     const dv=document.getElementById('lgDate').value||ledgerTodayKey();
     const entry={clientId:makeId(),who:curWho,amt:a,cur:curCur,note:note.value.trim()||'未命名',d:dv,ts:Date.now()};
     ledger.push(entry);
+    ledgerOpenDays.add(dv);
     store.set('ledger',ledger);amt.value='';twd.textContent='';note.value='';renderLg();
     cloudAdd(entry);
     const ab=document.getElementById('lgAdd');ab.textContent='✓ 已記下！';ab.style.background='#1E9E6A';
@@ -1564,19 +1575,30 @@ function renderLg(){
   const fmtD=d=>{const x=new Date(d+'T00:00:00');return (x.getMonth()+1)+'/'+x.getDate()+'（'+'日一二三四五六'[x.getDay()]+'）';};
   if(ledger.length){
     const idx=ledger.map((e,i)=>({e,i})).sort((a,b)=>eD(a.e)===eD(b.e)?a.e.ts-b.e.ts:(eD(a.e)<eD(b.e)?-1:1));
-    let html='',last='';
-    idx.forEach(({e,i})=>{
-      const d=eD(e);
-      if(d!==last){html+=`<div class="lgd">${fmtD(d)}</div>`;last=d;}
-      html+=`<div class="lgi">
+    const groups=new Map();
+    idx.forEach(item=>{const d=eD(item.e);if(!groups.has(d))groups.set(d,[]);groups.get(d).push(item);});
+    const dates=[...groups.keys()];
+    if(!ledgerOpenReady){
+      if(!groups.has(ledgerTodayKey())&&dates.length)ledgerOpenDays.add(dates[dates.length-1]);
+      ledgerOpenReady=true;
+    }
+    list.innerHTML=dates.map(d=>{
+      const items=groups.get(d),subtotal=items.reduce((sum,item)=>sum+toTWD(item.e),0);
+      const rows=items.map(({e,i})=>`<div class="lgi">
         <span class="w8" style="background:${WHOC[e.who]}">${e.who}</span>
-        <span>${e.note}</span>
+        <span>${esc(e.note)}</span>
         <span class="amt">${amtLabel(e)}</span>
         <button class="del" data-i="${i}" aria-label="刪除">✕</button>
-      </div>`;
-    });
-    list.innerHTML=html;
+      </div>`).join('');
+      return `<details class="lgday" data-date="${d}" ${ledgerOpenDays.has(d)?'open':''}>
+        <summary><span class="lgd">${fmtD(d)}</span><span class="lgdaymeta">${items.length} 筆 · NT$${nf(subtotal)}</span><span class="lgdayarrow">⌄</span></summary>
+        <div class="lgdaybody">${rows}</div>
+      </details>`;
+    }).join('');
   }else list.innerHTML='<div style="padding:12px 0;color:var(--muted);font-size:13px">還沒有記錄，上面記第一筆吧</div>';
+  list.querySelectorAll('.lgday').forEach(group=>group.ontoggle=()=>{
+    if(group.open)ledgerOpenDays.add(group.dataset.date);else ledgerOpenDays.delete(group.dataset.date);
+  });
   list.querySelectorAll('.del').forEach(b=>b.onclick=async()=>{
     const e=ledger[+b.dataset.i];
     if(cloudReady()&&e&&e.id){
