@@ -449,9 +449,17 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
-const D=(lat,lng,pid)=>`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`+(pid?`&query_place_id=${pid}`:'');
 const esc=value=>String(value==null?'':value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const isGeo=(lat,lng)=>Number.isFinite(Number(lat))&&Number.isFinite(Number(lng))&&Math.abs(Number(lat))<=90&&Math.abs(Number(lng))<=180;
+function mapQuery(name,lat,lng,pid){
+  let label=String(name||'').trim();
+  if(label&&!pid&&!/(宮古|沖縄|miyako)/i.test(label))label+=' 宮古島';
+  return label||(isGeo(lat,lng)?`${lat},${lng}`:'');
+}
+const D=(lat,lng,pid,name)=>{
+  const query=mapQuery(name,lat,lng,pid);
+  return query?'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(query)+(pid?'&query_place_id='+encodeURIComponent(pid):''):'';
+};
 function parseMapLink(raw){
   const text=String(raw||'').trim(),match=text.match(/https?:\/\/[^\s<>"']+/i);
   if(!match)return {valid:false,url:'',name:'',lat:null,lng:null,pid:'',short:false};
@@ -471,7 +479,19 @@ function parseMapLink(raw){
   if(!name){const before=text.slice(0,match.index).replace(/\s+/g,' ').trim();if(before)name=before;}
   return {valid:true,url:u.href,name,lat:coords?coords.lat:null,lng:coords?coords.lng:null,pid:u.searchParams.get('query_place_id')||'',short};
 }
-function stopMapUrl(s){const parsed=parseMapLink(s&&s.mapUrl);return parsed.valid?parsed.url:(s&&isGeo(s.lat,s.lng)?D(s.lat,s.lng,s.pid):'');}
+function mapPlace(s){
+  const parsed=parseMapLink(s&&s.mapUrl),lat=parsed.lat!=null?parsed.lat:(s&&s.lat),lng=parsed.lng!=null?parsed.lng:(s&&s.lng);
+  return {name:String((s&&s.name)||parsed.name||'').trim(),en:String((s&&s.en)||'').trim(),lat,lng,pid:String((s&&s.pid)||parsed.pid||'').trim(),parsed};
+}
+function placeQuery(s){
+  const p=mapPlace(s),name=[p.name,p.en].filter(Boolean).join(' · ');
+  return mapQuery(name,p.lat,p.lng,p.pid);
+}
+function stopMapUrl(s){
+  const p=mapPlace(s);
+  if(p.parsed.valid&&(p.parsed.short||p.parsed.name))return p.parsed.url;
+  return D(p.lat,p.lng,p.pid,p.name)||p.parsed.url;
+}
 const CAT={'景點':'var(--sea)','水上':'var(--turq)','手作':'var(--violet)','午餐':'var(--azure)','晚餐':'var(--azure)','冰·咖啡':'var(--cyan)','購物':'var(--indigo)','宵夜':'var(--navy)','速食':'var(--navy)','加油':'var(--slate)','住宿':'var(--slate)','機場':'var(--slate)'};
 const HEX={'景點':'#0C6E9C','水上':'#17B9C6','手作':'#8E76D6','午餐':'#3D67C9','晚餐':'#3D67C9','冰·咖啡':'#33AEC9','購物':'#4B57A0','宵夜':'#24406E','速食':'#24406E','加油':'#5B7883','住宿':'#5B7883','機場':'#5B7883'};
 const PHONE={
@@ -847,10 +867,21 @@ function updateLive(jump){
   }else if(info.after&&activeDayIndex===days.length-1){status.textContent='旅程已完成 · 回憶模式';status.classList.add('show');status.disabled=true;}
 }
 function dayRoute(i){
-  const d=days[i],stops=d.stops.filter(s=>isGeo(s.lat,s.lng));
+  const d=days[i],stops=d.stops.filter(s=>placeQuery(s));
   if(stops.length<2)return d.route;
-  const first=stops[0],last=stops[stops.length-1],waypoints=stops.slice(1,-1).map(s=>`${s.lat},${s.lng}`).join('|');
-  return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(`${first.lat},${first.lng}`)+'&destination='+encodeURIComponent(`${last.lat},${last.lng}`)+'&travelmode=driving'+(waypoints?'&waypoints='+encodeURIComponent(waypoints):'');
+  const first=mapPlace(stops[0]),last=mapPlace(stops[stops.length-1]),middle=stops.slice(1,-1),params=new URLSearchParams();
+  params.set('api','1');
+  params.set('origin',placeQuery(stops[0]));
+  params.set('destination',placeQuery(stops[stops.length-1]));
+  params.set('travelmode','driving');
+  if(first.pid)params.set('origin_place_id',first.pid);
+  if(last.pid)params.set('destination_place_id',last.pid);
+  if(middle.length){
+    params.set('waypoints',middle.map(placeQuery).join('|'));
+    const middlePlaces=middle.map(mapPlace);
+    if(middlePlaces.every(p=>p.pid))params.set('waypoint_place_ids',middlePlaces.map(p=>p.pid).join('|'));
+  }
+  return 'https://www.google.com/maps/dir/?'+params.toString();
 }
 function render(i){
   activeDayIndex=i;
@@ -866,7 +897,7 @@ function render(i){
       ${s.alts.map(a=>`<div class="alt">
         <div class="alt-t"><b>${a.tag?`<span class="alt-tag">${a.tag}</span>`:''}${a.name}</b><span class="star">★ ${a.rate.toFixed(1)} <i>(${a.cnt})</i></span></div>
         <div class="alt-d">${a.note}</div>
-        <div class="alt-b"><a target="_blank" rel="noopener" href="${D(a.lat,a.lng,a.pid)}">${IC.pin} 地圖</a>
+        <div class="alt-b"><a target="_blank" rel="noopener" href="${D(a.lat,a.lng,a.pid,a.name)}">${IC.pin} 地圖</a>
         ${a.ph?`<a class="c" href="tel:${tel(a.ph)}">${IC.phone} 撥號</a>`:''}</div>
       </div>`).join('')}</details>`:'';
     return `<div class="stop" data-stop="${k}" style="--cat:${color}">
@@ -1397,7 +1428,7 @@ function renderTrip(){
       <div class="hotelrow"><span class="hl">日期</span><span>7/20（一）入住 – 7/25（六）退房 · 5 晚</span></div>
       <div class="hotelrow"><span class="hl">確認號</span><b>3479692495</b></div>
       <div class="hotelrow"><span class="hl">電話</span><a href="tel:+81980753330" style="color:var(--sea-deep);font-weight:700;text-decoration:none">+81 980-75-3330</a></div>
-      <div class="hotelrow"><span class="hl">地圖</span><a target="_blank" rel="noopener" href="${D(24.7994493,125.2592204,'ChIJyREvegBV9DQRK4b4ZndUclE')}" style="color:var(--sea-deep);font-weight:700;text-decoration:none">開啟 Google 地圖 ↗</a></div>
+      <div class="hotelrow"><span class="hl">地圖</span><a target="_blank" rel="noopener" href="${D(24.7994493,125.2592204,'ChIJyREvegBV9DQRK4b4ZndUclE','Canopy by Hilton 沖縄宮古島リゾート')}" style="color:var(--sea-deep);font-weight:700;text-decoration:none">開啟 Google 地圖 ↗</a></div>
     </div>
     <div class="sec"><h3>${titleize('🚗 租車（TOYOTA Rent a Car）')}</h3>
       <div class="hotelrow"><span class="hl">店舖</span><span>下地島機場店（宮古島市伊良部字佐和田1727）</span></div>
