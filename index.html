@@ -285,8 +285,12 @@
     padding:14px 90px 14px 62px;font-size:24px;font-family:"DM Mono",monospace;color:var(--ink)}
   .amtbox input:focus{outline:2px solid var(--turq);border-color:var(--turq)}
   .amtbox .twdhint{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--sea-deep);font-family:"DM Mono",monospace}
-  .ledger-entry-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,.9fr);gap:8px}
-  .ledger-entry-fields input{min-width:0;width:100%;max-width:100%}
+  .ledger-entry-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,.9fr);gap:8px;min-width:0}
+  .ledger-entry-fields>input{min-width:0;width:100%;max-width:100%}
+  .ledger-date-wrap{box-sizing:border-box;width:100%;min-width:0;max-width:100%;overflow:hidden;border:1.5px solid var(--hair);border-radius:11px;background:var(--sand)}
+  .ledger-date-wrap:focus-within{outline:2px solid var(--turq);border-color:var(--turq)}
+  .ledger-date-wrap #lgDate{display:block;box-sizing:border-box;inline-size:100%!important;width:100%!important;min-inline-size:0!important;min-width:0!important;max-inline-size:100%!important;max-width:100%!important;border:0!important;border-radius:0!important;padding:10px 9px;background:transparent!important;color:var(--ink);font-family:"DM Mono",monospace;text-align:center;outline:0}
+  .ledger-date-wrap #lgDate::-webkit-date-and-time-value{min-width:0;text-align:center}
   .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}
   .chips button{border:1.5px solid var(--hair);background:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:pointer;color:var(--ink)}
   .chips button:active{background:var(--turq-soft)}
@@ -354,8 +358,8 @@
     .pill{gap:4px;line-height:1.05;padding-top:8px;padding-bottom:7px}
     .pill small{line-height:1}
     .edit-grid .time-input,.edit-grid select{height:45px}
-    .ledger-entry-fields{grid-template-columns:minmax(0,1fr)}
-    #lgNote,#lgDate{min-width:0;width:100%;max-width:100%}
+    .ledger-entry-fields{grid-template-columns:minmax(0,1fr);overflow:hidden}
+    #lgNote,.ledger-date-wrap{min-width:0;width:100%;max-width:100%}
   }
 
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -1414,8 +1418,8 @@ function renderLedger(){
         <span class="twdhint" id="lgTwd"></span>
       </div>
       <div class="ledger-entry-fields">
+        <div class="ledger-date-wrap"><input id="lgDate" type="date" value="${new Date().toISOString().slice(0,10)}"></div>
         <input id="lgNote" type="text" placeholder="這筆是什麼？（選填，或點下面標籤）" style="box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;padding:10px 11px;font-size:14px;background:var(--sand);min-width:0">
-        <input id="lgDate" type="date" value="${new Date().toISOString().slice(0,10)}" style="box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;padding:10px 9px;font-size:13px;font-family:'DM Mono',monospace;background:var(--sand);color:var(--ink)">
       </div>
       <div class="chips" id="lgChips"></div>
       <button class="bigadd" id="lgAdd">✓ 記下這筆</button>
