@@ -285,6 +285,8 @@
     padding:14px 90px 14px 62px;font-size:24px;font-family:"DM Mono",monospace;color:var(--ink)}
   .amtbox input:focus{outline:2px solid var(--turq);border-color:var(--turq)}
   .amtbox .twdhint{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--sea-deep);font-family:"DM Mono",monospace}
+  .ledger-entry-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,.9fr);gap:8px}
+  .ledger-entry-fields input{min-width:0;width:100%;max-width:100%}
   .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}
   .chips button{border:1.5px solid var(--hair);background:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:pointer;color:var(--ink)}
   .chips button:active{background:var(--turq-soft)}
@@ -349,8 +351,11 @@
   @media (max-width:600px){
     input,select,textarea{font-size:16px!important}
     .amtbox input{font-size:24px!important}
+    .pill{gap:4px;line-height:1.05;padding-top:8px;padding-bottom:7px}
+    .pill small{line-height:1}
     .edit-grid .time-input,.edit-grid select{height:45px}
-    #lgNote,#lgDate{min-width:0;width:100%}
+    .ledger-entry-fields{grid-template-columns:minmax(0,1fr)}
+    #lgNote,#lgDate{min-width:0;width:100%;max-width:100%}
   }
 
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -1408,7 +1413,7 @@ function renderLedger(){
         <input id="lgAmt" type="number" inputmode="decimal" placeholder="0">
         <span class="twdhint" id="lgTwd"></span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr auto;gap:8px">
+      <div class="ledger-entry-fields">
         <input id="lgNote" type="text" placeholder="這筆是什麼？（選填，或點下面標籤）" style="box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;padding:10px 11px;font-size:14px;background:var(--sand);min-width:0">
         <input id="lgDate" type="date" value="${new Date().toISOString().slice(0,10)}" style="box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;padding:10px 9px;font-size:13px;font-family:'DM Mono',monospace;background:var(--sand);color:var(--ink)">
       </div>
