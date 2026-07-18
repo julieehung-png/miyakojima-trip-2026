@@ -453,11 +453,23 @@ const esc=value=>String(value==null?'':value).replace(/&/g,'&amp;').replace(/"/g
 const isGeo=(lat,lng)=>Number.isFinite(Number(lat))&&Number.isFinite(Number(lng))&&Math.abs(Number(lat))<=90&&Math.abs(Number(lng))<=180;
 function mapQuery(name,lat,lng,pid){
   let label=String(name||'').trim();
-  if(label&&!pid&&!/(宮古|沖縄|miyako)/i.test(label))label+=' 宮古島';
+  if(label&&!/(宮古|沖縄|miyako)/i.test(label))label+=' 宮古島';
   return label||(isGeo(lat,lng)?`${lat},${lng}`:'');
 }
+const MAP_NAME_FIXES={
+  'TOYOTA 租車取車':'トヨタレンタカー 下地島空港店',
+  'ドラッグストアモリ 宮古島':'ドラッグストアモリ 宮古島店',
+  'Canopy by Hilton':'Canopy by Hilton 沖縄宮古島リゾート',
+  'Canopy 泳池':'Canopy by Hilton 沖縄宮古島リゾート',
+  'Canopy 頂樓泳池':'Canopy by Hilton 沖縄宮古島リゾート',
+  '銀河攝影':'與那霸前濱'
+};
+function cleanMapName(name){
+  const cleaned=String(name||'').replace(/[（(](?:選配|預計安排|備案)[）)]/g,'').split(/\s*·\s*/)[0].replace(/\s+/g,' ').trim();
+  return MAP_NAME_FIXES[cleaned]||cleaned;
+}
 const D=(lat,lng,pid,name)=>{
-  const query=mapQuery(name,lat,lng,pid);
+  const query=mapQuery(cleanMapName(name),lat,lng,pid);
   return query?'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(query)+(pid?'&query_place_id='+encodeURIComponent(pid):''):'';
 };
 function parseMapLink(raw){
@@ -484,8 +496,8 @@ function mapPlace(s){
   return {name:String((s&&s.name)||parsed.name||'').trim(),en:String((s&&s.en)||'').trim(),lat,lng,pid:String((s&&s.pid)||parsed.pid||'').trim(),parsed};
 }
 function placeQuery(s){
-  const p=mapPlace(s),name=[p.name,p.en].filter(Boolean).join(' · ');
-  return mapQuery(name,p.lat,p.lng,p.pid);
+  const p=mapPlace(s);
+  return mapQuery(cleanMapName(p.name),p.lat,p.lng,p.pid);
 }
 function stopMapUrl(s){
   const p=mapPlace(s);
