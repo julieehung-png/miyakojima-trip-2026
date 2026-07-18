@@ -285,12 +285,29 @@
     padding:14px 90px 14px 62px;font-size:24px;font-family:"DM Mono",monospace;color:var(--ink)}
   .amtbox input:focus{outline:2px solid var(--turq);border-color:var(--turq)}
   .amtbox .twdhint{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--sea-deep);font-family:"DM Mono",monospace}
-  .ledger-entry-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,.9fr);gap:8px;min-width:0}
+  .ledger-entry-fields{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;min-width:0}
   .ledger-entry-fields>input{min-width:0;width:100%;max-width:100%}
-  .ledger-date-wrap{box-sizing:border-box;width:100%;min-width:0;max-width:100%;overflow:hidden;border:1.5px solid var(--hair);border-radius:11px;background:var(--sand)}
-  .ledger-date-wrap:focus-within{outline:2px solid var(--turq);border-color:var(--turq)}
-  .ledger-date-wrap #lgDate{display:block;box-sizing:border-box;inline-size:100%!important;width:100%!important;min-inline-size:0!important;min-width:0!important;max-inline-size:100%!important;max-width:100%!important;border:0!important;border-radius:0!important;padding:10px 9px;background:transparent!important;color:var(--ink);font-family:"DM Mono",monospace;text-align:center;outline:0}
-  .ledger-date-wrap #lgDate::-webkit-date-and-time-value{min-width:0;text-align:center}
+  .ledger-date-picker{min-width:0}
+  .ledger-date-button{box-sizing:border-box;width:100%;min-width:0;min-height:46px;border:1.5px solid var(--hair);border-radius:11px;padding:8px 10px;background:var(--sand);color:var(--ink);display:grid;grid-template-columns:18px minmax(0,1fr) 15px;align-items:center;gap:8px;cursor:pointer}
+  .ledger-date-button:focus-visible{outline:2px solid var(--turq);border-color:var(--turq)}
+  .ledger-date-button .date-icon{display:flex;align-items:center;justify-content:center;color:var(--sea-deep)}
+  .ledger-date-button .date-icon svg{display:block;width:16px;height:16px}
+  .ledger-date-button .date-value{min-width:0;overflow:hidden;text-overflow:ellipsis;font-family:"DM Mono",monospace;font-size:13px;font-weight:600;white-space:nowrap;text-align:center}
+  .ledger-date-button .date-arrow{color:var(--turq);font-size:15px;line-height:1}
+  .ledger-calendar-popover{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;padding:16px}
+  .ledger-calendar-popover[hidden]{display:none}
+  .ledger-calendar-backdrop{position:absolute;inset:0;border:0;background:rgba(8,49,63,.34);cursor:pointer}
+  .ledger-calendar{position:relative;box-sizing:border-box;width:min(330px,calc(100vw - 32px));border:1.5px solid var(--hair);border-radius:20px;padding:16px;background:var(--card);box-shadow:0 22px 48px -18px rgba(8,49,63,.55)}
+  .ledger-calendar-head{display:grid;grid-template-columns:38px 1fr 38px;align-items:center;gap:8px;margin-bottom:12px}
+  .ledger-calendar-head b{text-align:center;font-family:"Zen Maru Gothic";font-size:16px}
+  .ledger-calendar-head button{width:38px;height:38px;border:1.5px solid var(--hair);border-radius:11px;background:var(--sand);color:var(--sea-deep);font-size:22px;cursor:pointer}
+  .ledger-weekdays,.ledger-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+  .ledger-weekdays{margin-bottom:5px;color:var(--muted);font-family:"DM Mono",monospace;font-size:10px;text-align:center}
+  .ledger-weekdays span{padding:3px 0}
+  .ledger-days button{aspect-ratio:1;border:0;border-radius:10px;background:transparent;color:var(--ink);font-family:"DM Mono",monospace;font-size:12px;cursor:pointer}
+  .ledger-days button.today{box-shadow:inset 0 0 0 1.5px var(--turq);color:var(--sea-deep)}
+  .ledger-days button.selected{background:var(--sea);color:#fff;font-weight:800;box-shadow:none}
+  .ledger-today{display:block;width:100%;margin-top:10px;border:0;border-radius:11px;padding:9px;background:var(--turq-soft);color:var(--sea-deep);font-weight:800;cursor:pointer}
   .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}
   .chips button{border:1.5px solid var(--hair);background:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:pointer;color:var(--ink)}
   .chips button:active{background:var(--turq-soft)}
@@ -358,8 +375,9 @@
     .pill{gap:4px;line-height:1.05;padding-top:8px;padding-bottom:7px}
     .pill small{line-height:1}
     .edit-grid .time-input,.edit-grid select{height:45px}
-    .ledger-entry-fields{grid-template-columns:minmax(0,1fr);overflow:hidden}
-    #lgNote,.ledger-date-wrap{min-width:0;width:100%;max-width:100%}
+    .ledger-entry-fields{grid-template-columns:minmax(0,1fr)}
+    #lgNote,.ledger-date-picker,.ledger-date-button{min-width:0;width:100%;max-width:100%}
+    .ledger-date-button .date-value{font-size:14px}
   }
 
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -1115,6 +1133,47 @@ const WHOC={'Julie':'#8E76D6','劭':'#0C6E9C'};
 const nf=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:0});
 const nf2=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:2});
 let curCur=store.get('cur','JPY');                        // 記帳幣別：JPY 或 TWD
+const ledgerTodayKey=()=>{const p=japanNowParts();return `${p.year}-${String(p.month).padStart(2,'0')}-${String(p.day).padStart(2,'0')}`;};
+let ledgerDraftDate=ledgerTodayKey();
+function ledgerDateLabel(key){
+  const m=String(key||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return '選擇日期';
+  const d=new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));
+  return `${Number(m[2])} 月 ${Number(m[3])} 日（${'日一二三四五六'[d.getDay()]}）`;
+}
+function setupLedgerDatePicker(){
+  const input=document.getElementById('lgDate'),button=document.getElementById('lgDateBtn');
+  const popover=document.getElementById('lgDatePopover'),text=document.getElementById('lgDateText');
+  const title=document.getElementById('lgCalTitle'),daysBox=document.getElementById('lgCalDays');
+  if(!input||!button||!popover||!text||!title||!daysBox)return;
+  let selected=input.value||ledgerDraftDate||ledgerTodayKey();
+  const selectedParts=selected.split('-').map(Number);
+  let viewYear=selectedParts[0],viewMonth=selectedParts[1]-1;
+  const close=()=>{popover.hidden=true;button.setAttribute('aria-expanded','false');button.focus();};
+  const choose=key=>{
+    selected=key;ledgerDraftDate=key;input.value=key;text.textContent=ledgerDateLabel(key);
+    close();
+  };
+  const draw=()=>{
+    title.textContent=`${viewYear} 年 ${viewMonth+1} 月`;
+    const start=new Date(viewYear,viewMonth,1).getDay();
+    const total=new Date(viewYear,viewMonth+1,0).getDate();
+    const today=ledgerTodayKey();
+    let html='<span></span>'.repeat(start);
+    for(let day=1;day<=total;day++){
+      const key=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const cls=(key===today?' today':'')+(key===selected?' selected':'');
+      html+=`<button type="button" class="${cls.trim()}" data-date="${key}" aria-label="${ledgerDateLabel(key)}">${day}</button>`;
+    }
+    daysBox.innerHTML=html;
+  };
+  button.onclick=()=>{popover.hidden=false;button.setAttribute('aria-expanded','true');draw();};
+  document.getElementById('lgCalClose').onclick=close;
+  document.getElementById('lgCalPrev').onclick=()=>{viewMonth--;if(viewMonth<0){viewMonth=11;viewYear--;}draw();};
+  document.getElementById('lgCalNext').onclick=()=>{viewMonth++;if(viewMonth>11){viewMonth=0;viewYear++;}draw();};
+  document.getElementById('lgCalToday').onclick=()=>choose(ledgerTodayKey());
+  daysBox.onclick=e=>{const day=e.target.closest('button[data-date]');if(day)choose(day.dataset.date);};
+  popover.onkeydown=e=>{if(e.key==='Escape')close();};
+}
 const toTWD=e=>(e.cur==='TWD'?e.amt:e.amt*fxRate);        // 一律折台幣結算
 const amtLabel=e=>e.cur==='TWD'
   ?`NT$${nf(e.amt)}`
@@ -1418,8 +1477,22 @@ function renderLedger(){
         <span class="twdhint" id="lgTwd"></span>
       </div>
       <div class="ledger-entry-fields">
-        <div class="ledger-date-wrap"><input id="lgDate" type="date" value="${new Date().toISOString().slice(0,10)}"></div>
+        <div class="ledger-date-picker">
+          <button class="ledger-date-button" id="lgDateBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+            <span class="date-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M8 3v4M16 3v4M3 10h18"></path></svg></span><span class="date-value" id="lgDateText">${ledgerDateLabel(ledgerDraftDate)}</span><span class="date-arrow">⌄</span>
+          </button>
+          <input id="lgDate" type="hidden" value="${ledgerDraftDate}">
+        </div>
         <input id="lgNote" type="text" placeholder="這筆是什麼？（選填，或點下面標籤）" style="box-sizing:border-box;border:1.5px solid var(--hair);border-radius:11px;padding:10px 11px;font-size:14px;background:var(--sand);min-width:0">
+      </div>
+      <div class="ledger-calendar-popover" id="lgDatePopover" hidden>
+        <button class="ledger-calendar-backdrop" id="lgCalClose" type="button" aria-label="關閉日期月曆"></button>
+        <div class="ledger-calendar" role="dialog" aria-modal="true" aria-label="選擇記帳日期">
+          <div class="ledger-calendar-head"><button id="lgCalPrev" type="button" aria-label="上一個月">‹</button><b id="lgCalTitle"></b><button id="lgCalNext" type="button" aria-label="下一個月">›</button></div>
+          <div class="ledger-weekdays"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
+          <div class="ledger-days" id="lgCalDays"></div>
+          <button class="ledger-today" id="lgCalToday" type="button">回到今天</button>
+        </div>
       </div>
       <div class="chips" id="lgChips"></div>
       <button class="bigadd" id="lgAdd">✓ 記下這筆</button>
@@ -1452,6 +1525,7 @@ function renderLedger(){
     cloudState(ok?'雙人連結已複製':'無法自動複製，請改用瀏覽器分享功能',ok?'on':'');
   };
   const amt=document.getElementById('lgAmt'),twd=document.getElementById('lgTwd'),note=document.getElementById('lgNote');
+  setupLedgerDatePicker();
   const curBtn=document.getElementById('lgCur');
   const hint=()=>{twd.textContent=amt.value?(curCur==='TWD'?('≈ ¥ '+nf(amt.value/fxRate)):('≈ NT$ '+nf(amt.value*fxRate))):'';};
   amt.oninput=hint;
@@ -1468,7 +1542,7 @@ function renderLedger(){
   document.getElementById('lgAdd').onclick=()=>{
     const a=parseFloat(amt.value);
     if(!a||a<=0){amt.focus();return;}
-    const dv=document.getElementById('lgDate').value||new Date().toISOString().slice(0,10);
+    const dv=document.getElementById('lgDate').value||ledgerTodayKey();
     const entry={clientId:makeId(),who:curWho,amt:a,cur:curCur,note:note.value.trim()||'未命名',d:dv,ts:Date.now()};
     ledger.push(entry);
     store.set('ledger',ledger);amt.value='';twd.textContent='';note.value='';renderLg();
