@@ -899,8 +899,12 @@ function routeStops(i){
   const d=days[i],lastIndex=d.stops.length-1;
   const list=d.stops.filter((s,index)=>{
     const name=String(s&&s.name||'').trim(),p=mapPlace(s);
-    if(!name||/[（(](?:選配|預計安排|備案)[）)]/.test(name)||ROUTE_SKIP.test(name))return false;
-    return !!p.pid||ROUTE_NAME_ONLY.has(cleanMapName(name))||(i===0&&index===0)||(i===days.length-1&&index===lastIndex);
+    if(!name)return false;
+    const manuallySaved=!!s.routeManual;
+    const optional=/[（(](?:選配|預計安排|備案)[）)]/.test(name);
+    if((optional||ROUTE_SKIP.test(name))&&!manuallySaved)return false;
+    const routeable=!!p.pid||p.parsed.valid||ROUTE_NAME_ONLY.has(cleanMapName(name));
+    return routeable||(i===0&&index===0)||(i===days.length-1&&index===lastIndex);
   });
   if(i>0&&i<days.length-1){list.unshift(ROUTE_HOTEL);list.push(ROUTE_HOTEL);}
   return list;
@@ -1115,7 +1119,7 @@ function saveStopEditor(){
   }
   timeInput.value=time;
   const name=document.getElementById('efName').value.trim();if(!name){document.getElementById('efName').focus();return;}
-  const values={t:time,c:document.getElementById('efCat').value,name,en:document.getElementById('efEn').value.trim(),drive:document.getElementById('efDrive').value.trim(),open:document.getElementById('efOpen').value.trim(),tip:document.getElementById('efTip').value.trim(),mapUrl:editingMap.url,lat:editingMap.lat,lng:editingMap.lng,pid:editingMap.pid};
+  const values={t:time,c:document.getElementById('efCat').value,name,en:document.getElementById('efEn').value.trim(),drive:document.getElementById('efDrive').value.trim(),open:document.getElementById('efOpen').value.trim(),tip:document.getElementById('efTip').value.trim(),mapUrl:editingMap.url,lat:editingMap.lat,lng:editingMap.lng,pid:editingMap.pid,routeManual:true};
   if(editingKey){const index=editDraft.findIndex(s=>s._key===editingKey);editDraft[index]=Object.assign({},editDraft[index],values);}
   else{editDraft.push(Object.assign({},values,{_key:'custom-'+makeId()}));editDraft.sort((a,b)=>stopMinute(a.t)-stopMinute(b.t));}
   closeStopEditor();drawEditorList();
