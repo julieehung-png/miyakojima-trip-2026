@@ -450,20 +450,27 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 const esc=value=>String(value==null?'':value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-const isGeo=(lat,lng)=>Number.isFinite(Number(lat))&&Number.isFinite(Number(lng))&&Math.abs(Number(lat))<=90&&Math.abs(Number(lng))<=180;
+const isGeo=(lat,lng)=>lat!==null&&lat!==''&&lng!==null&&lng!==''&&
+  Number.isFinite(Number(lat))&&Number.isFinite(Number(lng))&&Math.abs(Number(lat))<=90&&Math.abs(Number(lng))<=180;
 function mapQuery(name,lat,lng,pid){
   let label=String(name||'').trim();
   if(label&&!/(宮古|沖縄|miyako)/i.test(label))label+=' 宮古島';
   return label||(isGeo(lat,lng)?`${lat},${lng}`:'');
 }
 const MAP_NAME_FIXES={
+  '17END':'17 END Beach, Sawada Irabu, Miyakojima, Okinawa 906-0507 日本',
   'TOYOTA 租車取車':'トヨタレンタカー 下地島空港店',
   'ドラッグストアモリ 宮古島':'ドラッグストアモリ 宮古島店',
+  '新城海灘':'新城海岸',
+  '砂山海灘':'砂山ビーチ',
+  '與那霸前濱':'与那覇前浜ビーチ',
+  '宮古島公設市場':'宮古島市公設市場',
   'Canopy by Hilton':'Canopy by Hilton 沖縄宮古島リゾート',
   'Canopy 泳池':'Canopy by Hilton 沖縄宮古島リゾート',
   'Canopy 頂樓泳池':'Canopy by Hilton 沖縄宮古島リゾート',
   '銀河攝影':'與那霸前濱'
 };
+const INVALID_PLACE_IDS=new Set(['ChIJ_566wEut9TQRZ01ze1pYJV8']);
 function cleanMapName(name){
   const cleaned=String(name||'').replace(/[（(](?:選配|預計安排|備案)[）)]/g,'').split(/\s*·\s*/)[0].replace(/\s+/g,' ').trim();
   return MAP_NAME_FIXES[cleaned]||cleaned;
@@ -493,7 +500,8 @@ function parseMapLink(raw){
 }
 function mapPlace(s){
   const parsed=parseMapLink(s&&s.mapUrl),lat=parsed.lat!=null?parsed.lat:(s&&s.lat),lng=parsed.lng!=null?parsed.lng:(s&&s.lng);
-  return {name:String((s&&s.name)||parsed.name||'').trim(),en:String((s&&s.en)||'').trim(),lat,lng,pid:String((s&&s.pid)||parsed.pid||'').trim(),parsed};
+  const rawPid=String((s&&s.pid)||parsed.pid||'').trim(),pid=INVALID_PLACE_IDS.has(rawPid)?'':rawPid;
+  return {name:String((s&&s.name)||parsed.name||'').trim(),en:String((s&&s.en)||'').trim(),lat,lng,pid,parsed};
 }
 function placeQuery(s){
   const p=mapPlace(s);
@@ -776,13 +784,19 @@ const days=[
 
 days.forEach(d=>{d.stops=d.stops.map((s,i)=>Object.assign({},s,{_key:`d${d.n}-s${i+1}`}));});
 const ORIGINAL_STOPS=days.map(d=>JSON.parse(JSON.stringify(d.stops)));
+function repairStoredStopPosition(stop,dayIndex){
+  if(!stop||isGeo(stop.lat,stop.lng))return stop;
+  const originals=ORIGINAL_STOPS[dayIndex]||[];
+  const match=originals.find(original=>(stop.pid&&original.pid===stop.pid)||(stop._key&&original._key===stop._key));
+  return match&&isGeo(match.lat,match.lng)?Object.assign({},stop,{lat:Number(match.lat),lng:Number(match.lng)}):stop;
+}
 const ITINERARY_RELEASE='2026-07-18-day5-uni-v1';
 const ITINERARY_LOCAL_RELEASE_KEY='miyako_itinerary_local_release';
 const ITINERARY_CLOUD_RELEASE_KEY='miyako_itinerary_cloud_release';
 let itineraryReleaseNeedsCloud=true;
 try{
   const saved=JSON.parse(localStorage.getItem('miyako_rebuild_02_itinerary')||'null');
-  if(Array.isArray(saved)&&saved.length===days.length)saved.forEach((stops,i)=>{if(Array.isArray(stops))days[i].stops=stops.filter(s=>s&&typeof s==='object');});
+  if(Array.isArray(saved)&&saved.length===days.length)saved.forEach((stops,i)=>{if(Array.isArray(stops))days[i].stops=stops.filter(s=>s&&typeof s==='object').map(stop=>repairStoredStopPosition(stop,i));});
   if(localStorage.getItem(ITINERARY_LOCAL_RELEASE_KEY)!==ITINERARY_RELEASE){
     days[4].stops=JSON.parse(JSON.stringify(ORIGINAL_STOPS[4]));
     localStorage.setItem('miyako_rebuild_02_itinerary',JSON.stringify(days.map(d=>d.stops)));
@@ -878,9 +892,21 @@ function updateLive(jump){
     status.classList.add('show');status.disabled=true;
   }else if(info.after&&activeDayIndex===days.length-1){status.textContent='旅程已完成 · 回憶模式';status.classList.add('show');status.disabled=true;}
 }
-function dayRoute(i){
-  const d=days[i],stops=d.stops.filter(s=>placeQuery(s));
-  if(stops.length<2)return d.route;
+const ROUTE_HOTEL={t:'飯店',name:'Canopy by Hilton 沖縄宮古島リゾート',pid:'ChIJyREvegBV9DQRK4b4ZndUclE'};
+const ROUTE_SKIP=/^(?:TOYOTA 租車取車|SUP 後快食外帶|來間大橋|市場通商店街|Canopy 頂樓泳池)$/;
+const ROUTE_NAME_ONLY=new Set(['17 END Beach, Sawada Irabu, Miyakojima, Okinawa 906-0507 日本']);
+function routeStops(i){
+  const d=days[i],lastIndex=d.stops.length-1;
+  const list=d.stops.filter((s,index)=>{
+    const name=String(s&&s.name||'').trim(),p=mapPlace(s);
+    if(!name||/[（(](?:選配|預計安排|備案)[）)]/.test(name)||ROUTE_SKIP.test(name))return false;
+    return !!p.pid||ROUTE_NAME_ONLY.has(cleanMapName(name))||(i===0&&index===0)||(i===days.length-1&&index===lastIndex);
+  });
+  if(i>0&&i<days.length-1){list.unshift(ROUTE_HOTEL);list.push(ROUTE_HOTEL);}
+  return list;
+}
+function routeUrl(stops){
+  if(stops.length<2)return 'https://www.google.com/maps/dir/?api=1';
   const first=mapPlace(stops[0]),last=mapPlace(stops[stops.length-1]),middle=stops.slice(1,-1),params=new URLSearchParams();
   params.set('api','1');
   params.set('origin',placeQuery(stops[0]));
@@ -895,6 +921,7 @@ function dayRoute(i){
   }
   return 'https://www.google.com/maps/dir/?'+params.toString();
 }
+function dayRoute(i){return routeUrl(routeStops(i));}
 function render(i){
   activeDayIndex=i;
   const d=days[i],main=document.getElementById('main');
@@ -928,7 +955,7 @@ function render(i){
       <div class="date">${d.date} · ${d.wd}</div>
       <div class="theme-row"><div class="theme">${d.theme}</div><button class="edit-daybtn" id="editDayBtn" type="button">✎ 編輯行程</button></div>
       <button class="live-status" id="liveStatus" type="button"></button>
-      <a class="routebtn" target="_blank" rel="noopener" href="${dayRoute(i)}">${IC.route} 開啟當天 Google 導航路線</a>
+      <a class="routebtn" target="_blank" rel="noopener" href="${esc(dayRoute(i))}">${IC.route} 開啟當天 Google 導航路線</a>
     </div><div class="timeline">${stopsHtml}</div>${ART_WAVE}`);
   document.getElementById('editDayBtn').onclick=()=>renderEditor(i);
   updateMap(i);
@@ -1044,11 +1071,22 @@ function bindDragList(list){
   });
 }
 function setMapStatus(text,kind){const el=document.getElementById('efMapStatus');if(!el)return;el.textContent=text;el.className='map-detect'+(kind?' '+kind:'');}
+function mergeMapData(current,parsed){
+  const sameUrl=!!(current&&current.url&&parsed.url===current.url);
+  const samePid=!!(current&&current.pid&&parsed.pid&&parsed.pid===current.pid);
+  const keepExisting=sameUrl||samePid;
+  return {
+    url:parsed.url,
+    lat:parsed.lat!=null?parsed.lat:(keepExisting?current.lat:null),
+    lng:parsed.lng!=null?parsed.lng:(keepExisting?current.lng:null),
+    pid:parsed.pid||(keepExisting?current.pid:'')
+  };
+}
 function readMapLink(raw,overwriteName){
   const parsed=parseMapLink(raw);
   if(!String(raw||'').trim()){editingMap={url:'',lat:null,lng:null,pid:''};setMapStatus('貼上後會嘗試讀取地標名稱與地圖位置');return;}
   if(!parsed.valid){editingMap={url:'',lat:null,lng:null,pid:''};setMapStatus('請貼上 Google Maps 的分享連結','bad');return;}
-  editingMap={url:parsed.url,lat:parsed.lat,lng:parsed.lng,pid:parsed.pid};
+  editingMap=mergeMapData(editingMap,parsed);
   document.getElementById('efMap').value=parsed.url;
   const name=document.getElementById('efName');if(parsed.name&&name&&(overwriteName||!name.value.trim()))name.value=parsed.name;
   if(parsed.short)setMapStatus('短連結已加入；若名稱沒有帶入，請手動確認名稱','warn');
@@ -1068,7 +1106,8 @@ function closeStopEditor(){document.getElementById('editModal').classList.remove
 function saveStopEditor(){
   const mapText=document.getElementById('efMap').value.trim(),parsed=parseMapLink(mapText);
   if(mapText&&!parsed.valid){setMapStatus('請貼上 Google Maps 的分享連結','bad');document.getElementById('efMap').focus();return;}
-  if(parsed.valid)editingMap={url:parsed.url,lat:parsed.lat,lng:parsed.lng,pid:parsed.pid};
+  if(parsed.valid)editingMap=mergeMapData(editingMap,parsed);
+  else editingMap={url:'',lat:null,lng:null,pid:''};
   const timeInput=document.getElementById('efTime'),time=normalizeStopTime(timeInput.value);
   if(!time){
     if(timeInput.setCustomValidity){timeInput.setCustomValidity('請輸入正確時間，例如 1230 或 12:30');timeInput.reportValidity();}
@@ -1347,7 +1386,7 @@ async function itinerarySync(seed=true){
       const i=Number(row.day_no)-1;
       if(i<0||i>=days.length||!Array.isArray(row.payload))return;
       days[i].stops=row.payload.filter(stop=>stop&&typeof stop==='object').map((stop,index)=>
-        Object.assign({},stop,{_key:stop._key||('d'+(i+1)+'-cloud-'+index)}));
+        repairStoredStopPosition(Object.assign({},stop,{_key:stop._key||('d'+(i+1)+'-cloud-'+index)}),i));
     });
     itinerarySig=sig;itineraryCloudError='';persistItinerary();
     if(document.querySelector('.timeline'))render(activeDayIndex);
